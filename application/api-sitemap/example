@@ -1,0 +1,15 @@
+PAGE:Example1
+
+GET:/example/welcome
+description1
+description2
+POST:/example/welcome1
+description1
+description2
+====================================
+
+PAGE:Example2
+GET:/example/welcome2
+description1
+description2
+====================================

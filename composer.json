@@ -1,0 +1,8 @@
+{
+    "config": {
+        "bin-dir": "bin"
+    },
+    "require": {
+        "craftsman/cli": "^5.1"
+    }
+}
