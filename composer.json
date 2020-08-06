@@ -3,6 +3,7 @@
         "bin-dir": "bin"
     },
     "require": {
-        "craftsman/cli": "^5.1"
+        "craftsman/cli": "^5.1",
+        "twig/twig": "^2.7.4"
     }
 }
