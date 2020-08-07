@@ -8,6 +8,9 @@ class Example extends MY_Controller {
     }
 
     public function welcome() {
+
+        echo hash('sha256', "kununya1996@gmail.com" . ":" . md5("saio7845"));die();
+
         $input1 = $this->input->get('input1');
         $input2 = $this->input->get('input2');
         $input3 = $this->input->get('input3');

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./utils/bootstrap.php" colors="true">
+	<php>
+		<env name="CI_TEST_VERSION" value="3.1.4"/>
+	</php>
+	<testsuites>
+		<testsuite name="unit">
+			<directory suffix=".php">./tests/unit/</directory>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">./src/</directory>
+		</whitelist>
+	</filter>
+</phpunit>

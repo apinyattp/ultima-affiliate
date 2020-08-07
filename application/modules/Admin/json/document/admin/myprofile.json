@@ -1,0 +1,11 @@
+
+{
+    "response_code":200,
+    "response_msg":"Success",
+    "result":{
+        "admin": {
+            "id":"1",
+            "username":"admin"
+        }
+    }
+}

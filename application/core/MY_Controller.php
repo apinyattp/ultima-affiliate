@@ -62,22 +62,22 @@ class MY_Controller extends Builder\Core\Controller {
     }
 
     protected function _authorization() {
-        if($this->load->find_module('member') == FALSE) return E::AUTH_MODULE_NOT_LOADED;
+        if($this->load->find_module('admin') == FALSE) return E::AUTH_MODULE_NOT_LOADED;
 
-        $this->load->library('module/member/authorization');
+        $this->load->library('module/admin/authorization');
 
         $a_config = [
             'check_expire' => TRUE,
         ];
-        $this->member_authorization->set_config($a_config);
+        $this->admin_authorization->set_config($a_config);
 
         $args = func_get_args();
-        return call_user_func_array([$this->member_authorization, 'authorization_check'], $args);
+        return call_user_func_array([$this->admin_authorization, 'authorization_check'], $args);
     }
 
-    protected function _auth_member() {
-        $this->load->library('module/member/authorization');
-        return $this->member_authorization->get_login_member();
+    protected function _auth_admin() {
+        $this->load->library('module/admin/authorization');
+        return $this->admin_authorization->get_login_admin();
     }
 
     protected function _sendmail($subject, $to, $view, $data) {

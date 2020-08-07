@@ -1,0 +1,11 @@
+{
+    "response_code":200,
+    "response_msg":"Success",
+    "result":{
+        "token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1Ni...x5mb11y1537t3rGzcM",
+        "admin": {
+            "id":"1",
+            "username":"admin"
+        }
+    }
+}
