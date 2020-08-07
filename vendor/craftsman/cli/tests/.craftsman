@@ -1,3 +1,0 @@
-BASEPATH = "./tests/Codeigniter/${CI_TEST_VERSION}/system"
-APPPATH = "./tests/Codeigniter/${CI_TEST_VERSION}/application"
-CI_FCPATH = "./tests/Codeigniter/${CI_TEST_VERSION}"
