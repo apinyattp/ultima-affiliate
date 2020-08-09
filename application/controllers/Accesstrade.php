@@ -16,6 +16,7 @@ class Accesstrade extends MY_Controller {
     protected $endpoint;
     protected $username;
     protected $password;
+    protected $siteId = 33975;
 
     private function _auth() {
         $username = $this->username;
@@ -132,7 +133,7 @@ class Accesstrade extends MY_Controller {
         $format = 'Y-m-d\T00:00:00+07:00';
 
         $data = [
-            'siteId' => 33975,
+            'siteId' => $this->siteId,
             'fromDate' => date($format, strtotime($fromDate)),
             'toDate' => date($format, strtotime($toDate)),
             'campaignId' => $campaignId,
@@ -144,6 +145,22 @@ class Accesstrade extends MY_Controller {
         $response = json_decode($this->gateway->curl_get($url, $data, $header), TRUE);
 
         $this->_echo_json(E::SUCCESS, $response);       
+    }
+
+    public function quicklink() {
+        $uid = $this->input->get('uid');
+        $campaignId = $this->input->get('campaignId');
+
+        $campaignId = empty($campaignId) ? 534 : $campaignId;
+
+        $url = $this->endpoint . 'v1/publishers/me/sites/'. $this->siteId .'/campaigns/'. $campaignId .'/creatives/quicklink';
+
+        $header = $this->_header();
+        $response = json_decode($this->gateway->curl_get($url, [], $header), TRUE);
+
+        $myurl = $response['affiliateLink'] . '&uid=' . $uid;
+
+        $this->_echo_json(E::SUCCESS, ['affiliateLink' => $myurl]);
     }
 
 }
