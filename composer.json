@@ -4,7 +4,6 @@
     },
     "require": {
         "craftsman/cli": "^5.1",
-        "box/spout": "^2.7",
         "twig/twig": "^2.7.4"
     }
 }
