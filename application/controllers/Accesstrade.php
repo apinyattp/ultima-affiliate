@@ -155,10 +155,13 @@ class Accesstrade extends MY_Controller {
 
         $url = $this->endpoint . 'v1/publishers/me/sites/'. $this->siteId .'/campaigns/'. $campaignId .'/creatives/quicklink';
 
+        $body_string = http_build_query(['uid' => $uid]);
+
         $header = $this->_header();
         $response = json_decode($this->gateway->curl_get($url, [], $header), TRUE);
 
-        $myurl = $response['affiliateLink'] . '&uid=' . $uid;
+        $myurl = $response['affiliateLink'] . '?' . $body_string;
+
 
         $this->_echo_json(E::SUCCESS, ['affiliateLink' => $myurl]);
     }
