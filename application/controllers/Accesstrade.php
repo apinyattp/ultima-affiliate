@@ -11,12 +11,13 @@ class Accesstrade extends MY_Controller {
         $this->endpoint = $this->config->item('endpoint');
         $this->username = $this->config->item('username');
         $this->password = $this->config->item('password');
+        $this->siteId = $this->config->item('siteId');
     }
 
     protected $endpoint;
     protected $username;
     protected $password;
-    protected $siteId = 33975;
+    protected $siteId;
 
     private function _auth() {
         $username = $this->username;

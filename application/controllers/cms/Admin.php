@@ -1,25 +1,41 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends MY_Controller {
+class Admin extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('user_model');
-        $this->load->helper('cookie');
-        $this->load->helper('form');
     }
 
     public function index() {
         $this->load->view('cms/login');
     }
-
+    
     public function login() {
-        if($this->_is_login()) {
-            redirect('cms/banner');
-        }else{
-            $this->load->view('cms/login');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+
+        $this->load->model('module/admin/admin_model');
+        $a_admin = $this->admin_admin_model->login($username, $password);
+
+        $this->load->helper('cookie');
+
+        if($a_admin === FALSE) {
+            setcookie('error_code', E::AUTH_LOGIN_INVALID_USERNAME_OR_PASSWORD, time() + 5);
+            redirect('cms/admin');
         }
+
+        $this->load->library('module/admin/authorization');
+        $result = $this->format->run('module/admin/admin/login_success', $a_admin);
+
+        setcookie('utoken', $result['token'], time() + 28800, '/');
+        redirect('cms/dashboard');
+    }
+
+    public function logout() {
+        $this->load->helper('cookie');
+        delete_cookie('utoken');
+        redirect('cms/admin');
     }
 
 }

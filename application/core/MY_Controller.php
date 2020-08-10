@@ -61,7 +61,7 @@ class MY_Controller extends Builder\Core\Controller {
         return upload_base_url().$file['file_path'];
     }
 
-    protected function _authorization() {
+    protected function _admin_authorization() {
         if($this->load->find_module('admin') == FALSE) return E::AUTH_MODULE_NOT_LOADED;
 
         $this->load->library('module/admin/authorization');

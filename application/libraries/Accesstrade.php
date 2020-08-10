@@ -1,0 +1,90 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Accesstrade extends MY_Controller {
+
+    public function __construct () {
+        $this->_ci =& get_instance();
+
+        $this->_ci->load->library('gateway');
+
+        $this->_ci->load->config('accesstrade');
+        $this->endpoint = $this->_ci->config->item('endpoint');
+        $this->username = $this->_ci->config->item('username');
+        $this->password = $this->_ci->config->item('password');
+        $this->siteId = $this->_ci->config->item('siteId');
+    }
+
+    protected $endpoint;
+    protected $username;
+    protected $password;
+    protected $siteId;
+
+    private function _auth() {
+        $username = $this->username;
+        $password = $this->password;
+
+        $url = $this->endpoint . 'publishers/auth/' . $username;
+
+        $header = [
+            'Authorization:' . hash('sha256', $username . ":" . md5($password))
+        ];
+
+        $response = json_decode($this->_ci->gateway->curl_json_get($url, [], $header), TRUE);
+
+        return $response;
+    }
+
+    private function _token() {
+
+        $auth = $this->_auth();
+
+        $payload = [
+            'sub' => $auth['userUid'],
+            'iat' => time()
+        ];
+
+        $this->_ci->load->helper('jwt');
+        $token = jwt_encode($payload, $auth['secretKey']);
+
+        return $token;
+    }
+
+    private function _header() {
+        $token = $this->_token();
+
+        $header = [
+            'Authorization: Bearer ' . $token,
+            'X-Accesstrade-User-Type:publisher'
+        ];
+
+        return $header;
+    }
+
+    public function campaigns($endpoint=NULL) {
+
+        $endpoint = empty($endpoint) ? 'affiliated' : $endpoint;
+
+        $url = $this->endpoint . 'v1/publishers/me/sites/33975/campaigns/' . $endpoint;
+
+        $header = $this->_header();
+        $response = json_decode($this->_ci->gateway->curl_get($url, [], $header), TRUE);
+
+        return $response;
+    }
+
+    public function quicklink($campaignId, $uid=NULL) {
+
+        $url = $this->endpoint . 'v1/publishers/me/sites/'. $this->siteId .'/campaigns/'. $campaignId .'/creatives/quicklink';
+
+        $body_string = http_build_query(['uid' => $uid]);
+
+        $header = $this->_header();
+        $response = json_decode($this->gateway->curl_get($url, [], $header), TRUE);
+
+        $affiliateLink = $response['affiliateLink'] . '?' . $body_string;
+
+        return $affiliateLink;
+    }
+
+}
