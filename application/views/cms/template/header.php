@@ -3,9 +3,7 @@
   <head>
       <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
-    <link href="<?php echo asset_base_url()?>fontawesome/css/fontawesome.css" rel="stylesheet">
-    <link href="<?php echo asset_base_url()?>fontawesome/css/brands.css" rel="stylesheet">
-    <link href="<?php echo asset_base_url()?>fontawesome/css/solid.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/0bd485de6c.js" crossorigin="anonymous"></script>
     <!-- Material Kit CSS -->
     <link href="<?php echo asset_base_url()?>paper/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo asset_base_url()?>paper/assets/css/paper-dashboard.css">
