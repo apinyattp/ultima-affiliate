@@ -7,7 +7,11 @@ class Campaign extends MY_Controller {
         parent::__construct();
     }
 
-    public function index() {
+    public function index(){
+        redirect('cms/campaign/list');
+    }
+
+    public function list() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
         $a_admin = $this->_auth_admin();
 
@@ -41,7 +45,9 @@ class Campaign extends MY_Controller {
         $a_campaign = $qs->result('cms/campaign/list');
 
         $a_data = [
-            'a_campaign' => $a_campaign
+            'a_campaign' => $a_campaign,
+            'status' => $status,
+            'keyword' => $keyword
         ];
 
         $this->load->view('cms/template/header', $a_header_data);

@@ -6,20 +6,25 @@
         <h4 class="title">Affiliate Campaigns</h4>
         <p class="category"></p>
       </div>
-      <div class="row">
-              <div class="form-group col-md-6">
-                <label for="inputZip">Keyword</label>
-                <input type="text" class="form-control" id="inputZip">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputState">Status</label>
-                <select id="inputState" class="form-control">
-                  <option selected>All</option>
-                  <option>Active</option>
-                  <option>Inactive</option>
-                </select>
-              </div>
-            </div>
+      <form action="<?php echo site_url('cms/campaign/list');?>" method="get">
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="inputKeyword">Keyword</label>
+            <input type="text" class="form-control" id="inputKeyword" name="keyword" value="<?php echo $keyword?>">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputStatus">Status</label>
+            <select id="inputStatus" name="status" class="form-control">
+              <option value="" <?php echo empty($status) ? "selected" : "" ?>>All</option>
+              <option value="active" <?php echo ($status == "active") ? "selected" : "" ?>>Active</option>
+              <option value="inactive" <?php echo ($status == "inactive") ? "selected" : "" ?>>Inactive</option>
+            </select>
+          </div>
+          <div class="col-md-2 align-self-end">
+            <button id="searchBtn" class="btn btn-primary">Search</button>        
+          </div>
+        </div>
+      </form>
       <div class="card-body">
         <table class="table">
           <thead>

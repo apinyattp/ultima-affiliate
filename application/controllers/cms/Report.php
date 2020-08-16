@@ -9,7 +9,7 @@ class Report extends MY_Controller {
 
     public function index(){
         redirect('cms/report/list');
-      }
+    }
 
     public function list() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
@@ -34,6 +34,10 @@ class Report extends MY_Controller {
         ];
         if(!isset($a_sort[$sort])) $sort = 'conversion_id_desc';
 
+        $a_status = ['pending' => 'PENDING', 'approved' => 'APPROVED', 'rejected' => 'REJECTED'];
+
+        $status = (isset($a_status[$status])) ? $a_status[$status] : NULL;
+
         $this->load->model('report_conversion_model');
         $qs_conversion = $this->report_conversion_model->get_list($keyword, $campaign_id, $status, $a_sort[$sort]);
 
@@ -54,7 +58,13 @@ class Report extends MY_Controller {
 
         $a_data = [
             'a_conversion' => $a_conversion,
-            'a_campaign' => $a_campaign['lists']
+            'a_campaign' => $a_campaign['lists'],
+            'keyword' => $keyword,
+            'a_status' => $a_status,
+            'status' => $status,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'campaign_id' => $campaign_id
         ];
 
         $this->load->view('cms/template/header', $a_header_data);

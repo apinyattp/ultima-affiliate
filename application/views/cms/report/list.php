@@ -11,9 +11,9 @@
           <div class="form-group col-md-3">
               <label for="inputCampaign">Campaign</label>
               <select id="inputCampaign" id="campaign" name="campaign_id" class="form-control">
-                  <option value="" selected>All</option>
+                  <option value="" <?php if(empty($campaign_id)) echo 'selected' ?>>All</option>
                   <?php foreach($a_campaign as $campaign) { ?>
-                      <option value="<?php echo $campaign['id'] ?>"><?php echo $campaign['name'] ?></option>
+                      <option value="<?php echo $campaign['id'] ?>" <?php if($campaign_id == $campaign['id']) echo 'selected' ?>><?php echo $campaign['name'] ?></option>
                   <?php } ?>
               </select>
           </div>
@@ -39,9 +39,9 @@
               <label for="inputStatus">Status</label>
               <select id="inputStatus" class="form-control" name="status">
                   <option value="" selected>All</option>
-                  <option value="PENDING">PENDING</option>
-                  <option value="APPROVED">APPROVED</option>
-                  <option value="REJECTED">REJECTED</option>
+                  <?php foreach($a_status as $value => $text) { ?>
+                    <option value="<?php echo $value ?>"><?php echo $text ?></option>
+                  <?php } ?>
               </select>
           </div>
           <div class="col-md-3 align-self-end">
