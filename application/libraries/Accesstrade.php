@@ -73,18 +73,37 @@ class Accesstrade extends MY_Controller {
         return $response;
     }
 
-    public function quicklink($campaignId, $uid=NULL) {
+    public function quicklink($campaignId) {
 
         $url = $this->endpoint . 'v1/publishers/me/sites/'. $this->siteId .'/campaigns/'. $campaignId .'/creatives/quicklink';
 
-        $body_string = http_build_query(['uid' => $uid]);
-
         $header = $this->_header();
-        $response = json_decode($this->gateway->curl_get($url, [], $header), TRUE);
+        $response = json_decode($this->_ci->gateway->curl_get($url, [], $header), TRUE);
 
-        $affiliateLink = $response['affiliateLink'] . '?' . $body_string;
+        $affiliateLink = $response['affiliateLink'];
 
         return $affiliateLink;
+    }
+
+    public function conversion($fromDate, $toDate, $campaignId=NULL, $conversionStatuses=NULL) {
+
+        $url = $this->endpoint . 'v1/publishers/me/reports/conversion';
+
+        $format = 'Y-m-d\T00:00:00+07:00';
+
+        $data = [
+            'siteId' => $this->siteId,
+            'fromDate' => date($format, strtotime($fromDate)),
+            'toDate' => date($format, strtotime($toDate)),
+            'campaignId' => $campaignId,
+            'periodBase' => 'CONVERSION_DATE',
+            'conversionStatuses' => $conversionStatuses // REJECTED|APPROVED|PENDING
+        ];
+
+        $header = $this->_header();
+        $response = json_decode($this->_ci->gateway->curl_get($url, $data, $header), TRUE);
+
+        return $response;       
     }
 
 }

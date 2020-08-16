@@ -19,7 +19,7 @@
               <?php if(isset($_COOKIE['error_code']) && $_COOKIE['error_code'] == '3008'){ ?><div class="alert alert-danger" role="alert">Invalid username or password</div><?php } ?>
             </div>
             <div class="card-body">
-                <form class="login" action="<?php echo site_url('cms/admin/login');?>" method="post" autocomplete="off">
+                <form action="<?php echo site_url('cms/admin/login');?>" method="post" autocomplete="off">
                   <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">

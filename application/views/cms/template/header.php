@@ -7,12 +7,13 @@
     <!-- Material Kit CSS -->
     <link href="<?php echo asset_base_url()?>paper/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo asset_base_url()?>paper/assets/css/paper-dashboard.css">
+    <link rel="stylesheet" href="<?php echo asset_base_url()?>datepicker/css/bootstrap-datepicker3.standalone.min.css">
     <title>Ultima-Life Affiliate</title>
   </head>
   <body>
   <div class="wrapper">
     <?php $this->load->view('cms/template/navbar', ['page' => $page]) ?>
-    <div class="main-panel">
+    <div class="main-panel h-100">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
         <div class="container-fluid">

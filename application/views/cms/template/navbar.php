@@ -9,7 +9,7 @@
         Ultima life - Affiliate
     </a>
     </div>
-    <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper overflow-hidden">
         <ul class="nav">
             <li class="<?php echo ($page == 'dashboard') ? 'active' : ''?>">
             <a href="<?php echo site_url('cms/dashboard');?>">
