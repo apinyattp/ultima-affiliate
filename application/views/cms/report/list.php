@@ -86,7 +86,7 @@
         </table>
   
         <?php
-          $a_conversion['pagination']['path'] = 'cms/report';
+          $a_conversion['pagination']['path'] = 'cms/report/list';
           $this->load->view('cms/template/pagination', $a_conversion['pagination']) 
         ?>
 

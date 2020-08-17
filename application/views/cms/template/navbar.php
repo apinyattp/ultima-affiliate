@@ -29,12 +29,12 @@
                 <p>Report</p>
             </a>
             </li>
-            <li class="<?php echo ($page == 'user') ? 'active' : ''?>">
+            <!-- <li class="<?php echo ($page == 'user') ? 'active' : ''?>">
                 <a href="<?php echo site_url('cms/user');?>">
                     <i class="nc-icon nc-single-02"></i>
                     <p>User</p>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
 </div>

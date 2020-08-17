@@ -83,7 +83,7 @@
   
         <!-- pagination -->
         <?php
-          $a_campaign['pagination']['path'] = 'cms/campaign';
+          $a_campaign['pagination']['path'] = 'cms/campaign/list';
           $this->load->view('cms/template/pagination', $a_campaign['pagination']) 
         ?>
 
