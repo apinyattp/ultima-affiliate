@@ -1,7 +1,7 @@
 <?php
 $config = array(
     'endpoint' => 'https://gurkha.accesstrade.in.th/',
-    'username' => 'kununya1996@gmail.com',
-    'password' => 'saio7845',
-    'siteId' => 33975
+    'username' => 'thanat546@gmail.com',
+    'password' => 'asd123',
+    'siteId' => 32841
 );

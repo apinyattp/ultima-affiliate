@@ -65,10 +65,23 @@ class Accesstrade extends MY_Controller {
 
         $endpoint = empty($endpoint) ? 'affiliated' : $endpoint;
 
-        $url = $this->endpoint . 'v1/publishers/me/sites/33975/campaigns/' . $endpoint;
+        $url = $this->endpoint . 'v1/publishers/me/sites/' . $this->siteId . '/campaigns/' . $endpoint;
 
         $header = $this->_header();
         $response = json_decode($this->_ci->gateway->curl_get($url, [], $header), TRUE);
+
+        return $response;
+    }
+
+    public function campaign($campaign_id) {
+        $url = $this->endpoint . 'v1/campaigns/' . $campaign_id;
+
+        $data = [
+            'siteId' => $this->siteId
+        ];
+
+        $header = $this->_header();
+        $response = json_decode($this->_ci->gateway->curl_get($url, $data, $header), TRUE);
 
         return $response;
     }
@@ -80,7 +93,7 @@ class Accesstrade extends MY_Controller {
         $header = $this->_header();
         $response = json_decode($this->_ci->gateway->curl_get($url, [], $header), TRUE);
 
-        $affiliateLink = $response['affiliateLink'];
+        $affiliateLink = !isset($response['affiliateLink']) ? NULL : $response['affiliateLink'];
 
         return $affiliateLink;
     }

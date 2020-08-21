@@ -14,27 +14,100 @@ class campaign_model extends CI_Model {
         $this->db->where('id', $id);
         if($status) $this->db->where('status', $status);
         $this->db->limit(1);
+        $this->db->join('campaign_data', 'campaign.id = campaign_data.campaign_id');
         return $this->db->get('campaign')->row_array();
     }
 
-    public function update($id, $name, $source, $url, $quicklink, $image_url, $default_reward, $affiliated_date) {
-        $a_data = [
+    public function get_data_by_id($campaign_id) {
+        $this->db->where('campaign_id', $campaign_id);
+        $this->db->limit(1);
+        return $this->db->get('campaign_data')->row_array();
+    }
+
+    public function insert($id) {
+        $this->db->insert('campaign', ['id' => $id]);
+        return $this->db->insert_id();
+    }
+
+    public function update($id, $image_file_id, $tracked_in, $redeemable_in, $note, $do, $dont, $orther_term_condition, $status) {
+        $a_set = [
             'id' => $id,
             'name' => $name,
             'source' => $source,
             'url' => $url,
             'quicklink' => $quicklink,
+            'description_th' => $description_th,
+            'description_en' => $description_en,
             'image_url' => $image_url,
-            'default_reward' => $default_reward,
+            'affiliation_status' => $affiliation_status,
             'affiliated_date' => $affiliated_date
         ];
-        $campaign = $this->get_by_id($id);
-        if(empty($campaign)) {
-            $this->db->insert('campaign', $a_data);
+
+        $this->db->where('id', $id);
+        $this->db->update('campaign', $a_set);
+    }
+
+    public function update_data($campaign_id, $name, $source, $url, $type, $startDate=NULL, $endDate=NULL, $selfConversion, $pointBack, $imageUrl, $description, $englishDescription, $customCreativesAvailable, $seoContentAvailable, $productFeedAvailable, $quickLinkAvailable, $quicklink=NULL, $affiliationStatus, $affiliatedDate, $currency) {
+        $a_set = [
+            'campaign_id' => $campaign_id,
+            'name' => $name,
+            'source' => $source,
+            'url' => $url,
+            'type' => $type,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'selfConversion' => $selfConversion,
+            'pointBack' => $pointBack,
+            'imageUrl' => $imageUrl,
+            'description' => $description,
+            'englishDescription' => $englishDescription,
+            'customCreativesAvailable' => $customCreativesAvailable,
+            'seoContentAvailable' => $seoContentAvailable,
+            'productFeedAvailable' => $productFeedAvailable,
+            'quickLinkAvailable' => $quickLinkAvailable,
+            'quicklink' => $quicklink,
+            'affiliationStatus' => $affiliationStatus,
+            'affiliatedDate' => $affiliatedDate,
+            'currency' => $currency
+        ];
+        $campaign_data = $this->get_data_by_id($campaign_id);
+        if(empty($campaign_data)) {
+            $this->db->insert('campaign_data', $a_set);
         }else {
-            $this->db->where('id', $id);
-            $this->db->update('campaign', $a_data);
+            $this->db->where('campaign_id', $campaign_id);
+            $this->db->update('campaign_data', $a_set);
         }
+    }
+
+    public function update_default_reward($campaign_id, $a_default_reward) {
+        $this->db->where('campaign_id', $campaign_id);
+        $this->db->delete('campaign_default_reward');
+
+        $this->db->insert_batch('campaign_default_reward', $a_default_reward);
+    }
+
+    public function get_category_reward_by_id($category_reward_id) {
+        $this->db->where('id', $category_reward_id);
+        $this->db->limit(1);
+        return $this->db->get('campaign_category_reward')->row_array();
+    }
+
+    public function update_category_reward($campaign_id, $category_reward_id,$type, $reward, $name=TRUE) {
+        $a_set = [
+            'id' => $category_reward_id,
+            'campaign_id' => $campaign_id,
+            'name' => $name,
+            'type' => $type,
+            'reward' => $reward
+        ];
+        $this->db->replace('campaign_category_reward', $a_set);
+    }
+
+    public function update_category($campaign_id, $a_category) {
+        $this->db->where('campaign_id', $campaign_id);
+        $this->db->delete('campaign_category');
+
+        $this->db->insert_batch('campaign_category', $a_category);
     }
 
     public function get_list($keyword=FALSE, $status=FALSE, $sort=FALSE) {
@@ -46,7 +119,30 @@ class campaign_model extends CI_Model {
                 $this->qs->like('name', $keyword);
             $this->qs->group_end();
         }
+        $this->qs->join('campaign_data', 'campaign.id = campaign_data.campaign_id');
         return $this->qs->get('campaign');
+    }
+
+    public function get_default_reward($campaign_id) {
+        $this->db->where('campaign_id', $campaign_id);
+        return $this->db->get('campaign_default_reward')->result_array();
+    }
+
+    public function get_category_reward($campaign_id) {
+        $this->db->where('campaign_id', $campaign_id);
+        return $this->db->get('campaign_category_reward')->result_array();
+    }
+
+    public function get_custom_reward($campaign_id) {
+        $this->db->where('campaign_id', $campaign_id);
+        return $this->db->get('campaign_custom_reward')->result_array();
+    }
+
+    public function get_highlight_list() {
+        $this->db->where('sort !=', 0);
+        $this->db->order_by('sort ASC');
+        $this->db->join('campaign_data', 'campaign.id = campaign_data.campaign_id');
+        return $this->db->get('campaign')->result_array();
     }
 
 }

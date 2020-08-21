@@ -1,9 +1,10 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Accesstrade extends MY_Controller {
-
-    public function __construct () {
+class Accesstrade extends MY_Controller
+{
+    public function __construct()
+    {
         parent::__construct();
         $this->load->library('gateway');
 
@@ -19,7 +20,8 @@ class Accesstrade extends MY_Controller {
     protected $password;
     protected $siteId;
 
-    private function _auth() {
+    private function _auth()
+    {
         $username = $this->username;
         $password = $this->password;
 
@@ -29,13 +31,13 @@ class Accesstrade extends MY_Controller {
             'Authorization:' . hash('sha256', $username . ":" . md5($password))
         ];
 
-        $response = json_decode($this->gateway->curl_json_get($url, [], $header), TRUE);
+        $response = json_decode($this->gateway->curl_json_get($url, [], $header), true);
 
         return $response;
     }
 
-    private function _token() {
-
+    private function _token()
+    {
         $auth = $this->_auth();
 
         $payload = [
@@ -49,7 +51,8 @@ class Accesstrade extends MY_Controller {
         return $token;
     }
 
-    private function _header() {
+    private function _header()
+    {
         $token = $this->_token();
 
         $header = [
@@ -60,52 +63,56 @@ class Accesstrade extends MY_Controller {
         return $header;
     }
 
-    public function gen_token() {
-
+    public function gen_token()
+    {
         echo $this->_token();
     }
 
-    public function sites() {
+    public function sites()
+    {
         $url = $this->endpoint . 'v1/publishers/me/sites';
 
         $header = $this->_header();
 
-        $response = json_decode($this->gateway->curl_get($url, [], $header), TRUE);
+        $response = json_decode($this->gateway->curl_get($url, [], $header), true);
 
         $this->_echo_json(E::SUCCESS, $response);
     }
 
-    public function campaigns() {
+    public function campaigns()
+    {
         $endpoint = $this->input->get('endpoint'); // affiliated, applied, rejected, unaffiliated
 
         $endpoint = empty($endpoint) ? 'affiliated' : $endpoint;
 
-        $url = $this->endpoint . 'v1/publishers/me/sites/33975/campaigns/' . $endpoint;
+        $url = $this->endpoint . 'v1/publishers/me/sites/32841/campaigns/' . $endpoint;
 
         $header = $this->_header();
-        $response = json_decode($this->gateway->curl_get($url, [], $header), TRUE);
+        $response = json_decode($this->gateway->curl_get($url, [], $header), true);
 
         $this->_echo_json(E::SUCCESS, $response);
     }
 
-    public function campaign($id) {
+    public function campaign($id)
+    {
         $url = $this->endpoint . 'v1/campaigns/' . $id;
 
         $data = [
-            'siteId' => '33975'
+            'siteId' => '32841'
         ];
 
         $header = $this->_header();
-        $response = json_decode($this->gateway->curl_get($url, $data, $header), TRUE);
+        $response = json_decode($this->gateway->curl_get($url, $data, $header), true);
 
         $this->_echo_json(E::SUCCESS, $response);
     }
 
-    public function campaign_affiliate() {
+    public function campaign_affiliate()
+    {
         $url = $this->endpoint . 'v1/campaigns/affiliate';
 
         $data = [
-            'siteId' => '33975',
+            'siteId' => '32841',
             'campaignIds' => [
                 // Office Mate : affiliated
                 137,
@@ -117,13 +124,13 @@ class Accesstrade extends MY_Controller {
         ];
 
         $header = $this->_header();
-        $response = json_decode($this->gateway->curl_json($url, $data, $header), TRUE);
+        $response = json_decode($this->gateway->curl_json($url, $data, $header), true);
 
         $this->_echo_json(E::SUCCESS, $response);
     }
 
-    public function conversion() {
-
+    public function conversion()
+    {
         $fromDate = $this->input->get('fromDate');
         $toDate = $this->input->get('toDate');
         $campaignId = $this->input->get('campaignId');
@@ -143,12 +150,13 @@ class Accesstrade extends MY_Controller {
         ];
 
         $header = $this->_header();
-        $response = json_decode($this->gateway->curl_get($url, $data, $header), TRUE);
+        $response = json_decode($this->gateway->curl_get($url, $data, $header), true);
 
-        $this->_echo_json(E::SUCCESS, $response);       
+        $this->_echo_json(E::SUCCESS, $response);
     }
 
-    public function quicklink() {
+    public function quicklink()
+    {
         $uid = $this->input->get('uid');
         $campaignId = $this->input->get('campaignId');
 
@@ -159,12 +167,11 @@ class Accesstrade extends MY_Controller {
         $body_string = http_build_query(['uid' => $uid]);
 
         $header = $this->_header();
-        $response = json_decode($this->gateway->curl_get($url, [], $header), TRUE);
+        $response = json_decode($this->gateway->curl_get($url, [], $header), true);
 
         $myurl = $response['affiliateLink'] . '?' . $body_string;
 
 
         $this->_echo_json(E::SUCCESS, ['affiliateLink' => $myurl]);
     }
-
 }

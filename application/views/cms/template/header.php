@@ -5,9 +5,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
     <script src="https://kit.fontawesome.com/0bd485de6c.js" crossorigin="anonymous"></script>
     <!-- Material Kit CSS -->
-    <link href="<?php echo asset_base_url()?>paper/assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="<?php echo asset_base_url()?>paper/assets/css/paper-dashboard.css">
-    <link rel="stylesheet" href="<?php echo asset_base_url()?>datepicker/css/bootstrap-datepicker3.standalone.min.css">
+    <?php echo $this->head->css_get(); ?>
     <title>Ultima-Life Affiliate</title>
   </head>
   <body>

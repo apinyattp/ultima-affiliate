@@ -21,13 +21,7 @@
         </div>
       </div>
     </footer>
-    
-    <script src="<?php echo asset_base_url()?>paper/assets/js/core/jquery.min.js" type="text/javascript"></script>
-    <script src="<?php echo asset_base_url()?>paper/assets/js/core/popper.min.js" type="text/javascript"></script>
-    <script src="<?php echo asset_base_url()?>paper/assets/js/core/bootstrap.min.js" type="text/javascript"></script>
-    <script src="<?php echo asset_base_url()?>paper/assets/js/plugins/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-    <script src="<?php echo asset_base_url()?>paper/assets/js/plugins/moment.min.js"></script>
-    <script src="<?php echo asset_base_url()?>datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="<?php echo asset_base_url()?>js/custom.js"></script>
+    <!-- JS -->
+    <?php echo $this->head->js_get(); ?>
   </body>
 </html>

@@ -25,59 +25,57 @@ class Migration_Create_campaign extends CI_Migration {
 					'unsigned' => TRUE,
 					'constraint' => 5
 				),
-				'name' => array(
+				'display_name' => array(
 					'type' => 'VARCHAR',
 					'null' => FALSE,
 					'constraint' => 255,
-					'comment' => 'Campaign name'
+					'comment' => 'Campaign display name on application'
 				),
-				'source' => array(
-					'type' => 'VARCHAR',
-					'null' => FALSE,
-					'constraint' => 255,
-					'comment' => 'Source of affiliate campaign'
+				'image_file_id' => array(
+					'type' => 'INT',
+					'null' => TRUE,
+					'unsigned' => TRUE,
 				),
-				'url' => array(
-					'type' => 'TEXT',
-					'null' => FALSE,
-					'comment' => 'Campaign URL'
+				'redeemable_in' => array(
+                    'type' => 'VARCHAR',
+                    'null' => FALSE,
+					'constraint' => 10,
+					'comment' => 'Redeemable in (Day)'
 				),
-				'quicklink' => array(
+				'description' => array(
 					'type' => 'TEXT',
 					'null' => TRUE,
-					'comment' => 'Campaign Qicklink'
+					'comment' => 'Description'
 				),
-				'image_url' => array(
-					'type' => 'VARCHAR',
-					'null' => FALSE,
-					'constraint' => 255
-				),
-				'logo_image_url' => array(
-					'type' => 'VARCHAR',
-					'null' => TRUE,
-					'constraint' => 255
-				),
-				'default_reward' => array(
-					'type' => 'TEXT',
-					'null' => FALSE,
-					'comment' => 'Default reward description from source'
-				),
-				'reward' => array(
+				'do' => array(
 					'type' => 'TEXT',
 					'null' => TRUE,
-					'comment' => 'Reward description'
+					'comment' => 'Do'
+				),
+				'dont' => array(
+					'type' => 'TEXT',
+					'null' => TRUE,
+					'comment' => "Don't"
+				),
+				'note' => array(
+					'type' => 'TEXT',
+					'null' => TRUE,
+					'comment' => 'Note'
+				),
+				'sort' => array(
+                    'type' => 'TINYINT',
+                    'null' => FALSE,
+                    'default' => 0,
+					'comment' => 'Campaign Sort'
 				),
 				'status' => array(
                     'type' => 'ENUM',
                     'null' => FALSE,
                     'constraint' => [
-                        'active',
-                        'inactive',
-                    ]
-				),
-				'affiliated_date' => array(
-					'type' => 'TEXT',
-					'null' => TRUE
+						'inactive',
+                        'active'
+					],
+					'comment' => 'Status'
 				),
                 'deleted' => array(
                     'type' => 'TINYINT',
@@ -90,6 +88,7 @@ class Migration_Create_campaign extends CI_Migration {
         $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 		$this->dbforge->add_key('id', TRUE);
 		$this->dbforge->add_key('status');
+		$this->dbforge->add_key('sort');
 		$this->dbforge->add_key('deleted');
 		$this->dbforge->create_table('campaign', TRUE);
 	}

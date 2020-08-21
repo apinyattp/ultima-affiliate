@@ -28,11 +28,11 @@ class Migration_Create_report_conversion extends CI_Migration
 				'constraint' => 5,
 				'comment' => 'Conversion ID'
 			),
-			'uid' => array(
-				'type' => 'INT',
+			'uuid' => array(
+				'type' => 'VARCHAR',
 				'null' => FALSE,
 				'unsigned' => TRUE,
-				'constraint' => 5,
+				'constraint' => 40,
 				'comment' => 'User ID'
 			),
 			'site_id' => array(
