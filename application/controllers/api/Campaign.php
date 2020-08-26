@@ -12,12 +12,21 @@ class Campaign extends MY_Controller {
     }
 
     public function detail() {
-        $uid = $this->input->get('uid');
-        $campaign_id = $this->input->get('campaign_id');
+        // if(($auth = $this->_authorization()) !== TRUE) return $this->_echo_json($auth);
+        $a_admin = $this->_auth_admin();
 
-        $url = 'https://prf.hn/click/camref:1101l4Qz9/pubref:{clickid}/adref:{psn}/destination:https://shopee.co.th/universal-link/?uid=27&name=kkkk7';
+        $id = $this->input->get('id');
 
-        return $this->_echo_json(E::SUCCESS, ['url' => $url]);
+        $this->load->model('campaign_model');
+        $campaign = $this->campaign_model->get_by_id($id);
+
+        $default_rewards = $this->campaign_model->get_default_reward($id);
+        $category_rewards = $this->campaign_model->get_category_reward($id);
+        $custom_rewards = $this->campaign_model->get_custom_reward($id);
+
+        $a_data = $this->format->run('api/campaign/detail', $campaign);
+
+        return $this->_echo_json(E::SUCCESS, $a_data);
     }
 
 }

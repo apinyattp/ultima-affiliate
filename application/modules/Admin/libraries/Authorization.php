@@ -38,8 +38,7 @@ class Authorization {
         $a_admin = $this->_ci->admin_admin_model->get_by_id($admin_id);
 
         // CHECK admin DATA
-        if($a_admin['status'] !== 'active') return \E::PERMISSION_USER_NOT_ACTIVE;
-        if($a_admin['password_token'] !== $password_token) return \E::PERMISSION_LOGIN_AGAIN;
+        if($a_admin['password_token'] !== $password_token) return \E::PERMISSION_TOKEN_EXPIRE;
 
         // CHECK MODULE LOADED
         $admin_role = (bool) $this->_ci->load->find_module('admin_role');

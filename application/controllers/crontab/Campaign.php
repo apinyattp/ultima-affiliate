@@ -82,6 +82,10 @@ class Campaign extends MY_Controller {
                 ];
             }
             $this->campaign_model->update_category($campaign_id, $categories);
+
+            $this->campaign_model->update_custom_reward($campaign_id, 'default');
+            $this->campaign_model->update_custom_reward($campaign_id, 'category');
+            $this->campaign_model->update_custom_reward($campaign_id, 'customer_type');
         }
         
     }

@@ -69,69 +69,77 @@ class Campaign extends MY_Controller {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
         $a_admin = $this->_auth_admin();
 
+        $this->load->helper(array('form', 'url'));
+
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('display_name', 'Display Name', 'required');
+        $this->form_validation->set_rules('cashback', 'Cashback', 'required');
+        $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
+        $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
+        $this->form_validation->set_rules('note', 'Note', 'required');
+
         $this->load->model('campaign_model');
-        $campaign = $this->campaign_model->get_by_id($id);
+        if ($this->form_validation->run() == FALSE) {
 
-        $default_rewards = $this->campaign_model->get_default_reward($id);
-        $category_rewards = $this->campaign_model->get_category_reward($id);
-        $custom_rewards = $this->campaign_model->get_custom_reward($id);
+            $campaign = $this->campaign_model->get_by_id($id);
 
-        $a_header_data = [
-            'page' => 'edit campaign : ' . $campaign['name'],
-            'a_admin' => $a_admin
-        ];
+            $a_header_data = [
+                'page' => 'edit campaign : ' . $campaign['name'],
+                'a_admin' => $a_admin
+            ];
 
-        $a_data = [
-            'campaign' => $campaign,
-            'default_rewards' => $default_rewards,
-            'category_rewards' => $category_rewards,
-            'a_custom_reward' => $this->_set_custom_reward($custom_rewards)
-        ];
+            $a_data = $this->format->run('cms/campaign/set/main', $campaign);
 
-        $this->head->js_add('js/campaign.js');
+            $post_data = $this->input->post();
+            $set_data = array_replace_recursive($a_data, $post_data);
 
-        $this->load->view('cms/template/header', $a_header_data);
-        $this->load->view('cms/campaign/edit', $a_data);
-        $this->load->view('cms/template/footer');
-    }
+            $this->head->js_add('js/campaign.js');
+            $this->load->view('cms/template/header', $a_header_data);
+            $this->load->view('cms/campaign/edit/main', $set_data);
+            $this->load->view('cms/template/footer');
+        } else {
 
-    public function update() {
-        $custom_rewards = $this->input->post('custom_rewards');
-    }
+            $display_name = $this->input->post('display_name');
+            $cashback = $this->input->post('cashback');
+            $condition_do = $this->input->post('condition_do');
+            $condition_dont = $this->input->post('condition_dont');
+            $note = $this->input->post('note');
+            $a_custom_reward = $this->input->post('a_custom_reward');
 
-    private function _set_custom_reward($custom_rewards) {
+            $this->campaign_model->update($id, $display_name, NULL, $cashback, $condition_do, $condition_dont, $note);
 
-        $default = [
-            'default' => [
-                'tier1' => NULL,
-                'tier2' => NULL,
-                'tier3' => NULL,
-                'tier4' => NULL
-            ],
-            'category' => [
-                'tier1' => NULL,
-                'tier2' => NULL,
-                'tier3' => NULL,
-                'tier4' => NULL
-            ],
-            'customer_type' => [
-                'tier1' => NULL,
-                'tier2' => NULL,
-                'tier3' => NULL,
-                'tier4' => NULL
-            ]
-        ];
+            $this->campaign_model->update_custom_reward($id, 'default', $a_custom_reward['default']);
+            $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);
+            $this->campaign_model->update_custom_reward($id, 'customer_type', $a_custom_reward['customer_type']);
 
-        $set_custom_rewards = (empty($custom_rewards)) ? $default : [];
-        foreach($custom_rewards as $custom_reward) {
-            $set_custom_rewards[$custom_reward['type']] = [];
-            foreach($custom_reward as $key => $value) {
-                if(in_array($key, ['campaign_id', 'type', 'datetime_updated'])) continue;
-                $set_custom_rewards[$custom_reward['type']][$key] = $value;
-            }
+            $this->list();
         }
-
-        return $set_custom_rewards;
     }
-    
+
+    // private function _validate_field($data, $a_field, $id=NULL) {
+    //     $a_set = [];
+    //     foreach($a_field as $field) {
+    //         $set_data = NULL;
+    //         if(!is_null($data[$field])) {
+    //             $value = $data[$field];
+    //             switch ($field) {
+    //                 case 'display_name':
+    //                     if() return $this->_echo_json(E::NOT_FOUND_CONTENT,['field' => 'thumbnail_image_file_id']);
+    //                     $set_data = $value;
+    //                     break;
+    //                 case 'cashback':
+    //                     $set_data = date('Y-m-d', strtotime($value));
+    //                     break;
+    //                 default:
+    //                     $set_data = $value;
+    //                     break;
+    //             }
+    //         }
+    //         $a_set[$field] = $set_data;
+    //     }
+
+    //     return $a_set;
+    // }
+
 }

@@ -1,0 +1,68 @@
+{
+    "response_code":200,
+    "response_msg":"Success",
+    "result":  {
+        "id" : 543,
+        "display_name" : "xxx",
+        "quick_link" : "<URL>",
+        "image_url" : "<imageUrl>",
+        "cashback" : "3-10",
+        "condition_do" : "<HTML>",
+        "condition_dont" : "<HTML>",
+        "note" : "xxx",
+        "custom_reward" : {
+            "default" : {
+                "tier1" : 0.2,
+                "tier2" : 0.2,
+                "tier3" : 0.2,
+                "tier4" : 0.2
+            },
+            "category" : {
+                "tier1" : 0.2,
+                "tier2" : 0.2,
+                "tier3" : 0.2,
+                "tier4" : 0.2
+            },
+            "customer_type" : {
+                "tier1" : 0.2,
+                "tier2" : 0.2,
+                "tier3" : 0.2,
+                "tier4" : 0.2
+            }
+        },
+        "default_data" : {
+            "name" : "xxx",
+            "url" : "<URL>",
+            "source" : "accesstrade",
+            "type" : "",
+            "startDate" : "",
+            "endDate" : "",
+            "selfConversion" : "",
+            "pointBack" : "",
+            "englishDescription" : "<TEXT>",
+            "customCreativesAvailable" : true,
+            "seoContentAvailable" : true,
+            "productFeedAvailable" : true,
+            "quickLinkAvailable" : false,
+            "affiliationStatus" : "APPROVED",
+            "affiliatedDate" : "2020-07-13",
+            "currency" : "THB",
+            "default_reward" : [
+                {
+                    "name" : "xxx",
+                    "type" : "",
+                    "reward" : 3
+                },
+                "..."
+            ],
+            "category_reward" : [
+                {
+                    "name" : "xxx",
+                    "type" : "",
+                    "reward" : 3
+                },
+                "..."
+            ]
+        }
+    }
+}

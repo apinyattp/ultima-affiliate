@@ -36,7 +36,7 @@ class Migration_Create_campaign extends CI_Migration {
 					'null' => TRUE,
 					'unsigned' => TRUE,
 				),
-				'redeemable_in' => array(
+				'cashback' => array(
                     'type' => 'VARCHAR',
                     'null' => FALSE,
 					'constraint' => 10,
@@ -47,12 +47,12 @@ class Migration_Create_campaign extends CI_Migration {
 					'null' => TRUE,
 					'comment' => 'Description'
 				),
-				'do' => array(
+				'condition_do' => array(
 					'type' => 'TEXT',
 					'null' => TRUE,
 					'comment' => 'Do'
 				),
-				'dont' => array(
+				'condition_dont' => array(
 					'type' => 'TEXT',
 					'null' => TRUE,
 					'comment' => "Don't"

@@ -29,18 +29,15 @@ class campaign_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    public function update($id, $image_file_id, $tracked_in, $redeemable_in, $note, $do, $dont, $orther_term_condition, $status) {
+    public function update($id, $display_name, $image_file_id=NULL, $cashback, $condition_do, $condition_dont, $note) {
         $a_set = [
             'id' => $id,
-            'name' => $name,
-            'source' => $source,
-            'url' => $url,
-            'quicklink' => $quicklink,
-            'description_th' => $description_th,
-            'description_en' => $description_en,
-            'image_url' => $image_url,
-            'affiliation_status' => $affiliation_status,
-            'affiliated_date' => $affiliated_date
+            'display_name' => $display_name,
+            'image_file_id' => $image_file_id,
+            'cashback' => $cashback,
+            'condition_do' => $condition_do,
+            'condition_dont' => $condition_dont,
+            'note' => $note,
         ];
 
         $this->db->where('id', $id);
@@ -92,7 +89,7 @@ class campaign_model extends CI_Model {
         return $this->db->get('campaign_category_reward')->row_array();
     }
 
-    public function update_category_reward($campaign_id, $category_reward_id,$type, $reward, $name=TRUE) {
+    public function update_category_reward($campaign_id, $category_reward_id, $type, $reward, $name=TRUE) {
         $a_set = [
             'id' => $category_reward_id,
             'campaign_id' => $campaign_id,
@@ -108,6 +105,21 @@ class campaign_model extends CI_Model {
         $this->db->delete('campaign_category');
 
         $this->db->insert_batch('campaign_category', $a_category);
+    }
+
+    public function update_custom_reward($campaign_id, $type, $a_set) {
+
+
+        foreach($a_set as $key => $value) {
+            if(empty(doubleval($value))) {
+                $a_set[$key] = NULL;
+            }
+        }
+
+        $a_set['campaign_id'] = $campaign_id;
+        $a_set['type'] = $type;
+
+        $this->db->replace('campaign_custom_reward', $a_set);
     }
 
     public function get_list($keyword=FALSE, $status=FALSE, $sort=FALSE) {

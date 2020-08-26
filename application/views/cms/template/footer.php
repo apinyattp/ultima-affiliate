@@ -22,6 +22,9 @@
       </div>
     </footer>
     <!-- JS -->
-    <?php echo $this->head->js_get(); ?>
+    <script type="text/javascript">
+      var base_url = "<?php echo base_url() ?>"
+    </script>
+    <?php echo $this->head->js_get() ?>
   </body>
 </html>

@@ -1,0 +1,19 @@
+##Get Campaign Detail
+
+GET:/campaign/detail
+
+###Header
+HEADER:Authorization
+
+###Input
+INPUT:id,required|int, id ของ campaign
+
+##Error
+ERROR:SUCCESS
+ERROR:REQUIRE_PARAMETER
+ERROR:INVALID_FORMAT
+ERROR:PERMISSION_TOKEN_EXPIRE
+
+###RESULT
+JSON:document/campaign/detail
+==============================================================

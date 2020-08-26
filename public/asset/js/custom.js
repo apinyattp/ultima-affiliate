@@ -8,28 +8,14 @@ $(document).ready(function(){
   $('#sortable').sortable();
   $('#sortable').disableSelection();
 
-  ClassicEditor.create( document.querySelector( '#descriptionEditor' ) )
-  .catch( error => {
-    // console.error( error );
-  } );
-
-  ClassicEditor.create( document.querySelector( '#doEditor' ) )
-  .catch( error => {
-    // console.error( error );  
-  } );
-
-  ClassicEditor.create( document.querySelector( '#dontEditor' ) )
-  .catch( error => {
-    // console.error( error );
-  } );
-
-  ClassicEditor.create( document.querySelector( '#noteEditor' ) )
-  .catch( error => {
-    // console.error( error );
-  } );
-
-  function edit_campaign() {
-
-  }
+  $('form input.form-control').on('input', function() {
+    const classes = ['has-danger', 'has-error']
+    if ($(this).val() === '') {
+      $(this).parent().addClass(classes)
+    } else {
+      $(this).first().parent().removeClass(classes)
+      $(this).parent().children('label.error-message').text('')
+    }
+  })
 
 });
