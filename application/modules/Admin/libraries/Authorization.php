@@ -144,6 +144,16 @@ class Authorization {
     public function authorization_token() {
         if(isset($_COOKIE["utoken"])){
             return $_COOKIE["utoken"];
+        }else {
+            if(isset($_SERVER['HTTP_Authorization'])) return $_SERVER['HTTP_Authorization'];
+            if(isset($_SERVER['HTTP_AUTHORIZATION'])) return $_SERVER['HTTP_AUTHORIZATION'];
+    
+            if(function_exists('apache_request_headers')){
+                $a_header = apache_request_headers();
+                if(isset($a_header['Authorization'])) return $a_header['Authorization'];
+            }
+            if($this->_ci->input->json('Authorization')) return $this->_ci->input->json('Authorization');
+            if($this->_ci->input->get('Authorization')) return $this->_ci->input->get('Authorization');
         }
         return FALSE;
     }
