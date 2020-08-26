@@ -65,6 +65,18 @@ class Migration_Create_admin extends CI_Migration
         $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->create_table('admin', TRUE);
+
+        $admin = array(
+            array(
+                'id' => '1',
+                'username' => 'admin',
+                'email' => '',
+                'status' => 'active',
+                'password' => '$2y$10$Gp8bOrBPr3F1JI1mPG5ri.JBopFJPqpJle7Pi63rxeaajDvkxKMMW',
+                'password_token' => '90EC24C9-0E21-48AC-81EC-B0EC0C358BFB'
+            ),
+        );
+        $this->db->insert_batch('admin', $admin);
     }
 
 }
