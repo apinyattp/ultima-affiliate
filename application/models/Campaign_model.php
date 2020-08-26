@@ -107,6 +107,14 @@ class campaign_model extends CI_Model {
         $this->db->insert_batch('campaign_category', $a_category);
     }
 
+    public function insert_custom_reward($campaign_id, $type) {
+        $a_set = [
+            'campaign_id' => $campaign_id,
+            'type' => $type
+        ];
+        $this->db->insert('campaign_custom_reward', $a_set);
+    }
+
     public function update_custom_reward($campaign_id, $type, $a_set) {
 
 

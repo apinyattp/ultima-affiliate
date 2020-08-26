@@ -67,7 +67,7 @@ class MY_Controller extends Builder\Core\Controller {
         $this->load->library('module/admin/authorization');
 
         $a_config = [
-            'check_expire' => TRUE,
+            'check_expire' => FALSE,
         ];
         $this->admin_authorization->set_config($a_config);
 

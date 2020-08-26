@@ -113,33 +113,35 @@ class Campaign extends MY_Controller {
             $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);
             $this->campaign_model->update_custom_reward($id, 'customer_type', $a_custom_reward['customer_type']);
 
+            $this->load->library('jelala');
+            $this->jelala->update_campaign($id);
+
             $this->list();
         }
     }
 
-    // private function _validate_field($data, $a_field, $id=NULL) {
-    //     $a_set = [];
-    //     foreach($a_field as $field) {
-    //         $set_data = NULL;
-    //         if(!is_null($data[$field])) {
-    //             $value = $data[$field];
-    //             switch ($field) {
-    //                 case 'display_name':
-    //                     if() return $this->_echo_json(E::NOT_FOUND_CONTENT,['field' => 'thumbnail_image_file_id']);
-    //                     $set_data = $value;
-    //                     break;
-    //                 case 'cashback':
-    //                     $set_data = date('Y-m-d', strtotime($value));
-    //                     break;
-    //                 default:
-    //                     $set_data = $value;
-    //                     break;
-    //             }
-    //         }
-    //         $a_set[$field] = $set_data;
-    //     }
+    public function update_status() {
+        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        
+        return $this->_echo_json(E::SUCCESS);
+    }
 
-    //     return $a_set;
-    // }
+    public function delete() {
+        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        
+        return $this->_echo_json(E::SUCCESS);
+    }
+
+    public function update_highlight_pin() {
+        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        
+        return $this->_echo_json(E::SUCCESS);
+    }
+
+    public function update_highlight_sort() {
+        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        
+        return $this->_echo_json(E::SUCCESS);
+    }
 
 }

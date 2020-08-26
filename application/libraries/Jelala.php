@@ -25,23 +25,40 @@ class Jelala {
     // method DELETE: /api/integration//affiliate/flag/
     // INPUT: {"ids":[1,2,3]}
 
-    public function update($ids) {
+    public function update_campaign($ids) {
 
-        $url = $this->baseurl . 'api/integration//affiliate/flag/';
-    
+        $url = $this->baseurl . 'api/integration/affiliate/flag/';
+
         $data = [
-            'ids' => $ids
+            'ids' => is_array($ids) ? $ids : [$ids]
         ];
 
         $header = $this->header;
-        $response = json_decode($this->_ci->gateway->curl_get($url, $data, $header), TRUE);
+        $response = json_decode($this->_ci->gateway->curl_json($url, $data, $header), TRUE);
+
+        $httpcode = $this->_ci->gateway->_httpcode();
+
+        if($httpcode !== 200) return FALSE;
 
         return $response;
 
     }
 
-    public function delete() {
+    public function delete_campaign($ids) {
+        $url = $this->baseurl . 'api/integration/affiliate/flag/';
+    
+        $data = [
+            'ids' => is_array($ids) ? $ids : [$ids]
+        ];
 
+        $header = $this->header;
+        $response = json_decode($this->_ci->gateway->curl_delete($url, $data, $header), TRUE);
+
+        $httpcode = $this->_ci->gateway->_httpcode();
+
+        if($httpcode !== 200) return FALSE;
+
+        return $response;
     }
 
 }
