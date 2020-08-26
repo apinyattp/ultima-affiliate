@@ -70,7 +70,7 @@ class Migration_Create_admin extends CI_Migration
             array(
                 'id' => '1',
                 'username' => 'admin',
-                'email' => '',
+                'email' => NULL,
                 'status' => 'active',
                 'password' => '$2y$10$Gp8bOrBPr3F1JI1mPG5ri.JBopFJPqpJle7Pi63rxeaajDvkxKMMW',
                 'password_token' => '90EC24C9-0E21-48AC-81EC-B0EC0C358BFB'
@@ -78,7 +78,7 @@ class Migration_Create_admin extends CI_Migration
             array(
                 'id' => '2',
                 'username' => 'jelala',
-                'email' => '',
+                'email' => NULL,
                 'status' => 'active',
                 'password' => '$2y$10$7scZT.GyV5bKZIGddYUsuO1TCzBcto3qd3B1KNW/xFYEX5pBTigaa',
                 'password_token' => 'CC2BC86F-B058-4568-A9F2-354F169FC11C'
