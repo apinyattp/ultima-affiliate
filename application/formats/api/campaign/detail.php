@@ -16,14 +16,16 @@ foreach($custom_rewards as $custom_reward) {
 return [
     'id' => $data['id'],
     'display_name' => empty($data['display_name']) ? $data['name'] : $data['display_name'],
+    'quick_link' => $data['quicklink'],
+    'image_url' => $data['imageUrl'],
     'cashback' => $data['cashback'],
     'description' => $data['description'],
     'condition_do' => $data['condition_do'],
     'condition_dont' => $data['condition_dont'],
     'note' => $data['note'],
-    'quick_link' => $data['quicklink'],
-    'image_url' => $data['imageUrl'],
     'a_custom_reward' => $set_custom_rewards,
+    'is_pin' => empty($data['sort']) ? FALSE : TRUE,
+    'pin_sort' => $data['sort'],
     'default_data' => [
         'name' => $data['name'],
         'url' => $data['url'],

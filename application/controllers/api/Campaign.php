@@ -7,11 +7,8 @@ class Campaign extends MY_Controller {
         parent::__construct();
     }
 
-    // username : jelala
-    // password : adminJelala
-
     public function detail() {
-        if(($auth = $this->_admin_authorization('jelala')) !== TRUE) return $this->_echo_json($auth);
+        if(($this->_api_authorization()) !== TRUE) return $this->_echo_json(E::PERMISSION_DENIED);
         $a_admin = $this->_auth_admin();
 
         $id = $this->input->get('id');
