@@ -65,9 +65,9 @@ class MY_Controller extends Builder\Core\Controller {
         $this->load->library('module/admin/authorization');
         $token = $this->admin_authorization->http_authorization_token();
 
-        $key = 'JelalaAffiliate';
+        $key = md5('JelalaAffiliate');
 
-        if(md5($key) === $token) return TRUE;
+        if(hash('sha256', $key) === $token) return TRUE;
 
         return FALSE;
     }

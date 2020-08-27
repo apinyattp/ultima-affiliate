@@ -3,7 +3,7 @@
 GET:/campaign/detail
 
 ###Header
-HEADER:Authorization,85b98200bcba3a82ddf259405fa35f25
+HEADER:Authorization,d16804c817c155ac767f0e834e551075287f8f130061db907e53d5fc9510423c
 
 ###Input
 INPUT:id,required|int, id ของ campaign
