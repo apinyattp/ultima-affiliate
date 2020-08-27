@@ -3,8 +3,7 @@
 GET:/campaign/detail
 
 ###Header
-HEADER:Authorization
-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIyIiwicHRva2VuIjoiQ0MyQkM4NkYtQjA1OC00NTY4LUE5RjItMzU0RjE2OUZDMTFDIiwiZGF0YSI6W10sImV4cCI6MTU5OTM2NTc3MH0.5vVaBoQlt_oM0fx0oMvqhkESgshpKHp4Bp0kDyk4ehs
+HEADER:Authorization,85b98200bcba3a82ddf259405fa35f25
 
 ###Input
 INPUT:id,required|int, id ของ campaign
