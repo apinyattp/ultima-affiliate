@@ -5,6 +5,10 @@ class Campaign extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
+
+        $this->load->model('campaign_model');
+
+        $this->load->library('jelala');
     }
 
     public function index(){
@@ -14,7 +18,6 @@ class Campaign extends MY_Controller {
     private function _highlight_list() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
 
-        $this->load->model('campaign_model');
         $campaigns = $this->campaign_model->get_highlight_list();
 
         return $this->format->map('cms/campaign/list', $campaigns);
@@ -45,7 +48,6 @@ class Campaign extends MY_Controller {
             'a_admin' => $a_admin
         ];
 
-        $this->load->model('campaign_model');
         $qs = $this->campaign_model->get_list($keyword, $status, $a_sort[$sort]);
 
         $this->load->library('qs');
@@ -60,6 +62,7 @@ class Campaign extends MY_Controller {
             'keyword' => $keyword
         ];
 
+        $this->head->js_add('js/campaign/list.js');
         $this->load->view('cms/template/header', $a_header_data);
         $this->load->view('cms/campaign/index', $a_data);
         $this->load->view('cms/template/footer');
@@ -79,7 +82,6 @@ class Campaign extends MY_Controller {
         $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
         $this->form_validation->set_rules('note', 'Note', 'required');
 
-        $this->load->model('campaign_model');
         if ($this->form_validation->run() == FALSE) {
 
             $campaign = $this->campaign_model->get_by_id($id);
@@ -113,8 +115,7 @@ class Campaign extends MY_Controller {
             $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);
             $this->campaign_model->update_custom_reward($id, 'customer_type', $a_custom_reward['customer_type']);
 
-            $this->load->library('jelala');
-            $this->jelala->update_campaign($id);
+            $this->_update_jelala($id);
 
             $this->list();
         }
@@ -122,6 +123,13 @@ class Campaign extends MY_Controller {
 
     public function update_status() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+
+        $campaign_id = $this->input->post('campaign_id');
+        $status = $this->input->post('status');
+
+        $this->campaign_model->update_status($campaign_id, $status);
+
+        $this->_update_jelala($id);
         
         return $this->_echo_json(E::SUCCESS);
     }
@@ -134,14 +142,29 @@ class Campaign extends MY_Controller {
 
     public function update_highlight_pin() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+
+        $campaign_id = $this->input->post('campaign_id');
+        $type = $this->input->post('type');
+
+        $count = $this->campaign_model->pin_count();
+
+        if($type == 'pin' && $count >= 6) return $this->_echo_json(E::CAMPAIGN_PIN_HIGHLIGHT_EXCEED_LIMIT);
+
+        $this->campaign_model->update_pin($campaign_id, $type);
+
+        $this->_update_jelala($campaign_id);
         
-        return $this->_echo_json(E::SUCCESS);
+        return $this->_echo_json(E::SUCCESS, ['type' => $type, 'query' => $this->db->last_query()]);
     }
 
     public function update_highlight_sort() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
         
         return $this->_echo_json(E::SUCCESS);
+    }
+
+    private function _update_jelala($ids) {
+        // $this->jelala->update_campaign($ids);
     }
 
 }

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // Extended error code
 class E extends _E{
 
-
+    const CAMPAIGN_PIN_HIGHLIGHT_EXCEED_LIMIT = 6001;
 }
 
 // Standard error code

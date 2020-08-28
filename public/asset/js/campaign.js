@@ -29,9 +29,4 @@ $(document).ready(function(){
       // console.error( error );
     } );
 
-    $('.form-control').find('input[type="text"]').on('input', function() {
-      $(this).closest('.form-group').removeClass('has-error');
-      $(this).closest('.form-group').removeClass('has-danger');  
-    });
-
 });
