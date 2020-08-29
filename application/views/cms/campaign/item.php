@@ -28,16 +28,17 @@
       <input type="checkbox" class="custom-control-input" onclick="update_status(<?php echo $id ?>)" id="statusToggle<?php echo $id ?>" name="status" <?php if($status == 'active') echo 'checked'; ?>>
       <label class="custom-control-label" for="statusToggle<?php echo $id ?>"></label>
       </div>
-      <!-- <?php 
-      $display_status = ['active' => 'Active', 'inactive' => 'Inactive'];
-      echo $display_status[$status];
-      ?> -->
   </td>
   <td class="text-center">
       <form action="<?php echo site_url('cms/campaign/edit/' . $id); ?>">
-      <button class="btn btn-info btn-link">
-          <i class="far fa-edit"></i>
-      </button>
+        <button class="btn btn-info btn-link">
+            <i class="far fa-edit"></i>
+        </button>
       </form>
+  </td>
+  <td class="text-center">
+    <button class="btn btn-danger btn-link" type="toggle" onclick="displayDeleteModal(<?php echo $id?>)">
+      <i class="fas fa-trash-alt"></i>
+    </button>
   </td>
 </tr>

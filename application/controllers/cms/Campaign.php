@@ -56,10 +56,12 @@ class Campaign extends MY_Controller {
         $a_campaign = $qs->result('cms/campaign/list');
 
         $a_data = [
+            'search_filter' => [
+                'status' => $status,
+                'keyword' => $keyword,
+            ],
             'a_campaign' => $a_campaign,
-            'a_highlight_campaign' => $this->_highlight_list(),
-            'status' => $status,
-            'keyword' => $keyword
+            'a_highlight_campaign' => $this->_highlight_list()
         ];
 
         $this->head->js_add('js/campaign/list.js');
@@ -96,7 +98,7 @@ class Campaign extends MY_Controller {
             $post_data = $this->input->post();
             $set_data = array_replace_recursive($a_data, $post_data);
 
-            $this->head->js_add('js/campaign.js');
+            $this->head->js_add('js/campaign/edit.js');
             $this->load->view('cms/template/header', $a_header_data);
             $this->load->view('cms/campaign/edit/main', $set_data);
             $this->load->view('cms/template/footer');
@@ -134,9 +136,17 @@ class Campaign extends MY_Controller {
         return $this->_echo_json(E::SUCCESS);
     }
 
-    public function delete() {
+    public function delete($id) {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
-        
+
+        $campaign = $this->campaign_model->get_by_id($id);
+        if(empty($campaign)) {
+            $this->output->set_status_header(400);
+            return $this->_echo_json(E::NOT_FOUND_CONTENT);
+        }
+
+        $this->campaign_model->delete($id);
+
         return $this->_echo_json(E::SUCCESS);
     }
 
@@ -164,7 +174,7 @@ class Campaign extends MY_Controller {
     }
 
     private function _update_jelala($ids) {
-        // $this->jelala->update_campaign($ids);
+        $this->jelala->update_campaign($ids);
     }
 
 }

@@ -192,4 +192,11 @@ class campaign_model extends CI_Model {
             $this->db->update('campaign', ['sort' => 0], ['id' => $campaign_id]);
         }
     }
+
+    public function delete($campaign_id) {
+        $this->db->set('deleted', 1);
+        $this->db->where('id', $campaign_id);
+        $this->db->update('campaign');
+    }
+ 
 }

@@ -174,4 +174,5 @@ class Accesstrade extends MY_Controller
 
         $this->_echo_json(E::SUCCESS, ['affiliateLink' => $myurl]);
     }
+
 }
