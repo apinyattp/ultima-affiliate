@@ -9,5 +9,6 @@ return [
     'default_reward' => $default_reward,
     'status' => $data['status'],
     'affiliated_date' => $data['affiliatedDate'],
-    'is_highlight' => empty($data['sort']) ? 0 : 1
+    'is_highlight' => empty($data['sort']) ? 0 : 1,
+    'deleted' => $data['deleted']
 ];

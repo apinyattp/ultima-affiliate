@@ -37,11 +37,11 @@ class Campaign extends MY_Controller {
         $perpage = empty($perpage) ? 10 : $perpage;
 
         $a_sort = [
-            'name_asc' => 'name ASC',
-            'name_desc' => 'name DESC',
-            'id_desc' => 'id DESC',
+            'datetime_created_asc' => 'campaign.datetime_created ASC',
+            'datetime_updated_asc' => 'campaign.datetime_updated ASC',
+            'datetime_updated_desc' => 'campaign.datetime_updated DESC',
         ];
-        if(!isset($a_sort[$sort])) $sort = 'id_desc';
+        if(!isset($a_sort[$sort])) $sort = 'datetime_updated_desc';
 
         $a_header_data = [
             'page' => 'campaign',
@@ -158,7 +158,10 @@ class Campaign extends MY_Controller {
 
         $count = $this->campaign_model->pin_count();
 
-        if($type == 'pin' && $count >= 6) return $this->_echo_json(E::CAMPAIGN_PIN_HIGHLIGHT_EXCEED_LIMIT);
+        if($type == 'pin' && $count >= 6) {
+            $this->output->set_status_header(400);
+            return $this->_echo_json(E::CAMPAIGN_PIN_HIGHLIGHT_EXCEED_LIMIT);
+        }
 
         $this->campaign_model->update_pin($campaign_id, $type);
 
@@ -174,7 +177,7 @@ class Campaign extends MY_Controller {
     }
 
     private function _update_jelala($ids) {
-        $this->jelala->update_campaign($ids);
+        // $this->jelala->update_campaign($ids);
     }
 
 }

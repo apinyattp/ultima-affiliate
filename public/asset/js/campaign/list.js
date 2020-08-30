@@ -29,14 +29,17 @@ function update_pin(id, is_highlight) {
             'type' : type,
         },
         dataType: 'JSON',
-        complete: function(response){
-            result = response.responseJSON
-            console.log(result)
-            if(result.response_code == '6001') {
-                alert(result.response_msg);
-            }else {
-                location.reload()
-            }
+        error: function (response) {
+          result = response.responseJSON
+          const { response_code, response_msg } = result
+          Swal.fire({
+            title : 'เกิดข้อผิดพลาด',
+            text : `${response_msg} (${response_code})`,
+            icon : 'warning'
+          })
+        },
+        success: function () {
+          location.reload()
         }
     });
 
@@ -77,4 +80,34 @@ function displayDeleteModal(id) {
       });
     }
   })
+}
+
+function syncCampaign() {
+  $.ajax({
+    url: base_url + "crontab/campaign/update_campaign",
+    type: 'GET',
+    beforeSend: function(element) {
+      $('.fa-download').addClass("d-none");
+      $('.fa-circle-notch').removeClass("d-none");
+      $('#syncCampaignButton').attr('disabled', 'disabled')
+    },
+    error: function (response) {
+      result = response.responseJSON
+      const { response_code, response_msg } = result
+      Swal.fire({
+        title : 'เกิดข้อผิดพลาด',
+        text : `${response_msg} (${response_code})`,
+        icon : 'warning'
+      })
+    },
+    success: function () {
+      Swal.fire({
+        title : 'Updated !',
+        text : 'Campaign has been updated',
+        icon : 'success'
+      }).then(() =>
+        location.reload()
+      )
+    }
+  });
 }

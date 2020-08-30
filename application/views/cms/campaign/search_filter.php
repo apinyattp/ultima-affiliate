@@ -22,7 +22,11 @@
   </div>
   <div class="p-2 align-self-end">
     <div class="">
-      <button id="syncCampaignButton" class="btn btn-info">Sync Campaign</button>        
+      <button id="syncCampaignButton" class="btn btn-info" onclick="syncCampaign()">
+        Sync Campaign
+        <i class="pl-2 fas fa-download"></i>
+        <i class="fas fa-circle-notch fa-spin d-none"></i>
+      </button>        
     </div>
   </div>
 </div>

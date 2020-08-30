@@ -8,6 +8,10 @@ class Campaign extends MY_Controller {
     }
 
     public function update_campaign() {
+        $this->_accesstrade_campaign();
+    }
+
+    public function _accesstrade_campaign() {
         $this->load->library('accesstrade');
         $campaigns = $this->accesstrade->campaigns();
 

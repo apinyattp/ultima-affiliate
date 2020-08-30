@@ -1,4 +1,4 @@
-<tr>
+<tr class="<?php if($deleted) echo 'disabled'?>">
   <td scope="row">
   <div class="text-center">
       <img src="<?php echo $image_url ?>" class="rounded">

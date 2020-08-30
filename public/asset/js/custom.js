@@ -18,4 +18,6 @@ $(document).ready(function(){
     }
   })
 
+  $('tr.disabled').find(":button").attr('disabled', 'disabled');
+
 });
