@@ -157,6 +157,8 @@ class Campaign extends MY_Controller {
 
         $this->campaign_model->delete($id);
 
+        $this->jelala->delete_campaign($ids);
+
         return $this->_echo_json(E::SUCCESS);
     }
 
@@ -187,7 +189,7 @@ class Campaign extends MY_Controller {
     }
 
     private function _update_jelala($ids) {
-        // $this->jelala->update_campaign($ids);
+        $this->jelala->update_campaign($ids);
     }
 
 }
