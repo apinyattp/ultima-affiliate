@@ -1,0 +1,25 @@
+#File
+
+##Upload
+
+POST:/file/upload
+Upload file
+
+###Header
+HEADER:Authorization
+
+###Input
+INPUT:file,required|file,
+INPUT:endpoint,required|string|trim
+
+##Error
+ERROR:SUCCESS
+ERROR:REQUIRE_PARAMETER
+ERROR:INVALID_FORMAT
+ERROR:UPLOAD_FILE_INVALID_DATA
+ERROR:PERMISSION_DENIED
+
+###RESULT
+JSON:module/File/document/file/upload
+
+==========================================================================

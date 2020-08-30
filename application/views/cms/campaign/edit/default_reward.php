@@ -27,7 +27,9 @@
               <input type="text" class="form-control" value="<?php echo $default_reward['reward']?>" readonly>
             </div>
           </td>
-          <td>%</td>
+          <td>
+            <?php echo ($default_reward['type'] == 'CPA_FIXED') ? 'บาท' : '%' ?>
+          </td>
         </tr>
       <?php } ?>
     </tbody>

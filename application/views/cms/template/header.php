@@ -6,6 +6,11 @@
     <script src="https://kit.fontawesome.com/0bd485de6c.js" crossorigin="anonymous"></script>
     <!-- Material Kit CSS -->
     <?php echo $this->head->css_get(); ?>
+    <!-- JS -->
+    <script type="text/javascript">
+      var base_url = "<?php echo base_url() ?>"
+    </script>
+    <?php echo $this->head->js_get() ?>
     <title>Ultima-Life Affiliate</title>
   </head>
   <body>

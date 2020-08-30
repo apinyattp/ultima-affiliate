@@ -13,11 +13,16 @@ foreach($custom_rewards as $custom_reward) {
     }
 }
 
+$this->load->model('module/file/file_model', 'file_model');
+$logo_file = $this->file_model->get_by_id($data['image_file_id']);
+
+$logo_file_path = (empty($logo_file)) ? $data['imageUrl'] : (upload_base_url() . $logo_file['file_path']);
+
 return [
     'id' => $data['id'],
     'display_name' => empty($data['display_name']) ? $data['name'] : $data['display_name'],
     'quick_link' => $data['quicklink'],
-    'image_url' => $data['imageUrl'],
+    'image_url' => $logo_file_path,
     'cashback' => $data['cashback'],
     'description' => $data['description'],
     'condition_do' => $data['condition_do'],

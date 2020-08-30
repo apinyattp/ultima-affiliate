@@ -5,7 +5,6 @@
   </div>
   <div class="card-body">
     <?php echo form_open('cms/campaign/edit/'.$id); ?>
-    <!-- <form action="" method="post" id="edit-campaign-form"> -->
       <input id="campaignId" name="campaignId" value="<?php echo $id ?>" hidden></input>
       <!-- GENERAL INFORMATION SECTION -->
       <div class="row">
@@ -44,6 +43,17 @@
           <input type="text" class="form-control" id="cashbackInput" name="cashback" placeholder="" value="<?php echo $cashback;?>">
           <label class="error-message control-label position-absolute" for="cashbackInput"><?php echo form_error('cashback'); ?></label>
         </div>
+      </div>
+
+      <!-- UPLOAD LOGO -->
+      <div class="row mt-4 mb-4">
+        <div class="col-md-2">
+          <label for="logoDropzone">Logo</label>
+        </div>
+        <div class="col-md-10">
+          <div id="logoDropzone" class="dropzone"></div>
+        </div>
+        <input id="logoFileId" name="logo_file_id" hidden></input>
       </div>
       
       <!-- DESCRIPTION SECTION -->

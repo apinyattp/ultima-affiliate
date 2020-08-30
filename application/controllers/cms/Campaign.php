@@ -98,7 +98,11 @@ class Campaign extends MY_Controller {
             $post_data = $this->input->post();
             $set_data = array_replace_recursive($a_data, $post_data);
 
+            // ADD HEAD
+            $this->head->js_add('dropzone-5.7.0/dist/dropzone.js');
+            $this->head->css_add('dropzone-5.7.0/dist/dropzone.css');
             $this->head->js_add('js/campaign/edit.js');
+
             $this->load->view('cms/template/header', $a_header_data);
             $this->load->view('cms/campaign/edit/main', $set_data);
             $this->load->view('cms/template/footer');
@@ -106,12 +110,18 @@ class Campaign extends MY_Controller {
 
             $display_name = $this->input->post('display_name');
             $cashback = $this->input->post('cashback');
+            $image_file_id = $this->input->post('logo_file_id');
             $condition_do = $this->input->post('condition_do');
             $condition_dont = $this->input->post('condition_dont');
             $note = $this->input->post('note');
             $a_custom_reward = $this->input->post('a_custom_reward');
 
-            $this->campaign_model->update($id, $display_name, NULL, $cashback, $condition_do, $condition_dont, $note);
+            $this->load->model('module/file/file_model', 'file_model');
+            if(!$this->file_model->verify($image_file_id, 'campaign_logo', 1)) return $this->_echo_json(E::INVALID_FORMAT, ['logo_file_id' => $image_file_id]);
+
+            $this->campaign_model->update($id, $display_name, $image_file_id, $cashback, $condition_do, $condition_dont, $note);
+
+            $this->file_model->update_live($image_file_id, $id);
 
             $this->campaign_model->update_custom_reward($id, 'default', $a_custom_reward['default']);
             $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);

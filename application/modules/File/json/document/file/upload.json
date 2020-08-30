@@ -1,0 +1,14 @@
+{
+    "response_code": 200,
+    "response_msg": "Success",
+    "result": {
+        "id": "1",
+        "url": "{{URL}}",
+        "file_type": "image/png",
+        "file_size": "10",
+        "data": {
+            "width":"1000",
+            "height":"1000"
+        }
+    }
+}
