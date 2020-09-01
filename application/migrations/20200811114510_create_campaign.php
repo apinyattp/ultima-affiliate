@@ -85,7 +85,7 @@ class Migration_Create_campaign extends CI_Migration {
 			)
 		);
 		$this->dbforge->add_field('`datetime_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP');
-        $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+        $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP');
 		$this->dbforge->add_key('id', TRUE);
 		$this->dbforge->add_key('status');
 		$this->dbforge->add_key('sort');

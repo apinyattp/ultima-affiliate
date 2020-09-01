@@ -49,7 +49,7 @@ class campaign_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    public function update($campaign_id, $display_name, $image_file_id=NULL, $cashback, $condition_do, $condition_dont, $note) {
+    public function update($campaign_id, $display_name, $image_file_id=NULL, $cashback, $status, $condition_do, $condition_dont, $note) {
         $a_set = [
             'id' => $campaign_id,
             'display_name' => $display_name,
@@ -58,6 +58,7 @@ class campaign_model extends CI_Model {
             'condition_do' => $condition_do,
             'condition_dont' => $condition_dont,
             'note' => $note,
+            'datetime_updated' => date('Y-m-d H:i:s')
         ];
 
         $this->db->where('id', $campaign_id);
@@ -97,8 +98,15 @@ class campaign_model extends CI_Model {
     }
 
     // UPDATE STATUS ACTIVE / INACTIVE
-    public function update_status($campaign_id, $status) {
-        $this->db->set('status', $status);
+    // public function update_status($campaign_id, $status) {
+    //     $this->db->set('status', $status);
+    //     $this->db->where('id', $campaign_id);
+    //     $this->db->update('campaign');
+    // }
+
+    // UPDATE STATUS COMING SOON
+    public function update_comingsoon_status($campaign_id, $coming_soon) {
+        $this->db->set('coming_soon', $coming_soon);
         $this->db->where('id', $campaign_id);
         $this->db->update('campaign');
     }

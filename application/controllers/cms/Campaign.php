@@ -99,8 +99,6 @@ class Campaign extends MY_Controller {
             $set_data = array_replace_recursive($a_data, $post_data);
 
             // ADD HEAD
-            $this->head->js_add('dropzone-5.7.0/dist/dropzone.js');
-            $this->head->css_add('dropzone-5.7.0/dist/dropzone.css');
             $this->head->js_add('js/campaign/edit.js');
 
             $this->load->view('cms/template/header', $a_header_data);
@@ -115,13 +113,14 @@ class Campaign extends MY_Controller {
             $condition_dont = $this->input->post('condition_dont');
             $note = $this->input->post('note');
             $a_custom_reward = $this->input->post('a_custom_reward');
+            $status = $this->input->post('status');
 
             $this->load->model('module/file/file_model', 'file_model');
-            if(!$this->file_model->verify($image_file_id, 'campaign_logo', 1)) return $this->_echo_json(E::INVALID_FORMAT, ['logo_file_id' => $image_file_id]);
+            if(!$this->file_model->verify($image_file_id, 'campaign_logo', $id)) return $this->_echo_json(E::INVALID_FORMAT, ['logo_file_id' => $image_file_id]);
 
-            $this->campaign_model->update($id, $display_name, $image_file_id, $cashback, $condition_do, $condition_dont, $note);
+            $this->campaign_model->update($id, $display_name, $image_file_id, $cashback, $status, $condition_do, $condition_dont, $note);
 
-            $this->file_model->update_live($image_file_id, $id);
+            $this->file_model->update_live($image_file_id, $id, TRUE);
 
             $this->campaign_model->update_custom_reward($id, 'default', $a_custom_reward['default']);
             $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);
@@ -141,23 +140,36 @@ class Campaign extends MY_Controller {
 
         $this->campaign_model->update_status($campaign_id, $status);
 
-        $this->_update_jelala($id);
+        $this->_update_jelala($campaign_id);
         
         return $this->_echo_json(E::SUCCESS);
     }
 
-    public function delete($id) {
+    public function update_comingsoon_status() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
 
-        $campaign = $this->campaign_model->get_by_id($id);
+        $campaign_id = $this->input->post('campaign_id');
+        $coming_soon = $this->input->post('coming_soon');
+
+        $this->campaign_model->update_comingsoon_status($campaign_id, $coming_soon);
+
+        $this->_update_jelala($campaign_id);
+        
+        return $this->_echo_json(E::SUCCESS);
+    }
+
+    public function delete($campaign_id) {
+        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+
+        $campaign = $this->campaign_model->get_by_id($campaign_id);
         if(empty($campaign)) {
             $this->output->set_status_header(400);
             return $this->_echo_json(E::NOT_FOUND_CONTENT);
         }
 
-        $this->campaign_model->delete($id);
+        $this->campaign_model->delete($campaign_id);
 
-        $this->jelala->delete_campaign($ids);
+        // $this->jelala->delete_campaign($campaign_id);
 
         return $this->_echo_json(E::SUCCESS);
     }
@@ -189,7 +201,7 @@ class Campaign extends MY_Controller {
     }
 
     private function _update_jelala($ids) {
-        $this->jelala->update_campaign($ids);
+        // $this->jelala->update_campaign($ids);
     }
 
 }

@@ -43,17 +43,28 @@
           <input type="text" class="form-control" id="cashbackInput" name="cashback" placeholder="" value="<?php echo $cashback;?>">
           <label class="error-message control-label position-absolute" for="cashbackInput"><?php echo form_error('cashback'); ?></label>
         </div>
-      </div>
-
-      <!-- UPLOAD LOGO -->
-      <div class="row mt-4 mb-4">
-        <div class="col-md-2">
-          <label for="logoDropzone">Logo</label>
+        <div class="form-group col-md-6 mb-4">
+        <label for="endtDateInput">Logo</label> 
+          <div class="d-flex justify-content-center">
+            <div class="p-2 align-items-center">
+              <input id="logoFileId" name="logo_file_id" hidden></input>
+              <div id="logoDropzone" class="dropzone">
+                <div class="dz-message" data-dz-message><span></span></div>
+              </div>
+              <span id="banner_image_file" hidden><?php echo json_encode($banner_image_file) ?></span>
+            </div>
+            <div class="p-2 align-self-center">
+              <button class="btn btn-primary uploadImageBtn" type="button">Upload</button>
+            </div>     
+          </div>
         </div>
-        <div class="col-md-10">
-          <div id="logoDropzone" class="dropzone"></div>
+        <div class="form-group col-md-6 mb-4">
+          <label for="exampleFormControlSelect1">Status</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>>Active</option>
+            <option>Inactive</option>
+          </select>
         </div>
-        <input id="logoFileId" name="logo_file_id" hidden></input>
       </div>
       
       <!-- DESCRIPTION SECTION -->

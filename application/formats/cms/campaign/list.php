@@ -7,6 +7,7 @@ return [
     'name' => $data['name'],
     'image_url' => $data['imageUrl'],
     'default_reward' => $default_reward,
+    'coming_soon' => $data['coming_soon'],
     'status' => $data['status'],
     'affiliated_date' => $data['affiliatedDate'],
     'is_highlight' => empty($data['sort']) ? 0 : 1,

@@ -14,3 +14,18 @@ input[type=number] {
   opacity: 0.3;
   margin-bottom: -200px;
 }
+
+.dropzone {
+  background: white;
+  border-radius: 5px;
+  border: 2px dashed #777;
+  border-image: none;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto; 
+  /* width: 150px; */
+}
+
+.dz-image img {
+  width: 100%;
+}

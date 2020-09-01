@@ -24,10 +24,13 @@
     </button>
   </td>
   <td class="text-center">
-      <div class="custom-control custom-switch">
-      <input type="checkbox" class="custom-control-input" onclick="update_status(<?php echo $id ?>)" id="statusToggle<?php echo $id ?>" name="status" <?php if($status == 'active') echo 'checked'; ?>>
-      <label class="custom-control-label" for="statusToggle<?php echo $id ?>"></label>
-      </div>
+    <div class="custom-control custom-switch">
+      <input type="checkbox" class="custom-control-input" onclick="update_comingsoon_status(<?php echo $id ?>)" id="comingSoonToggle<?php echo $id ?>" name="coming_soon" <?php if($coming_soon) echo 'checked'; ?>>
+      <label class="custom-control-label" for="comingSoonToggle<?php echo $id ?>"></label>
+    </div>
+  </td>
+  <td class="text-center">
+    <?php echo ($status == 'active') ? 'Active' : 'Inactive' ?>
   </td>
   <td class="text-center">
       <form action="<?php echo site_url('cms/campaign/edit/' . $id); ?>">

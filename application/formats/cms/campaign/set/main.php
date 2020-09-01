@@ -13,10 +13,14 @@ foreach($custom_rewards as $custom_reward) {
     }
 }
 
+$this->load->model('module/file/file_model', 'file_model');
+$logo_image_file = $this->file_model->get_by_id($data['image_file_id']);
+
 return [
     'id' => $data['id'],
     'display_name' => empty($data['display_name']) ? $data['name'] : $data['display_name'],
     'cashback' => $data['cashback'],
+    'status' => $data['status'],
     'description' => $data['description'],
     'condition_do' => $data['condition_do'],
     'condition_dont' => $data['condition_dont'],
@@ -24,7 +28,7 @@ return [
     'quicklink' => $data['quicklink'],
     'startDate' => $data['startDate'],
     'endDate' => $data['endDate'],
-    'imageUrl' => $data['imageUrl'],
+    'banner_image_file' => $this->format->run('file', $logo_image_file),
     'default_rewards' => $default_rewards,
     'category_rewards' => $category_rewards,
     'a_custom_reward' => $set_custom_rewards

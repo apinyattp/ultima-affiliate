@@ -1,15 +1,15 @@
-function update_status(id) {
+function update_comingsoon_status(id) {
+console.log(id)
+    element = $('#comingSoonToggle'+id)
 
-    element = $('#statusToggle'+id)
-
-    status = (element.attr('checked')) ? 'inactive' : 'active'
+    coming_soon = (element.attr('checked')) ? 0 : 1
 
     $.ajax({
-        url: base_url + "cms/campaign/update_status",
+        url: base_url + "cms/campaign/update_comingsoon_status",
         type: 'POST',
         data: {
             'campaign_id': id,
-            'status' : status,
+            'coming_soon' : coming_soon,
         },
         dataType: 'JSON',
         complete: function(response){}

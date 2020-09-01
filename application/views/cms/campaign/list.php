@@ -6,6 +6,7 @@
       <th scope="col">Reward</th>
       <th scope="col" class="text-center">Affiliated From</th>
       <th scope="col" class="text-center">Highlight</th>
+      <th scope="col" class="text-center">Coming soon</th>
       <th scope="col" class="text-center">Status</th>
       <th scope="col" colspan="2" class="text-center">Manage</th>
       <!-- <th scope="col" class="text-center">DELETE</th> -->

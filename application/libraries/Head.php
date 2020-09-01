@@ -8,6 +8,7 @@ class Head {
         'jquery-ui-1.12.1/jquery-ui.css',
         'paper/assets/css/paper-dashboard.css',
         'datepicker/css/bootstrap-datepicker3.standalone.min.css',
+        'dropzone-5.7.0/dist/dropzone.css',
         'css/custom.css'
     );
     private $_css_media = array();
@@ -21,8 +22,9 @@ class Head {
         'ckeditor5/21.0.0/classic/ckeditor.js',
         'jquery-ui-1.12.1/jquery-ui.min.js',
         'datepicker/js/bootstrap-datepicker.min.js',
+        'sweetalert2@9.17.1/dist/sweetalert2.all.min.js',
+        'dropzone-5.7.0/dist/dropzone.js',
         'js/custom.js',
-        'sweetalert2@9.17.1/dist/sweetalert2.all.min.js'
     );
 
     private $_html = array();
