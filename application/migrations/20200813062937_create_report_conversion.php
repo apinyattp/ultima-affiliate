@@ -28,7 +28,7 @@ class Migration_Create_report_conversion extends CI_Migration
 				'constraint' => 5,
 				'comment' => 'Conversion ID'
 			),
-			'uuid' => array(
+			'uid' => array(
 				'type' => 'VARCHAR',
 				'null' => FALSE,
 				'unsigned' => TRUE,
