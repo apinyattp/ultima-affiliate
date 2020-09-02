@@ -55,6 +55,7 @@ class campaign_model extends CI_Model {
             'display_name' => $display_name,
             'image_file_id' => $image_file_id,
             'cashback' => $cashback,
+            'status' => $status,
             'condition_do' => $condition_do,
             'condition_dont' => $condition_dont,
             'note' => $note,
@@ -130,15 +131,32 @@ class campaign_model extends CI_Model {
         return $this->db->get('campaign_category_reward')->result_array();
     }
 
-    public function update_category_reward($campaign_id, $category_reward_id, $type, $reward, $name=TRUE) {
+    private function _get_category_reward_by_id($category_id) {
+        $this->db->where('category_id', $category_id);
+        return $this->db->get('campaign_category_reward')->row_array();;
+    }
+
+    public function update_category_reward($campaign_id, $category_id, $type, $reward, $name=TRUE) {
         $a_set = [
-            'id' => $category_reward_id,
             'campaign_id' => $campaign_id,
+            'category_id' => $category_id,
             'name' => $name,
             'type' => $type,
             'reward' => $reward
         ];
-        $this->db->replace('campaign_category_reward', $a_set);
+        $a_category_reward = $this->_get_category_reward_by_id($category_id);
+        if(empty($a_category_reward)) {
+            $this->db->insert('campaign_category_reward', $a_set);
+        }else {
+            $this->db->where('id', $a_category_reward['id']);
+            $this->db->update('campaign_category_reward', $a_set);
+        }
+    }
+
+    public function update_category_custom_reward($id, $custom_reward) {
+        $this->db->set('custom_reward', $custom_reward);
+        $this->db->where('id', $id);
+        $this->db->update('campaign_category_reward');
     }
 
     public function update_category($campaign_id, $a_category) {
@@ -211,5 +229,5 @@ class campaign_model extends CI_Model {
         $this->db->where('id', $campaign_id);
         $this->db->update('campaign', $a_set);
     }
- 
+
 }

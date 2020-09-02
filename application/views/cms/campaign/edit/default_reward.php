@@ -24,7 +24,7 @@
           </td>
           <td>
             <div class="form-group">
-              <input type="text" class="form-control" value="<?php echo $default_reward['reward']?>" readonly>
+              <input type="text" class="form-control text-right" value="<?php echo $default_reward['reward']?>" readonly>
             </div>
           </td>
           <td>

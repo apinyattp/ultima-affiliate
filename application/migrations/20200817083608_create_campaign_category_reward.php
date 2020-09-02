@@ -22,15 +22,22 @@ class Migration_Create_campaign_category_reward extends CI_Migration
 	{
 		$this->dbforge->add_field(array(
 			'id' => array(
-				'type' => 'VARCHAR',
+				'type' => 'INT',
 				'null' => FALSE,
-				'constraint' => 20
+				'auto_increment' => TRUE,
+				'unsigned' => TRUE,
+				'constraint' => 5
 			),
 			'campaign_id' => array(
 				'type' => 'INT',
 				'null' => FALSE,
 				'unsigned' => TRUE,
 				'constraint' => 5
+			),
+			'category_id' => array(
+				'type' => 'VARCHAR',
+				'null' => FALSE,
+				'constraint' => 64
 			),
 			'name' => array(
 				'type' => 'VARCHAR',
@@ -49,10 +56,19 @@ class Migration_Create_campaign_category_reward extends CI_Migration
 				'null' => FALSE,
 				'constraint' => [18, 2],
 				'comment' => ''
+			),
+			'custom_reward' => array(
+				'type' => 'DOUBLE',
+				'null' => TRUE,
+				'after' => 'reward',
+				'constraint' => [18, 2],
+				'comment' => 'Jelala set reward'
 			)
 		));
+		$this->dbforge->add_field('`datetime_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP');
         $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->add_key('category_id');
 		$this->dbforge->add_key('campaign_id');
 		$this->dbforge->create_table('campaign_category_reward', TRUE);
 	}

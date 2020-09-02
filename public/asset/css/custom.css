@@ -18,7 +18,7 @@ input[type=number] {
 .dropzone {
   background: white;
   border-radius: 5px;
-  border: 2px dashed #777;
+  border: 2px dashed #E3E3E3;
   border-image: none;
   max-width: 500px;
   margin-left: auto;

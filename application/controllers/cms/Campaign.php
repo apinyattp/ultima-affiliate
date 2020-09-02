@@ -78,11 +78,12 @@ class Campaign extends MY_Controller {
 
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('display_name', 'Display Name', 'required');
-        $this->form_validation->set_rules('cashback', 'Cashback', 'required');
-        $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
-        $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
-        $this->form_validation->set_rules('note', 'Note', 'required');
+        // $this->form_validation->set_rules('display_name', 'Display Name', 'required');
+        // $this->form_validation->set_rules('cashback', 'Cashback', 'required');
+        // $this->form_validation->set_rules('status', 'Status', 'required');
+        // $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
+        // $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
+        // $this->form_validation->set_rules('note', 'Note', 'required');
 
         if ($this->form_validation->run() == FALSE) {
 
@@ -95,7 +96,9 @@ class Campaign extends MY_Controller {
 
             $a_data = $this->format->run('cms/campaign/set/main', $campaign);
 
-            $post_data = $this->input->post();
+            $post_data = $this->_set_return_post_data();
+
+            // SET FORM DATA
             $set_data = array_replace_recursive($a_data, $post_data);
 
             // ADD HEAD
@@ -112,6 +115,7 @@ class Campaign extends MY_Controller {
             $condition_do = $this->input->post('condition_do');
             $condition_dont = $this->input->post('condition_dont');
             $note = $this->input->post('note');
+            $category_rewards = $this->input->post('category_rewards');
             $a_custom_reward = $this->input->post('a_custom_reward');
             $status = $this->input->post('status');
 
@@ -122,6 +126,10 @@ class Campaign extends MY_Controller {
 
             $this->file_model->update_live($image_file_id, $id, TRUE);
 
+            foreach($category_rewards as $key => $category_reward) {
+                $this->campaign_model->update_category_custom_reward($key, $category_reward['custom_reward']);                
+            }
+
             $this->campaign_model->update_custom_reward($id, 'default', $a_custom_reward['default']);
             $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);
             $this->campaign_model->update_custom_reward($id, 'customer_type', $a_custom_reward['customer_type']);
@@ -130,6 +138,24 @@ class Campaign extends MY_Controller {
 
             $this->list();
         }
+    }
+
+    private function _set_return_post_data() {
+        $post_data = $this->input->post();
+
+        if(isset($post_data['category_rewards'])) {
+            // SET category reward post data
+            $category_rewards_set = [];
+            foreach((array) $post_data['category_rewards'] as $key => $category_reward) {
+                $category_rewards_set[] = [
+                    'id' => $key,
+                    'custom_reward' => $category_reward['custom_reward']
+                ];
+            }
+            $post_data['category_rewards'] = $category_rewards_set;
+        }
+
+        return $post_data;
     }
 
     public function update_status() {
