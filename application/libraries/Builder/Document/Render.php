@@ -10,7 +10,7 @@ class Render extends \Builder\Core\Controller {
         $this->__init_package();
 
         $this->load->library('doc_head');
-        $this->load->library('doc_auth');
+        // $this->load->library('doc_auth');
     }
 
     private function __init_package() {
@@ -19,10 +19,10 @@ class Render extends \Builder\Core\Controller {
     }
 
     public function index() {
-        if(($auth = $this->doc_auth->verify_token()) !== TRUE) {
-            redirect($this->doc_auth->webgen_redirect_uri());
-            return;
-        }
+        // if(($auth = $this->doc_auth->verify_token()) !== TRUE) {
+        //     redirect($this->doc_auth->webgen_redirect_uri());
+        //     return;
+        // }
 
         $endpoint = $this->uri->uri_string();
 
