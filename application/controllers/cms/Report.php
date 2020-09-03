@@ -31,6 +31,8 @@ class Report extends MY_Controller {
             'conversion_id_desc' => 'conversion_id DESC',
             'conversion_time_asc' => 'conversion_time ASC',
             'conversion_time_desc' => 'conversion_time DESC',
+            'datetime_updated_asc' => 'datetime_updated ASC, id DESC',
+            'datetime_updated_desc' => 'datetime_updated desc, id DESC',
         ];
         if(!isset($a_sort[$sort])) $sort = 'datetime_updated_desc';
 
