@@ -1,4 +1,4 @@
-##Get Campaign Detail
+##Get Report List
 
 GET:/report/list
 
@@ -16,7 +16,6 @@ ERROR:SUCCESS
 ERROR:REQUIRE_PARAMETER
 ERROR:INVALID_FORMAT
 ERROR:PERMISSION_DENIED
-ERROR:NOT_FOUND_CONTENT
 
 ###RESULT
 JSON:document/report/list
