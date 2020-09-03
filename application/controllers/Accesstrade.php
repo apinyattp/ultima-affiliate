@@ -135,6 +135,7 @@ class Accesstrade extends MY_Controller
         $toDate = $this->input->get('toDate');
         $campaignId = $this->input->get('campaignId');
         $conversionStatuses = $this->input->get('conversionStatuses');
+        $periodBase = $this->input->get('periodBase');
 
         $url = $this->endpoint . 'v1/publishers/me/reports/conversion';
 
@@ -145,7 +146,7 @@ class Accesstrade extends MY_Controller
             'fromDate' => date($format, strtotime($fromDate)),
             'toDate' => date($format, strtotime($toDate)),
             'campaignId' => $campaignId,
-            'periodBase' => 'CONVERSION_DATE',
+            'periodBase' => empty($periodBase) ? 'CONVERSION_DATE' : 'UPDATED_DATE',
             'conversionStatuses' => $conversionStatuses
         ];
 

@@ -1,0 +1,23 @@
+##Get Campaign Detail
+
+GET:/report/list
+
+###Header
+HEADER:Authorization,d16804c817c155ac767f0e834e551075287f8f130061db907e53d5fc9510423c
+
+###Input
+INPUT:start_date,required|date, format : YYYY-MM-DD
+INPUT:end_date,required|date, format : YYYY-MM-DD
+INPUT:page,int, default : 1
+INPUT:perpage,int, default : 100
+
+##Error
+ERROR:SUCCESS
+ERROR:REQUIRE_PARAMETER
+ERROR:INVALID_FORMAT
+ERROR:PERMISSION_DENIED
+ERROR:NOT_FOUND_CONTENT
+
+###RESULT
+JSON:document/report/list
+==============================================================

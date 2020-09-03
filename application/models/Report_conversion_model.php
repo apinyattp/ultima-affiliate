@@ -54,8 +54,10 @@ class Report_conversion_model extends CI_Model {
         }
     }
 
-    public function get_list($keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE) {
+    public function get_list($start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE) {
         $this->load->library('qs');
+        if($start_date) $this->qs->where('datetime_updated >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
+        if($end_date) $this->qs->where('datetime_updated <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
         if($status) $this->qs->where('status', $status);
         if($campaign_id) $this->qs->where('campaign_id', $campaign_id);
         if($keyword) {

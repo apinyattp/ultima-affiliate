@@ -39,7 +39,7 @@ class Report extends MY_Controller {
         $status = (isset($a_status[$status])) ? $a_status[$status] : NULL;
 
         $this->load->model('report_conversion_model');
-        $qs_conversion = $this->report_conversion_model->get_list($keyword, $campaign_id, $status, $a_sort[$sort]);
+        $qs_conversion = $this->report_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $status, $a_sort[$sort]);
 
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
@@ -72,7 +72,9 @@ class Report extends MY_Controller {
         $this->load->view('cms/template/footer');
     }
 
-    public function search() {
+    public function detail() {
+        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        $a_admin = $this->_auth_admin();
 
     }
 

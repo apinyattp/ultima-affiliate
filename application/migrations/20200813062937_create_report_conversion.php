@@ -21,6 +21,13 @@ class Migration_Create_report_conversion extends CI_Migration
 	private function create_report_conversion_table()
 	{
 		$this->dbforge->add_field(array(
+			'id' => array(
+				'type' => 'INT',
+				'null' => FALSE,
+				'auto_increment' => TRUE,
+				'unsigned' => TRUE,
+				'constraint' => 5
+			),
 			'conversion_id' => array(
 				'type' => 'INT',
 				'null' => FALSE,
@@ -149,7 +156,8 @@ class Migration_Create_report_conversion extends CI_Migration
 		));
 		$this->dbforge->add_field('`datetime_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP');
         $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
-		$this->dbforge->add_key('conversion_id', TRUE);
+		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->add_key('conversion_id');
 		$this->dbforge->add_key('status');
 		$this->dbforge->add_key('reward');
 		$this->dbforge->add_key('uid');

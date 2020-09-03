@@ -7,10 +7,12 @@ return [
     'conversion_id' => $data['conversion_id'],
     'campaign_id' => $data['campaign_id'],
     'a_campaign' => $a_campaign,
+    'uid' => $data['uid'],
+    'reward' => $data['reward'],
     'verification_id' => $data['verification_id'],
     'click_time' => $data['click_time'],
     'conversion_time' => $data['conversion_time'],
     'confirmation_time' => $data['confirmation_time'],
-    'reward' => $data['reward'],
+    'datetime_updated' => $data['datetime_updated'],
     'status' => $data['status'],
 ];

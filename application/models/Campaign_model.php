@@ -131,7 +131,7 @@ class campaign_model extends CI_Model {
         return $this->db->get('campaign_category_reward')->result_array();
     }
 
-    private function _get_category_reward_by_id($category_id) {
+    public function get_category_reward_by_id($category_id) {
         $this->db->where('category_id', $category_id);
         return $this->db->get('campaign_category_reward')->row_array();;
     }
@@ -144,7 +144,7 @@ class campaign_model extends CI_Model {
             'type' => $type,
             'reward' => $reward
         ];
-        $a_category_reward = $this->_get_category_reward_by_id($category_id);
+        $a_category_reward = $this->get_category_reward_by_id($category_id);
         if(empty($a_category_reward)) {
             $this->db->insert('campaign_category_reward', $a_set);
         }else {

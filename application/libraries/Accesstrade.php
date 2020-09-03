@@ -98,7 +98,7 @@ class Accesstrade extends MY_Controller {
         return $affiliateLink;
     }
 
-    public function conversion($fromDate, $toDate, $campaignId=NULL, $conversionStatuses=NULL) {
+    public function conversion($fromDate, $toDate, $campaignId=NULL, $conversionStatuses=NULL, $periodBase=NULL) {
 
         $url = $this->endpoint . 'v1/publishers/me/reports/conversion';
 
@@ -109,7 +109,7 @@ class Accesstrade extends MY_Controller {
             'fromDate' => date($format, strtotime($fromDate)),
             'toDate' => date($format, strtotime($toDate)),
             'campaignId' => $campaignId,
-            'periodBase' => 'CONVERSION_DATE',
+            'periodBase' => empty($periodBase) ? 'CONVERSION_DATE' : 'UPDATED_DATE',
             'conversionStatuses' => $conversionStatuses // REJECTED|APPROVED|PENDING
         ];
 
