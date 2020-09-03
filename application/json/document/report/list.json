@@ -1,0 +1,50 @@
+{
+    "response_code": 200,
+    "response_msg": "Success",
+    "result": {
+      "pagination": {
+        "perpage": 100,
+        "page": 1,
+        "total_page": 1,
+        "total_items": 6
+      },
+      "lists": [
+            {
+                "id": "6",
+                "conversion_id": "14331383",
+                "a_campaign": {
+                    "id": "534",
+                    "display_name": "Shopee Thailand (ช้อปปี้ ประเทศไทย)"
+                },
+                "uid": "xxx-xxxx-xxx",
+                "reward": "3.50",
+                "click_time": "2020-09-02 16:40:54",
+                "conversion_time": "2020-09-02 16:50:04",
+                "confirmation_time": null,
+                "datetime_updated": "2020-09-03 09:33:38",
+                "status": "PENDING",
+                "transaction_id": "1101l447514098",
+                "customerType" : "new",
+                "products": [
+                    {
+                    "id": "7543768382",
+                    "unitPrice": 350,
+                    "categoryId": "Existing18",
+                    "quantity": 1,
+                    "reward": 3.5,
+                    "productConversionId": 14331383,
+                    "category": {
+                        "id": "109",
+                        "categoryId": "Existing18",
+                        "name": "Existing18",
+                        "type": "CPA_SALES",
+                        "reward": "1.00",
+                        "custom_reward": null
+                    }
+                    }
+                ]
+            },
+            "..."
+        ]
+    }
+}

@@ -22,7 +22,7 @@ class Report_conversion_model extends CI_Model {
         return $this->db->get('report_conversion')->row_array();
     }
 
-    public function update_by_conversion_id($conversion_id, $source, $uid, $site_id, $site_name, $campaign_id, $campaign_name, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $transaction_amount, $session_id, $parameters=NULL, $products=NULL, $other_parameters=NULL) {
+    public function update_by_conversion_id($conversion_id, $source, $uid, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $transaction_amount, $session_id, $parameters=NULL, $products=NULL, $other_parameters=NULL) {
         $a_data = [
             'conversion_id' => $conversion_id,
             'uid' => $uid,
@@ -32,6 +32,7 @@ class Report_conversion_model extends CI_Model {
             'campaign_name' => $campaign_name,
             'creative_id' => $creative_id,
             'creative_name' => $creative_name,
+            'customerType' => $customerType,
             'verification_id' => $verification_id,
             'click_time' => $click_time,
             'conversion_time' => $conversion_time,

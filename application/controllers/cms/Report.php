@@ -32,7 +32,7 @@ class Report extends MY_Controller {
             'conversion_time_asc' => 'conversion_time ASC',
             'conversion_time_desc' => 'conversion_time DESC',
         ];
-        if(!isset($a_sort[$sort])) $sort = 'conversion_id_desc';
+        if(!isset($a_sort[$sort])) $sort = 'datetime_updated_desc';
 
         $a_status = ['pending' => 'PENDING', 'approved' => 'APPROVED', 'rejected' => 'REJECTED'];
 

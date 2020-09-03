@@ -68,6 +68,12 @@ class Migration_Create_report_conversion extends CI_Migration
 				'constraint' => 255,
 				'comment' => 'Campaign Name'
 			),
+			'customerType' => array(
+				'type' => 'VARCHAR',
+				'null' => TRUE,
+				'constraint' => 20,
+				'comment' => 'customer Type'
+			),
 			'creative_id' => array(
 				'type' => 'INT',
 				'null' => FALSE,

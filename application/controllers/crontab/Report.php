@@ -13,7 +13,7 @@ class Report extends MY_Controller {
 
     public function _accesstrade_conversion() {
 
-        $fromDate = date('Y-m-d H:i:s', strtotime('2020-08-28'));
+        $fromDate = date('Y-m-d H:i:s', strtotime('2020-08-01'));
         $toDate = date('Y-m-d H:i:s', strtotime('2020-09-13'));
         
         // $fromDate = date('Y-m-d H:i:s');
@@ -35,7 +35,7 @@ class Report extends MY_Controller {
 
             $other_parameters = NULL;
             foreach($conversion as $field => $value) {
-                $default_field = ['conversionId','siteId','siteName','campaignId','campaignName','creativeId','creativeName','verificationId','merchantCountryCode','publisherCountryCode','clickTime','conversionTime','confirmationTime','status','reward','transactionAmount','sessionId','parameters','products'];
+                $default_field = ['conversionId','siteId','siteName','campaignId','campaignName','creativeId','creativeName','verificationId','merchantCountryCode','publisherCountryCode','clickTime','conversionTime','confirmationTime','status','reward','transactionAmount','sessionId','parameters','products','customerType'];
                 if(in_array($field, $default_field)) continue;
 
                 $other_parameters[] = [$field => $value];
@@ -50,6 +50,7 @@ class Report extends MY_Controller {
                 $conversion['siteName'],
                 $conversion['campaignId'],
                 $conversion['campaignName'],
+                isset($conversion['customerType']) ? $conversion['customerType'] : NULL,
                 $conversion['creativeId'],
                 $conversion['creativeName'],
                 $conversion['verificationId'],
