@@ -16,7 +16,7 @@ foreach($custom_rewards as $custom_reward) {
 $this->load->model('module/file/file_model', 'file_model');
 $logo_file = $this->file_model->get_by_id($data['image_file_id']);
 
-$logo_file_path = (empty($logo_file)) ? $data['imageUrl'] : (upload_base_url() . $logo_file['file_path']);
+$logo_file_path = upload_base_url() . $logo_file['file_path'];
 
 return [
     'id' => $data['id'],
@@ -29,6 +29,7 @@ return [
     'condition_dont' => $data['condition_dont'],
     'note' => $data['note'],
     'a_custom_reward' => $set_custom_rewards,
+    'coming_soon' => empty($data['coming_soon']) ? FALSE : TRUE,
     'is_pin' => empty($data['sort']) ? FALSE : TRUE,
     'pin_sort' => $data['sort'],
     'default_data' => [
@@ -49,6 +50,6 @@ return [
         'affiliatedDate' => $data['affiliatedDate'],
         'currency' => $data['currency'],
         'default_reward' => $default_rewards,
-        'category_reward' => $category_rewards
+        'category_reward' => $this->format->map('api/campaign/category_reward', $category_rewards)
     ]
 ];

@@ -10,6 +10,9 @@
         "condition_do" : "<HTML>",
         "condition_dont" : "<HTML>",
         "note" : "xxx",
+        "coming_soon": true,
+        "is_pin": true,
+        "pin_sort": 1,
         "custom_reward" : {
             "default" : {
                 "tier1" : 0.2,
@@ -57,9 +60,13 @@
             ],
             "category_reward" : [
                 {
-                    "name" : "xxx",
-                    "type" : "",
-                    "reward" : 3
+                    "id": "101",
+                    "campaign_id": "534",
+                    "category_id": "Bags",
+                    "name": "Bags",
+                    "type": "CPA_SALES",
+                    "reward": "7.20",
+                    "custom_reward": null
                 },
                 "..."
             ]
