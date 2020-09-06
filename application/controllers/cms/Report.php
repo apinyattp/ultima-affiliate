@@ -70,14 +70,30 @@ class Report extends MY_Controller {
         ];
 
         $this->load->view('cms/template/header', $a_header_data);
-        $this->load->view('cms/report/list', $a_data);
+        $this->load->view('cms/report/list/index', $a_data);
         $this->load->view('cms/template/footer');
     }
 
-    public function detail() {
+    public function detail($id) {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
         $a_admin = $this->_auth_admin();
 
+        $this->load->model('report_conversion_model');
+        $conversion = $this->report_conversion_model->get_by_id($id);
+        if(empty($conversion)) redirect('cms/report/list');
+
+        $a_header_data = [
+            'page' => 'report',
+            'a_admin' => $a_admin
+        ];
+
+        $a_data = [
+            'conversion' => $this->format->run('cms/report/conversion/detail', $conversion)
+        ];
+
+        $this->load->view('cms/template/header', $a_header_data);
+        $this->load->view('cms/report/detail/index', $a_data);
+        $this->load->view('cms/template/footer');
     }
 
 }

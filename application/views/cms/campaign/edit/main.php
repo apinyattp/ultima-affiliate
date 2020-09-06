@@ -104,12 +104,13 @@
       </div>
       
       <!-- REWARD SECTION -->
+      <?php $this->load->view('cms/campaign/edit/set_reward')?>
       <hr>
       <?php $this->load->view('cms/campaign/edit/default_reward')?>
       <?php $this->load->view('cms/campaign/edit/category_reward')?>
       <hr>
-      <?php $this->load->view('cms/campaign/edit/tier')?>
-      <hr>
+      <?php //$this->load->view('cms/campaign/edit/tier')?>
+      <!-- <hr> -->
       <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-success mx-3" id="btn-save">save</button>
         <button type="button" class="btn btn-danger mx-3">cancel</button>

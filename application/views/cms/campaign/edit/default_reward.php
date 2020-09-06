@@ -1,6 +1,5 @@
 <div>
   <h5 class="title">Default Reward</h5>
-  <p class="category">aa</p>
 </div>
 <div class="px-5 mb-3">
   <table class="table">

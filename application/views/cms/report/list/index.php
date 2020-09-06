@@ -6,7 +6,7 @@
         <h4 class="title">Conversion Report</h4>
         <p class="category"></p>
       </div>
-      <?php $this->load->view('cms/report/search_filter'); ?>
+      <?php $this->load->view('cms/report/list/search_filter'); ?>
       <div class="card-body">
         <table class="table">
           <thead>
@@ -38,9 +38,11 @@
                 <td><?php echo $conversion['datetime_updated'] ?></td>
                 <td><?php echo $conversion['status'] ?></td>
                 <td class="text-center">
-                  <button type="button" class="btn btn-info btn-sm">
-                    <i class="far fa-eye"></i>
-                  </button>
+                  <form action="<?php echo site_url('cms/report/detail/' . $conversion['id']); ?>">
+                    <button class="btn btn-info btn-sm">
+                      <i class="far fa-eye"></i>
+                    </button>
+                  </form>
                 </td>
               </tr>
             <?php } ?>

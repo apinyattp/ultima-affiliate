@@ -14,8 +14,6 @@ $(document).ready(function(){
     maxFilesize: 1,
     clickable: '.uploadImageBtn',
     init: function() {
-      fileCount = 0
-
       var text = $('#banner_image_file').text()
       var banner_image_file = JSON.parse(text)
       if(!jQuery.isEmptyObject(banner_image_file)) {
@@ -26,18 +24,14 @@ $(document).ready(function(){
         this.files.push(mockFile);
 
         $('#logoFileId').val(id)
-
-        fileCount += 1
       }
-      this.on('thumbnail', function() {
-        if(fileCount > 1) { this.removeAllFiles() }
-      })
 
       this.on("addedfile", function(file) {
-        fileCount += 1
+        if (this.files.length > 1) {
+          this.removeFile(this.files[0]);
+        }
       })
       this.on('maxfilesexceeded', function(file) {
-        fileCount = 0
         this.removeAllFiles()
         this.addFile(file)
       })

@@ -2,16 +2,17 @@
 
 $default_rewards = $this->campaign_model->get_default_reward($data['id']);
 $category_rewards = $this->campaign_model->get_category_reward($data['id']);
-$custom_rewards = $this->campaign_model->get_custom_reward($data['id']);
+// $custom_rewards = $this->campaign_model->get_custom_reward($data['id']);
+$set_rewards = $this->campaign_model->get_set_reward($data['id']);
 
-$set_custom_rewards = [];
-foreach($custom_rewards as $custom_reward) {
-    $set_custom_rewards[$custom_reward['type']] = [];
-    foreach($custom_reward as $key => $value) {
-        if(in_array($key, ['campaign_id', 'type', 'datetime_updated'])) continue;
-        $set_custom_rewards[$custom_reward['type']][$key] = $value;
-    }
-}
+// $a_custom_rewards = [];
+// foreach($custom_rewards as $custom_reward) {
+//     $a_custom_rewards[$custom_reward['type']] = [];
+//     foreach($custom_reward as $key => $value) {
+//         if(in_array($key, ['campaign_id', 'type', 'datetime_updated'])) continue;
+//         $a_custom_rewards[$custom_reward['type']][$key] = $value;
+//     }
+// }
 
 $this->load->model('module/file/file_model', 'file_model');
 $logo_file = $this->file_model->get_by_id($data['image_file_id']);
@@ -28,7 +29,11 @@ return [
     'condition_do' => $data['condition_do'],
     'condition_dont' => $data['condition_dont'],
     'note' => $data['note'],
-    'a_custom_reward' => $set_custom_rewards,
+    // 'a_custom_reward' => $a_custom_rewards,
+    'a_set_reward' => [
+        'new' => $set_rewards['new'],
+        'existing' => $set_rewards['existing']
+    ],
     'coming_soon' => empty($data['coming_soon']) ? FALSE : TRUE,
     'is_pin' => empty($data['sort']) ? FALSE : TRUE,
     'pin_sort' => $data['sort'],
@@ -49,7 +54,7 @@ return [
         'affiliationStatus' => $data['affiliationStatus'],
         'affiliatedDate' => $data['affiliatedDate'],
         'currency' => $data['currency'],
-        'default_reward' => $default_rewards,
+        'default_reward' => $this->format->map('api/campaign/default_reward', $default_rewards),
         'category_reward' => $this->format->map('api/campaign/category_reward', $category_rewards)
     ]
 ];

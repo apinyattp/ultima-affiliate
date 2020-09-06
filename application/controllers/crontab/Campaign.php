@@ -52,18 +52,12 @@ class Campaign extends MY_Controller {
                 $campaign_detail['currency']
             );
 
-            // INSERT DEFAULT REWARD
+            // UPDATE DEFAULT REWARD
             $set_default_reward = [];
             foreach($campaign_detail['defaultRewards'] as $default_reward) {
-                $set_default_reward[] = [
-                    'campaign_id' => $campaign_id,
-                    'type' => $default_reward['type'],
-                    'name' => $default_reward['name'],
-                    'reward' => $default_reward['reward'],
-                    'customerType' => (!isset($default_reward['customerType'])) ? NULL : $default_reward['customerType']
-                ];
+                $customerType = (!isset($default_reward['customerType'])) ? NULL : $default_reward['customerType'];
+                $this->campaign_model->update_default_reward($campaign_id, $default_reward['type'], $default_reward['name'], $default_reward['reward'], $customerType);
             }
-            $this->campaign_model->update_default_reward($campaign_id, $set_default_reward);
 
             // UPDATE CATEGORY REWARD
             foreach($campaign_detail['categoryRewards'] as $category_reward) {
@@ -88,12 +82,15 @@ class Campaign extends MY_Controller {
             $this->campaign_model->update_category($campaign_id, $categories);
 
             if(empty($this->campaign_model->get_custom_reward($campaign_id))) {
-
                 $this->campaign_model->insert_custom_reward($campaign_id, 'default');
                 $this->campaign_model->insert_custom_reward($campaign_id, 'category');
                 $this->campaign_model->insert_custom_reward($campaign_id, 'customer_type');
+            }  
 
-            }            
+            if(empty($this->campaign_model->get_set_reward($campaign_id))) {
+                $this->campaign_model->insert_set_reward($campaign_id);
+            }  
+
         }
         
     }

@@ -21,6 +21,13 @@ class Migration_Create_campaign_default_reward extends CI_Migration
 	private function create_campaign_default_reward_table()
 	{
 		$this->dbforge->add_field(array(
+			'id' => array(
+				'type' => 'INT',
+				'null' => FALSE,
+				'auto_increment' => TRUE,
+				'unsigned' => TRUE,
+				'constraint' => 5
+			),
 			'campaign_id' => array(
 				'type' => 'INT',
 				'null' => FALSE,
@@ -52,7 +59,11 @@ class Migration_Create_campaign_default_reward extends CI_Migration
 				'comment' => ''
 			)
 		));
+		$this->dbforge->add_field('`datetime_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP');
+        $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+		$this->dbforge->add_key('id', TRUE);
 		$this->dbforge->add_key('campaign_id');
+		$this->dbforge->add_key('name');
 		$this->dbforge->create_table('campaign_default_reward', TRUE);
 	}
 }

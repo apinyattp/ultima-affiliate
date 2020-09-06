@@ -78,12 +78,12 @@ class Campaign extends MY_Controller {
 
         $this->load->library('form_validation');
 
-        // $this->form_validation->set_rules('display_name', 'Display Name', 'required');
-        // $this->form_validation->set_rules('cashback', 'Cashback', 'required');
-        // $this->form_validation->set_rules('status', 'Status', 'required');
-        // $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
-        // $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
-        // $this->form_validation->set_rules('note', 'Note', 'required');
+        $this->form_validation->set_rules('display_name', 'Display Name', 'required');
+        $this->form_validation->set_rules('cashback', 'Cashback', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
+        $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
+        $this->form_validation->set_rules('note', 'Note', 'required');
 
         if ($this->form_validation->run() == FALSE) {
 
@@ -115,8 +115,9 @@ class Campaign extends MY_Controller {
             $condition_do = $this->input->post('condition_do');
             $condition_dont = $this->input->post('condition_dont');
             $note = $this->input->post('note');
-            $category_rewards = $this->input->post('category_rewards');
-            $a_custom_reward = $this->input->post('a_custom_reward');
+            // $category_rewards = $this->input->post('category_rewards');
+            // $a_custom_reward = $this->input->post('a_custom_reward');
+            $a_set_reward = $this->input->post('a_set_reward');
             $status = $this->input->post('status');
 
             $this->load->model('module/file/file_model', 'file_model');
@@ -126,13 +127,15 @@ class Campaign extends MY_Controller {
 
             $this->file_model->update_live($image_file_id, $id, TRUE);
 
-            foreach($category_rewards as $key => $category_reward) {
-                $this->campaign_model->update_category_custom_reward($key, $category_reward['custom_reward']);                
-            }
+            // foreach($category_rewards as $key => $category_reward) {
+            //     $this->campaign_model->update_category_custom_reward($key, $category_reward['custom_reward']);                
+            // }
 
-            $this->campaign_model->update_custom_reward($id, 'default', $a_custom_reward['default']);
-            $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);
-            $this->campaign_model->update_custom_reward($id, 'customer_type', $a_custom_reward['customer_type']);
+            // $this->campaign_model->update_custom_reward($id, 'default', $a_custom_reward['default']);
+            // $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);
+            // $this->campaign_model->update_custom_reward($id, 'customer_type', $a_custom_reward['customer_type']);
+
+            $this->campaign_model->update_set_reward($id, $a_set_reward['new'], $a_set_reward['existing']);    
 
             $this->_update_jelala($id);
 

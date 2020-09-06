@@ -118,11 +118,27 @@ class campaign_model extends CI_Model {
         return $this->db->get('campaign_default_reward')->result_array();
     }
 
-    public function update_default_reward($campaign_id, $a_default_reward) {
+    public function get_default_reward_by_name($campaign_id, $name) {
         $this->db->where('campaign_id', $campaign_id);
-        $this->db->delete('campaign_default_reward');
+        $this->db->where('name', $name);
+        return $this->db->get('campaign_default_reward')->row_array();
+    }
 
-        $this->db->insert_batch('campaign_default_reward', $a_default_reward);
+    public function update_default_reward($campaign_id, $type, $name, $reward, $customerType=NULL) {
+        $a_set = [
+            'campaign_id' => $campaign_id,
+            'type' => $type,
+            'name' => $name,
+            'reward' => $reward,
+            'customerType' => $customerType
+        ];
+        $a_default_reward = $this->get_default_reward_by_name($campaign_id, $name);
+        if(empty($a_default_reward)) {
+            $this->db->insert('campaign_default_reward', $a_set);
+        }else {
+            $this->db->where('id', $a_default_reward['id']);
+            $this->db->update('campaign_default_reward', $a_set);
+        }
     }
 
     // CATEGORY REWARD
@@ -182,7 +198,6 @@ class campaign_model extends CI_Model {
 
     public function update_custom_reward($campaign_id, $type, $a_set) {
 
-
         foreach($a_set as $key => $value) {
             if(empty(doubleval($value))) {
                 $a_set[$key] = NULL;
@@ -193,6 +208,30 @@ class campaign_model extends CI_Model {
         $a_set['type'] = $type;
 
         $this->db->replace('campaign_custom_reward', $a_set);
+    }
+
+    // SET REWARD
+    public function get_set_reward($campaign_id) {
+        $this->db->where('campaign_id', $campaign_id);
+        return $this->db->get('campaign_set_reward')->row_array();
+    }
+
+    public function insert_set_reward($campaign_id, $new=NULL, $existing=NULL) {
+        $a_set = [
+            'campaign_id' => $campaign_id,
+            'new' => $new,
+            'existing' => $existing
+        ];
+        $this->db->insert('campaign_set_reward', $a_set);
+    }
+
+    public function update_set_reward($campaign_id, $new, $existing) {
+        $a_set = [
+            'new' => $new,
+            'existing' => $existing
+        ];
+        $this->db->where('campaign_id', $campaign_id);
+        $this->db->update('campaign_set_reward', $a_set);
     }
 
     // PIN HIGHLIGHT

@@ -13,8 +13,25 @@
         "coming_soon": true,
         "is_pin": true,
         "pin_sort": 1,
-        "set_reward" : {
-            
+        "custom_reward" : {
+            "default" : {
+                "tier1" : 0.2,
+                "tier2" : 0.2,
+                "tier3" : 0.2,
+                "tier4" : 0.2
+            },
+            "category" : {
+                "tier1" : 0.2,
+                "tier2" : 0.2,
+                "tier3" : 0.2,
+                "tier4" : 0.2
+            },
+            "customer_type" : {
+                "tier1" : 0.2,
+                "tier2" : 0.2,
+                "tier3" : 0.2,
+                "tier4" : 0.2
+            }
         },
         "default_data" : {
             "name" : "xxx",
@@ -48,7 +65,8 @@
                     "category_id": "Bags",
                     "name": "Bags",
                     "type": "CPA_SALES",
-                    "reward": "7.20"
+                    "reward": "7.20",
+                    "custom_reward": null
                 },
                 "..."
             ]
