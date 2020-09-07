@@ -1,57 +1,58 @@
 {
-    "response_code":200,
-    "response_msg":"Success",
-    "result":  {
-        "id" : 543,
-        "display_name" : "xxx",
-        "quick_link" : "<URL>",
-        "image_url" : "<imageUrl>",
-        "cashback" : "3-10",
-        "condition_do" : "<HTML>",
-        "condition_dont" : "<HTML>",
-        "note" : "xxx",
-        "coming_soon": true,
-        "is_pin": true,
-        "pin_sort": 1,
-        "set_reward" : {
-            
-        },
-        "default_data" : {
-            "name" : "xxx",
-            "url" : "<URL>",
-            "source" : "accesstrade",
-            "type" : "",
-            "startDate" : "",
-            "endDate" : "",
-            "selfConversion" : "",
-            "pointBack" : "",
-            "englishDescription" : "<TEXT>",
-            "customCreativesAvailable" : true,
-            "seoContentAvailable" : true,
-            "productFeedAvailable" : true,
-            "quickLinkAvailable" : false,
-            "affiliationStatus" : "APPROVED",
-            "affiliatedDate" : "2020-07-13",
-            "currency" : "THB",
-            "default_reward" : [
-                {
-                    "name" : "xxx",
-                    "type" : "",
-                    "reward" : 3
-                },
-                "..."
-            ],
-            "category_reward" : [
-                {
-                    "id": "101",
-                    "campaign_id": "534",
-                    "category_id": "Bags",
-                    "name": "Bags",
-                    "type": "CPA_SALES",
-                    "reward": "7.20"
-                },
-                "..."
-            ]
-        }
+    "response_code": 200,
+    "response_msg": "Success",
+    "result": {
+      "id": 543,
+      "display_name": "xxx",
+      "quick_link": "<URL>",
+      "image_url": "<imageUrl>",
+      "cashback": "3-10",
+      "condition_do": "<HTML>",
+      "condition_dont": "<HTML>",
+      "note": "xxx",
+      "coming_soon": true,
+      "is_pin": true,
+      "pin_sort": 1,
+      "a_set_reward": {
+        "new": 70,
+        "existing": 70
+      },
+      "default_data": {
+        "name": "xxx",
+        "url": "<URL>",
+        "source": "accesstrade",
+        "type": "",
+        "startDate": "",
+        "endDate": "",
+        "selfConversion": "",
+        "pointBack": "",
+        "englishDescription": "<TEXT>",
+        "customCreativesAvailable": true,
+        "seoContentAvailable": true,
+        "productFeedAvailable": true,
+        "quickLinkAvailable": false,
+        "affiliationStatus": "APPROVED",
+        "affiliatedDate": "2020-07-13",
+        "currency": "THB",
+        "default_reward": [
+          {
+            "id": "101",
+            "name": "xxx",
+            "type": "",
+            "reward": 3
+          },
+          "..."
+        ],
+        "category_reward": [
+          {
+            "id": "101",
+            "category_id": "Bags",
+            "name": "Bags",
+            "type": "CPA_SALES",
+            "reward": "7.20"
+          },
+          "..."
+        ]
+      }
     }
 }

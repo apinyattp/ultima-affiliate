@@ -161,6 +161,21 @@ class Campaign extends MY_Controller {
         return $post_data;
     }
 
+    public function validate() {
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('display_name', 'Display Name', 'required');
+        $this->form_validation->set_rules('cashback', 'Cashback', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
+        $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
+        $this->form_validation->set_rules('note', 'Note', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            echo validation_errors();
+        }
+    }
+
     public function update_status() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
 

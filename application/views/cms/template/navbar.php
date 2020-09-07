@@ -6,7 +6,7 @@
         </div>
     </a> -->
     <a href="https://www.ultimalife.co.th/" class="simple-text logo-normal text-center">
-        Ultima life - Affiliate
+        Jelala - Affiliate
     </a>
     </div>
     <div class="sidebar-wrapper overflow-hidden">
