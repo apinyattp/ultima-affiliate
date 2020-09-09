@@ -13,8 +13,8 @@ $(document).ready(function(){
     if ($(this).val() === '') {
       $(this).parent().addClass(classes)
     } else {
-      $(this).first().parent().removeClass(classes)
-      $(this).parent().children('label.error-message').text('')
+      $(this).parents('.form-group').removeClass('has-danger')
+      $(this).parents('.form-group').removeClass('has-error')
     }
   })
 

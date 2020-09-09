@@ -111,7 +111,7 @@ class Campaign extends MY_Controller {
 
             $display_name = $this->input->post('display_name');
             $cashback = $this->input->post('cashback');
-            $image_file_id = $this->input->post('logo_file_id');
+            $image_file_id = $this->input->post('image_file_id');
             $description = $this->input->post('description');
             $condition_do = $this->input->post('condition_do');
             $condition_dont = $this->input->post('condition_dont');
@@ -122,7 +122,7 @@ class Campaign extends MY_Controller {
             $status = $this->input->post('status');
 
             $this->load->model('module/file/file_model', 'file_model');
-            if(!$this->file_model->verify($image_file_id, 'campaign_logo', $id)) return $this->_echo_json(E::INVALID_FORMAT, ['logo_file_id' => $image_file_id]);
+            if(!$this->file_model->verify($image_file_id, 'campaign_logo', $id)) return $this->_echo_json(E::INVALID_FORMAT, ['image_file_id' => $image_file_id]);
 
             $this->campaign_model->update($id, $display_name, $image_file_id, $cashback, $status, $description, $condition_do, $condition_dont, $note);
 
@@ -170,21 +170,28 @@ class Campaign extends MY_Controller {
 
         $this->form_validation->set_rules('display_name', 'Display Name', 'required');
         $this->form_validation->set_rules('cashback', 'Cashback', 'required');
-        $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_rules('image_file_id', 'Logo Image', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
         $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
-        $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
+        $this->form_validation->set_rules('condition_dont', "Condition Don't", 'required');
         $this->form_validation->set_rules('note', 'Note', 'required');
+        $this->form_validation->set_rules('a_set_reward[new]', 'New Users', 'required');
+        $this->form_validation->set_rules('a_set_reward[existing]', 'Existing Users', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->output->set_status_header(400);
             $json = array(
                 'display_name' => form_error('display_name', ''),
                 'cashback' => form_error('cashback', ''),
-                'status' => form_error('status', ''),
+                'image_file_id' => form_error('image_file_id', ''),
+                'description' => form_error('description', ''),
                 'condition_do' => form_error('condition_do', ''),
                 'condition_dont' => form_error('condition_dont', ''),
-                'note' => form_error('note', '')
+                'note' => form_error('note', ''),
+                'setRewardNewUser' => form_error('a_set_reward[new]', ''),
+                'setRewardExistingUser' => form_error('a_set_reward[existing]', ''),
+                'status' => form_error('status', '')
             );
 
             return $this->_echo_json(E::FORM_SUBMIT_FAILED_UPDATE, $json);
@@ -230,7 +237,7 @@ class Campaign extends MY_Controller {
 
         $this->campaign_model->delete($campaign_id);
 
-        // $this->jelala->delete_campaign($campaign_id);
+        $this->jelala->delete_campaign($campaign_id);
 
         return $this->_echo_json(E::SUCCESS);
     }

@@ -15,7 +15,7 @@
         <div class="form-group col-md-6 mb-4">
           <label for="input-display_name">Name *</label>
           <input type="text" class="form-control" id="input-display_name" name="display_name" value="<?php echo $display_name;?>">
-          <div id="error"></div>
+          <label for="input-display_name"><div id="error"></div></label>
         </div>
         <div class="form-group col-md-6 mb-4">
           <label for="input-startdate">Start Date</label>
@@ -41,26 +41,26 @@
         <div class="form-group col-md-6 mb-4">
           <label class="control-label" for="input-cashback">Cashback Duration (Day) *</label>
           <input type="text" class="form-control" id="input-cashback" name="cashback" placeholder="" value="<?php echo $cashback;?>">
-          <div id="error"></div>
+          <label for="input-cashback"><span id="error"></span></label>
         </div>
         <div class="form-group col-md-6 mb-4">
-          <label for="input-description">Default Description</label>
-          <textarea class="form-control mh-100" id="input-description" rows="10" readonly><?php echo $default_description;?></textarea>
+          <label for="input-defaultdescription">Default Description</label>
+          <textarea class="form-control mh-100" id="input-defaultdescription" rows="10" readonly><?php echo $default_description;?></textarea>
         </div>
         <div class="form-group col-md-6 mb-4">
-          <label for="input-setdescription">Set New Description *</label>
-          <textarea class="form-control mh-100" id="input-setdescription" name="description" rows="10"><?php echo $description;?></textarea>
-          <div id="error"></div>
+          <label class="control-label" for="input-description">Set New Description *</label>
+          <textarea class="form-control mh-100" id="input-description" name="description" rows="10"><?php echo $description;?></textarea>
+          <label for="input-description"><span id="error"></span></label>
         </div>
         <div class="form-group col-md-6 mb-4">
-          <label for="input-enddate">Logo *</label> 
+          <label for="input-image_file_id">Logo * <div id="error"></div></label> 
           <div class="d-flex justify-content-center">
             <div class="p-2 align-items-center">
-              <input id="logoFileId" name="logo_file_id" hidden></input>
+              <input id="input-image_file_id" name="image_file_id" value="<?php echo $image_file_id?>" hidden></input>
               <div id="logoDropzone" class="dropzone">
                 <div class="dz-message" data-dz-message><span></span></div>
               </div>
-              <span id="banner_image_file" hidden><?php echo json_encode($banner_image_file) ?></span>
+              <span id="logo_image_file" hidden><?php echo json_encode($logo_image_file) ?></span>
             </div>
             <div class="p-2 align-self-center">
               <button class="btn btn-primary uploadImageBtn" type="button">Upload</button>
@@ -77,25 +77,25 @@
       </div>
       
       <!-- DESCRIPTION SECTION -->
-      <div class="row mb-4">
+      <div class="row mb-4 form-group">
         <div class="col-md-2">
-          <label for="input-conditiondo">Condition Do *</label>
+          <label for="input-condition_do">Condition Do * <div id="error"></div></label>
         </div>
         <div class="col-md-10">
-          <textarea id="input-conditiondo" name="condition_do"><?php echo $condition_do ?></textarea>
+          <textarea id="input-condition_do" name="condition_do"><?php echo $condition_do ?></textarea>
         </div>
       </div>
-      <div class="row mb-4">
+      <div class="row mb-4 form-group">
         <div class="col-md-2">
-          <label for="input-conditiondont">Condition Don't *</label>
+          <label for="input-condition_dont">Condition Don't * <div id="error"></div></label>
         </div>
         <div class="col-md-10">
-          <textarea id="input-conditiondont" name="condition_dont"><?php echo $condition_dont ?></textarea>
+          <textarea id="input-condition_dont" name="condition_dont"><?php echo $condition_dont ?></textarea>
         </div>
       </div>
-      <div class="row mb-4">
+      <div class="row mb-4 form-group">
         <div class="col-md-2">
-          <label for="input-note">Note <?php echo form_error('note'); ?></label>
+          <label for="input-note">Note <div id="error"></div></label>
         </div>
         <div class="col-md-10">
           <textarea id="input-note" name="note"><?php echo $note ?></textarea>

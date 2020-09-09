@@ -16,16 +16,16 @@ $(document).ready(function(){
     maxFilesize: 1,
     clickable: '.uploadImageBtn',
     init: function() {
-      var text = $('#banner_image_file').text()
-      var banner_image_file = JSON.parse(text)
-      if(!jQuery.isEmptyObject(banner_image_file)) {
-        const { id, url, file_name, file_size, file_type } = banner_image_file
+      var text = $('#logo_image_file').text()
+      var logo_image_file = JSON.parse(text)
+      if(!jQuery.isEmptyObject(logo_image_file)) {
+        const { id, url, file_name, file_size, file_type } = logo_image_file
         var mockFile = { name: file_name, size: file_size, type: file_type }
 
         this.displayExistingFile(mockFile, url);
         this.files.push(mockFile);
 
-        $('#logoFileId').val(id)
+        $('#input-image_file_id').val(id)
       }
 
       this.on("addedfile", function(file) {
@@ -42,7 +42,7 @@ $(document).ready(function(){
       done()
     },
     success: function(file, response) {
-      $('#banner_image_file').text('')
+      $('#logo_image_file').text('')
       const { response_code, response_msg, result } = response
       if(response_code != '200') {
         Swal.fire({
@@ -51,7 +51,7 @@ $(document).ready(function(){
           icon : 'warning'
         })
       }
-      $('#logoFileId').val(result.id)
+      $('#input-image_file_id').val(result.id)
     }
   })
 
@@ -60,7 +60,7 @@ $(document).ready(function(){
     // console.error( error );
   } );
 
-  ClassicEditor.create( document.querySelector( '#input-conditiondo' ) )
+  ClassicEditor.create( document.querySelector( '#input-condition_do' ) )
   .then( newEditor => {
       doEditor = newEditor;
   } )
@@ -68,7 +68,7 @@ $(document).ready(function(){
     // console.error( error );  
   } );
 
-  ClassicEditor.create( document.querySelector( '#input-conditiondont' ) )
+  ClassicEditor.create( document.querySelector( '#input-condition_dont' ) )
   .then( newEditor => {
       dontEditor = newEditor;
   } )
@@ -93,34 +93,54 @@ $(document).ready(function(){
 
 function validate(id) {
 
-  $("#editForm").submit()
+  // $("#editForm").submit()
 
-  // $.ajax({
-  //   url: base_url + "cms/campaign/validate/"+id,
-  //   type: 'POST',
-  //   data: $("#editForm").serialize(),
-  //   dataType: 'JSON',
-  //   error: function (response) {
-  //     console.log(response)
+  $.ajax({
+    url: base_url + "cms/campaign/validate/"+id,
+    type: 'POST',
+    data: $("#editForm").serialize(),
+    dataType: 'JSON',
+    error: function (response) {
+      responseJSON = response.responseJSON
 
-  //     // $.each(data, function(key, value) {
-  //     //   $('#input-' + key).addClass('is-invalid');
+      const { result } = responseJSON
 
-  //     //   $('#input-' + key).parents('.form-group').find('#error').html(value);
-  //     // });
+      $.each(result, function(key, value) {
 
-  //     // result = response.responseJSON
-  //     // const { response_code, response_msg } = result
-  //     // Swal.fire({
-  //     //   title : 'เกิดข้อผิดพลาด',
-  //     //   text : `${response_msg} (${response_code})`,
-  //     //   icon : 'warning'
-  //     // })
-  //   },
-  //   success: function (response) {
-  //     console.log(response)
-  //   }
-  // });
+        if(value) {
+          inputElement = $('#input-' + key)
+
+          // inputElement.parents('.form-group').addClass('has-danger has-error');
+          inputElement.parents('.form-group').find('#error').html('<div class="text-danger">'+value+'</div>');
+        }
+
+      });
+      // result = response.responseJSON
+      // const { response_code, response_msg } = result
+      // Swal.fire({
+      //   title : 'เกิดข้อผิดพลาด',
+      //   text : `${response_msg} (${response_code})`,
+      //   icon : 'warning'
+      // })
+    },
+    success: function (response) {
+      Swal.fire({
+        title : 'Update Successful',
+        timer: 750,
+        text : '',
+        icon : 'success',
+        showCancelButton: false,
+        showConfirmButton: false
+      }).then(function () {},
+        function (dismiss) {
+          if (dismiss === 'timer') {}
+        }
+      ).then(function () {
+        $("#editForm").submit()
+      })
+    }
+  });
+
 }
 
 function copyText() {

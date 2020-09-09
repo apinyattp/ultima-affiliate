@@ -30,7 +30,8 @@ return [
     'quicklink' => $data['quicklink'],
     'startDate' => $data['startDate'],
     'endDate' => $data['endDate'],
-    'banner_image_file' => $this->format->run('file', $logo_image_file),
+    'image_file_id' => $data['image_file_id'],
+    'logo_image_file' => $this->format->run('file', $logo_image_file),
     'default_rewards' => $default_rewards,
     'category_rewards' => $category_rewards,
     // 'a_custom_reward' => $set_custom_rewards
