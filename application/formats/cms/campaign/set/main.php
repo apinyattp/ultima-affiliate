@@ -22,6 +22,7 @@ return [
     'display_name' => empty($data['display_name']) ? $data['name'] : $data['display_name'],
     'cashback' => $data['cashback'],
     'status' => $data['status'],
+    'default_description' => $data['default_description'],
     'description' => $data['description'],
     'condition_do' => $data['condition_do'],
     'condition_dont' => $data['condition_dont'],

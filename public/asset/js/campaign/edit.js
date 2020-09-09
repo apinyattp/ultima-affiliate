@@ -3,6 +3,8 @@ Dropzone.autoDiscover = false
 
 $(document).ready(function(){
 
+  $('#copyQuicklinkBtn').on('click', function() { copyText() })
+
   const myDropzone = new Dropzone('div#logoDropzone', {
     url: base_url + 'api/file/upload',
     headers: { 'Authorization': document.cookie.split('=')[1] },
@@ -58,7 +60,7 @@ $(document).ready(function(){
     // console.error( error );
   } );
 
-  ClassicEditor.create( document.querySelector( '#doEditor' ) )
+  ClassicEditor.create( document.querySelector( '#input-conditiondo' ) )
   .then( newEditor => {
       doEditor = newEditor;
   } )
@@ -66,7 +68,7 @@ $(document).ready(function(){
     // console.error( error );  
   } );
 
-  ClassicEditor.create( document.querySelector( '#dontEditor' ) )
+  ClassicEditor.create( document.querySelector( '#input-conditiondont' ) )
   .then( newEditor => {
       dontEditor = newEditor;
   } )
@@ -74,7 +76,7 @@ $(document).ready(function(){
     // console.error( error );
   } );
 
-  ClassicEditor.create( document.querySelector( '#noteEditor' ) )
+  ClassicEditor.create( document.querySelector( '#input-note' ) )
   .then( newEditor => {
       noteEditor = newEditor;
   } )
@@ -82,28 +84,50 @@ $(document).ready(function(){
     // console.error( error );
   } );
 
+  $('#btn-save').on('click', function (e) {
+    id = $('#campaignId').val()
+    validate(id)
+  });
+
 });
 
-function validate() {
-  $.ajax({
-    url: base_url + "cms/campaign/validate",
-    type: 'POST',
-    data: {
-        'campaign_id': id,
-        'type' : type,
-    },
-    dataType: 'JSON',
-    error: function (response) {
-      result = response.responseJSON
-      const { response_code, response_msg } = result
-      Swal.fire({
-        title : 'เกิดข้อผิดพลาด',
-        text : `${response_msg} (${response_code})`,
-        icon : 'warning'
-      })
-    },
-    success: function () {
-      location.reload()
-    }
-  });
+function validate(id) {
+
+  $("#editForm").submit()
+
+  // $.ajax({
+  //   url: base_url + "cms/campaign/validate/"+id,
+  //   type: 'POST',
+  //   data: $("#editForm").serialize(),
+  //   dataType: 'JSON',
+  //   error: function (response) {
+  //     console.log(response)
+
+  //     $.each(data, function(key, value) {
+  //       $('#input-' + key).addClass('is-invalid');
+
+  //       $('#input-' + key).parents('.form-group').find('#error').html(value);
+  //     });
+
+  //     // result = response.responseJSON
+  //     // const { response_code, response_msg } = result
+  //     // Swal.fire({
+  //     //   title : 'เกิดข้อผิดพลาด',
+  //     //   text : `${response_msg} (${response_code})`,
+  //     //   icon : 'warning'
+  //     // })
+  //   },
+  //   success: function (response) {
+  //     console.log(response)
+  //   }
+  // });
+}
+
+function copyText() {
+  var copyText = document.getElementById("input-quicklink");
+
+  copyText.select()
+  copyText.setSelectionRange(0, 99999)
+
+  document.execCommand('copy');
 }

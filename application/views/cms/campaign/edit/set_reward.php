@@ -5,7 +5,7 @@
 
   <div class="row mb-4 align-items-center">
         <div class="col-md-2">
-          <label for="inputSetRewardNewUser">New Users</label>
+          <label for="inputSetRewardNewUser">New Users *</label>
         </div>
         <div class="col-md-3">
             <div class="form-group m-auto">
@@ -18,7 +18,7 @@
     </div>
     <div class="row mb-4 align-items-center">
         <div class="col-md-2">
-          <label for="inputSetRewardExistingUser">Existing Users</label>
+          <label for="inputSetRewardExistingUser">Existing Users *</label>
         </div>
         <div class="col-md-3">
             <div class="form-group m-auto">

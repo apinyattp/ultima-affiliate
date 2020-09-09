@@ -11,6 +11,9 @@ class campaign_model extends CI_Model {
     }
 
     public function get_by_id($campaign_id, $status=FALSE) {
+        $this->db->select('*');
+        $this->db->select('campaign.description as description');
+        $this->db->select('campaign_data.description as default_description');
         $this->db->where('id', $campaign_id);
         if($status) $this->db->where('status', $status);
         $this->db->limit(1);
@@ -49,13 +52,14 @@ class campaign_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    public function update($campaign_id, $display_name, $image_file_id=NULL, $cashback, $status, $condition_do, $condition_dont, $note) {
+    public function update($campaign_id, $display_name, $image_file_id=NULL, $cashback, $status, $description, $condition_do, $condition_dont, $note) {
         $a_set = [
             'id' => $campaign_id,
             'display_name' => $display_name,
             'image_file_id' => $image_file_id,
             'cashback' => $cashback,
             'status' => $status,
+            'description' => $description,
             'condition_do' => $condition_do,
             'condition_dont' => $condition_dont,
             'note' => $note,

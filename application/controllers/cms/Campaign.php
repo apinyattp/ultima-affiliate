@@ -112,6 +112,7 @@ class Campaign extends MY_Controller {
             $display_name = $this->input->post('display_name');
             $cashback = $this->input->post('cashback');
             $image_file_id = $this->input->post('logo_file_id');
+            $description = $this->input->post('description');
             $condition_do = $this->input->post('condition_do');
             $condition_dont = $this->input->post('condition_dont');
             $note = $this->input->post('note');
@@ -123,7 +124,7 @@ class Campaign extends MY_Controller {
             $this->load->model('module/file/file_model', 'file_model');
             if(!$this->file_model->verify($image_file_id, 'campaign_logo', $id)) return $this->_echo_json(E::INVALID_FORMAT, ['logo_file_id' => $image_file_id]);
 
-            $this->campaign_model->update($id, $display_name, $image_file_id, $cashback, $status, $condition_do, $condition_dont, $note);
+            $this->campaign_model->update($id, $display_name, $image_file_id, $cashback, $status, $description, $condition_do, $condition_dont, $note);
 
             $this->file_model->update_live($image_file_id, $id, TRUE);
 
@@ -161,19 +162,35 @@ class Campaign extends MY_Controller {
         return $post_data;
     }
 
-    public function validate() {
+    public function validate($id) {
         $this->load->library('form_validation');
+
+        $campaign = $this->campaign_model->get_by_id($id);
+        if(empty($campaign)) return $this->_echo_json(E::NOT_FOUND_CONTENT, ['campaign' => $id]);
 
         $this->form_validation->set_rules('display_name', 'Display Name', 'required');
         $this->form_validation->set_rules('cashback', 'Cashback', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
         $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
         $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
         $this->form_validation->set_rules('note', 'Note', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            echo validation_errors();
+            $this->output->set_status_header(400);
+            $json = array(
+                'display_name' => form_error('display_name', ''),
+                'cashback' => form_error('cashback', ''),
+                'status' => form_error('status', ''),
+                'condition_do' => form_error('condition_do', ''),
+                'condition_dont' => form_error('condition_dont', ''),
+                'note' => form_error('note', '')
+            );
+
+            return $this->_echo_json(E::FORM_SUBMIT_FAILED_UPDATE, $json);
         }
+
+        return $this->_echo_json(E::SUCCESS);
     }
 
     public function update_status() {
@@ -245,7 +262,7 @@ class Campaign extends MY_Controller {
     }
 
     private function _update_jelala($ids) {
-        // $this->jelala->update_campaign($ids);
+        $this->jelala->update_campaign($ids);
     }
 
 }
