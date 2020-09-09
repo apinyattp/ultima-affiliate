@@ -262,7 +262,7 @@ class Campaign extends MY_Controller {
     }
 
     private function _update_jelala($ids) {
-        // $this->jelala->update_campaign($ids);
+        $this->jelala->update_campaign($ids);
     }
 
 }
