@@ -15,9 +15,13 @@ class Campaign extends MY_Controller {
         $this->load->library('accesstrade');
         $campaigns = $this->accesstrade->campaigns();
 
+        $updated_ids = [];
+
         $this->load->model('campaign_model');
         foreach($campaigns as $campaign) {
             $campaign_id = $campaign['id'];
+
+            $updated_ids[] = $campaign_id;
 
             $quicklink = $this->accesstrade->quicklink($campaign_id);
 
@@ -92,7 +96,9 @@ class Campaign extends MY_Controller {
             }  
 
         }
-        
+
+        $this->load->library('jelala');
+        $this->jelala->update_campaign($updated_ids);
     }
 
 }

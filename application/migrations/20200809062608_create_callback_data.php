@@ -30,10 +30,7 @@ class Migration_Create_callback_data extends CI_Migration
 			),
 			'data' => array(
 				'type' => 'TEXT',
-				'null' => FALSE,
-				'auto_increment' => TRUE,
-				'unsigned' => TRUE,
-				'constraint' => 5
+				'null' => TRUE,
 			)
 		));
 		$this->dbforge->add_field('`datetime_created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP');

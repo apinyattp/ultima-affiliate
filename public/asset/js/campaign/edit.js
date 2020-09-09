@@ -103,11 +103,11 @@ function validate(id) {
   //   error: function (response) {
   //     console.log(response)
 
-  //     $.each(data, function(key, value) {
-  //       $('#input-' + key).addClass('is-invalid');
+  //     // $.each(data, function(key, value) {
+  //     //   $('#input-' + key).addClass('is-invalid');
 
-  //       $('#input-' + key).parents('.form-group').find('#error').html(value);
-  //     });
+  //     //   $('#input-' + key).parents('.form-group').find('#error').html(value);
+  //     // });
 
   //     // result = response.responseJSON
   //     // const { response_code, response_msg } = result
