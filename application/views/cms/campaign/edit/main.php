@@ -19,7 +19,7 @@
         </div>
         <div class="form-group col-md-6 mb-4">
           <label for="input-startdate">Start Date</label>
-          <input type="text" class="form-control" id="input-startdate" placeholder="<?php echo date('m/d/Y', strtotime($startDate)); ?>" readonly>
+          <input type="text" class="form-control" id="input-startdate" placeholder="<?php echo empty($startDate) ? null : date('m/d/Y', strtotime($startDate)); ?>" readonly>
         </div>
         <div class="col-md-6 mb-3">
           <div class="row">
@@ -36,7 +36,7 @@
         </div>
         <div class="form-group col-md-6 mb-4">
           <label for="input-enddate">End Date</label>
-          <input type="text" class="form-control" id="input-enddate" placeholder="<?php echo date('m/d/Y', strtotime($endDate)); ?>" readonly>
+          <input type="text" class="form-control" id="input-enddate" placeholder="<?php echo empty($endDate) ? null : date('m/d/Y', strtotime($endDate)); ?>" readonly>
         </div>
         <div class="form-group col-md-6 mb-4">
           <label class="control-label" for="input-cashback">Cashback Duration (Day) *</label>
