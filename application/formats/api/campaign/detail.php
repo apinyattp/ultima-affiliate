@@ -24,7 +24,7 @@ return [
     'display_name' => empty($data['display_name']) ? $data['name'] : $data['display_name'],
     'quick_link' => $data['quicklink'],
     'image_url' => $logo_file_path,
-    'cashback' => $data['cashback'],
+    'cashback' => empty($data['cashback']) ? '60 - 195' : $data['cashback'],
     'description' => $data['description'],
     'condition_do' => $data['condition_do'],
     'condition_dont' => $data['condition_dont'],
