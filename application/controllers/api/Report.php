@@ -41,6 +41,7 @@ class Report extends MY_Controller {
 
         $this->load->model('report_conversion_model');
         $qs_conversion = $this->report_conversion_model->get_list(
+            'datetime_updated',
             $start_date, 
             $end_date, 
             $keyword, 

@@ -17,12 +17,15 @@ class Report extends MY_Controller {
 
         $keyword = $this->input->get('keyword');
         $status = $this->input->get('status');
+        $period_base = $this->input->get('period_base');
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
         $campaign_id = $this->input->get('campaign_id');
         $page = $this->input->get('page');
         $perpage = $this->input->get('perpage');
         $sort = $this->input->get('sort');
+
+        $period_base = empty($period_base) ? 'datetime_updated' : $period_base;
 
         $page = max(1, $page);
         $perpage = empty($perpage) ? 10 : $perpage;
@@ -31,8 +34,8 @@ class Report extends MY_Controller {
             'conversion_id_desc' => 'conversion_id DESC',
             'conversion_time_asc' => 'conversion_time ASC',
             'conversion_time_desc' => 'conversion_time DESC',
-            'datetime_updated_asc' => 'datetime_updated ASC, id DESC',
-            'datetime_updated_desc' => 'datetime_updated desc, id DESC',
+            'datetime_updated_asc' => 'datetime_updated ASC, conversion_time DESC',
+            'datetime_updated_desc' => 'datetime_updated desc, conversion_time DESC',
         ];
         if(!isset($a_sort[$sort])) $sort = 'datetime_updated_desc';
 
@@ -41,7 +44,7 @@ class Report extends MY_Controller {
         $status = (isset($a_status[$status])) ? $a_status[$status] : NULL;
 
         $this->load->model('report_conversion_model');
-        $qs_conversion = $this->report_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $status, $a_sort[$sort]);
+        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status, $a_sort[$sort]);
 
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
@@ -64,6 +67,7 @@ class Report extends MY_Controller {
             'keyword' => $keyword,
             'a_status' => $a_status,
             'status' => $status,
+            'period_base' => $period_base,
             'start_date' => $start_date,
             'end_date' => $end_date,
             'campaign_id' => $campaign_id

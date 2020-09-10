@@ -16,8 +16,8 @@
               <th scope="col">Campaign</th>
               <th scope="col">UID</th>
               <th scope="col">Cashback</th>
-              <th scope="col">Request Time</th>
               <th scope="col">Click Time</th>
+              <th scope="col">Conversion Time</th>
               <th scope="col">Confirmation Time</th>
               <th scope="col">Updated Time</th>
               <th scope="col">Status</th>

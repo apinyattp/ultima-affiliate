@@ -3,8 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Report_conversion_model extends CI_Model {
 
-    protected $table_name = "banner";
-
     public function __construct() {
         parent::__construct();
         $this->load->database();
@@ -55,10 +53,10 @@ class Report_conversion_model extends CI_Model {
         }
     }
 
-    public function get_list($start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE) {
+    public function get_list($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE) {
         $this->load->library('qs');
-        if($start_date) $this->qs->where('datetime_updated >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
-        if($end_date) $this->qs->where('datetime_updated <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
+        if($start_date) $this->qs->where($period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
+        if($end_date) $this->qs->where($period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
         if($status) $this->qs->where('status', $status);
         if($campaign_id) $this->qs->where('campaign_id', $campaign_id);
         if($keyword) {
