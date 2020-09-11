@@ -168,6 +168,8 @@ class Campaign extends MY_Controller {
         $campaign = $this->campaign_model->get_by_id($id);
         if(empty($campaign)) return $this->_echo_json(E::NOT_FOUND_CONTENT, ['campaign' => $id]);
 
+        $condition_do = $this->input->post('condition_do');
+
         $this->form_validation->set_rules('display_name', 'Display Name', 'required');
         $this->form_validation->set_rules('cashback', 'Cashback', 'required');
         $this->form_validation->set_rules('image_file_id', 'Logo Image', 'required');
@@ -191,7 +193,8 @@ class Campaign extends MY_Controller {
                 'note' => form_error('note', ''),
                 'setRewardNewUser' => form_error('a_set_reward[new]', ''),
                 'setRewardExistingUser' => form_error('a_set_reward[existing]', ''),
-                'status' => form_error('status', '')
+                'status' => form_error('status', ''),
+                'condition_d11o' => $condition_do
             );
 
             return $this->_echo_json(E::FORM_SUBMIT_FAILED_UPDATE, $json);

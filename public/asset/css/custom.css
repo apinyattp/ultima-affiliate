@@ -29,3 +29,12 @@ input[type=number] {
 .dz-image img {
   width: 100%;
 }
+
+.font-size-08 {
+  font-size: 0.8em
+}
+
+.table-responsive {
+  overflow-x: auto;
+  overflow-y: hidden;
+}

@@ -69,7 +69,7 @@
         </div>
         <div class="form-group col-md-6 mb-4">
           <label for="exampleFormControlSelect1">Status *</label>
-          <select class="form-control" id="exampleFormControlSelect1" name="status">
+          <select class="form-control" id="input-status" name="status">
             <option <?php if($status == 'active') echo 'selected' ?> value="active">Active</option>
             <option <?php if($status == 'inactive') echo 'selected' ?> value="inactive">Inactive</option>
           </select>

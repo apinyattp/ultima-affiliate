@@ -94,11 +94,23 @@ $(document).ready(function(){
 function validate(id) {
 
   // $("#editForm").submit()
+  $("#editForm").serialize(),
 
   $.ajax({
     url: base_url + "cms/campaign/validate/"+id,
     type: 'POST',
-    data: $("#editForm").serialize(),
+    data: {
+      'display_name': $('#input-display_name').val(),
+      'cashback': $('#input-cashback').val(),
+      'image_file_id': $('#input-image_file_id').val(),
+      'description': $('#input-description').val(),
+      'status': $('#input-status').val(),
+      'condition_do': doEditor.getData(),
+      'condition_dont': dontEditor.getData(),
+      'note': noteEditor.getData(),
+      'a_set_reward[new]': $('#input-setRewardNewUser').val(),
+      'a_set_reward[existing]': $('#input-setRewardExistingUser').val()
+    },
     dataType: 'JSON',
     error: function (response) {
       responseJSON = response.responseJSON

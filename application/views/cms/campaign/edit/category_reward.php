@@ -3,7 +3,7 @@
   <p class="category">aa</p>
 </div>
 <div class="px-5 mb-3">
-  <table class="table w-100">
+  <table class="table table-responsive w-100">
     <colgroup>
        <col span="1" class="w-50">
        <col span="1" class="w-50">
@@ -20,7 +20,7 @@
       <!-- <th>Custom Reward</th>
       <th></th> -->
     </thead>
-    <tbody>
+    <tbody class="overflow-auto" style="max-height: 100px;">
       <?php foreach($category_rewards as $key => $category_reward) { ?>
         <tr>
           <td>
