@@ -33,11 +33,11 @@
     <?php echo ($status == 'active') ? 'Active' : 'Inactive' ?>
   </td>
   <td class="text-center">
-      <form action="<?php echo site_url('cms/campaign/edit/' . $id); ?>">
+      <a href="<?php echo site_url('cms/campaign/edit/' . $id); ?>">
         <button class="btn btn-info btn-link">
             <i class="far fa-edit"></i>
         </button>
-      </form>
+      </a>
   </td>
   <td class="text-center">
     <button class="btn btn-danger btn-link" type="toggle" onclick="displayDeleteModal(<?php echo $id?>)">

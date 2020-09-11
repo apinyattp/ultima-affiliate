@@ -14,7 +14,7 @@
     <title>Ultima-Life Affiliate</title>
   </head>
   <body>
-  <div class="wrapper">
+  <div class="wrapper h-100">
     <?php $this->load->view('cms/template/navbar', ['page' => $page]) ?>
     <div class="main-panel h-100">
       <!-- Navbar -->

@@ -153,7 +153,18 @@ class campaign_model extends CI_Model {
 
     public function get_category_reward_by_id($category_id) {
         $this->db->where('category_id', $category_id);
-        return $this->db->get('campaign_category_reward')->row_array();;
+        return $this->db->get('campaign_category_reward')->row_array();
+    }
+
+    public function get_min_reward($campaign_id, $keyword=FALSE) {
+        $this->db->select('MIN(reward) as min_reward');
+        if($keyword) {
+            $this->db->group_start();
+                $this->db->like('category_id', $keyword);
+            $this->db->group_end();
+        }
+        $this->db->where('campaign_id', $campaign_id);
+        return $this->db->get('campaign_category_reward')->row('min_reward');
     }
 
     public function update_category_reward($campaign_id, $category_id, $type, $reward, $name=TRUE) {

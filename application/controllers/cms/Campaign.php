@@ -101,6 +101,9 @@ class Campaign extends MY_Controller {
             // SET FORM DATA
             $set_data = array_replace_recursive($a_data, $post_data);
 
+            $set_data['min_category_reward'] = $this->campaign_model-> get_min_reward($id);
+            $set_data['min_existing_category_reward'] = $this->campaign_model-> get_min_reward($id, 'existing');
+
             // ADD HEAD
             $this->head->js_add('js/campaign/edit.js');
 

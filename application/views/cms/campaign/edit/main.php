@@ -112,7 +112,7 @@
       <!-- <hr> -->
       <div class="d-flex justify-content-center">
         <button type="button" class="btn btn-success mx-3" id="btn-save">save</button>
-        <button type="button" class="btn btn-danger mx-3">cancel</button>
+        <a href="<?php echo site_url('cms/campaign');?>"><button type="button" class="btn btn-danger mx-3">cancel</button></a>
       </div>
     
     </form>

@@ -15,8 +15,8 @@
     <div class="col-md-2">
       <label for="input-setRewardNewUser">%<label>
     </div>
-    <div class="col-md-2 align-items-center">
-        <?php if(!empty($category_rewards)) echo 'Reccommend % : ' . min(array_column($category_rewards, 'reward')) . ' %' ?>
+    <div class="col-md-3 align-items-center">
+        <?php if(!empty($min_category_reward)) echo 'Reccommend % : ' .$min_category_reward . ' %' ?>
     </div>
   </div>
   <div class="row mb-4 align-items-center form-group">
@@ -31,8 +31,8 @@
     <div class="col-md-2">
       <label for="input-setRewardExistingUser">%<label>
     </div>
-    <div class="col-md-2">
-        <?php if(!empty($category_rewards)) echo 'Reccommend % : ' . min(array_column($category_rewards, 'reward')) . '%' ?>
+    <div class="col-md-3">
+        <?php if(!empty($min_existing_category_reward)) echo 'Reccommend % : ' . $min_existing_category_reward . '%' ?>
     </div>
   </div>
 
