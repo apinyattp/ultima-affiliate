@@ -19,6 +19,7 @@ class Head {
         'paper/assets/js/core/bootstrap.min.js',
         'paper/assets/js/plugins/perfect-scrollbar.jquery.min.js',
         'paper/assets/js/plugins/moment.min.js',
+        'paper/assets/js/paper-dashboard.min.js',
         'ckeditor5/21.0.0/classic/ckeditor.js',
         'jquery-ui-1.12.1/jquery-ui.min.js',
         'datepicker/js/bootstrap-datepicker.min.js',

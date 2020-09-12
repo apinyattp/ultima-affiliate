@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-responsive">
   <thead>
     <tr class="text-nowrap">
       <th scope="col">#</th>
