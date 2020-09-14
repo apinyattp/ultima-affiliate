@@ -9,10 +9,16 @@ class Callback extends MY_Controller {
 
     public function index() {
         $data = json_encode($_GET);
-        $post_data = json_encode($this->input->post());
 
         $this->load->model('callback_model');
-        $this->callback_model->create($data.$post_data);
+        $this->callback_model->create('accesstrade', $data);
+    }
+
+    public function accesstrade() {
+        $data = json_encode($_GET);
+
+        $this->load->model('callback_model');
+        $this->callback_model->create('accesstrade', $data);
     }
 
 }

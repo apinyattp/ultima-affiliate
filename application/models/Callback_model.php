@@ -10,8 +10,9 @@ class Callback_model extends CI_Model {
         $this->load->database();
     }
 
-    public function create($data) {
+    public function create($source, $data) {
         $a_data = [
+            'source' => $source,
             'data' => $data
         ];
         $this->db->insert('callback_data', $a_data);
