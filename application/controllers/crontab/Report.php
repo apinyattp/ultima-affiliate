@@ -14,7 +14,7 @@ class Report extends MY_Controller {
     public function _accesstrade_conversion() {
 
         $fromDate = date('Y-m-d H:i:s', strtotime('2020-08-01'));
-        $toDate = date('Y-m-d H:i:s', strtotime('2020-09-13'));
+        $toDate = date('Y-m-d H:i:s', strtotime('2020-09-30'));
         
         // $fromDate = date('Y-m-d H:i:s');
         // $toDate = date('Y-m-d H:i:s');
