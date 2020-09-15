@@ -73,6 +73,7 @@ class Gateway {
             curl_setopt($ch, CURLOPT_USERPWD, $this->_auth_user . ":" . $this->_auth_password);
         }
 
+        $msg_error = '';
         try{
             $result = curl_exec($ch);
         } catch(Exception $ex){
