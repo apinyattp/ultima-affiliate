@@ -171,7 +171,7 @@ class Campaign extends MY_Controller {
         $campaign = $this->campaign_model->get_by_id($id);
         if(empty($campaign)) return $this->_echo_json(E::NOT_FOUND_CONTENT, ['campaign' => $id]);
 
-        $condition_do = $this->input->post('condition_do');
+        $status = $this->input->post('status');
 
         $this->form_validation->set_rules('display_name', 'Display Name', 'required');
         $this->form_validation->set_rules('cashback', 'Cashback', 'required');
@@ -196,11 +196,15 @@ class Campaign extends MY_Controller {
                 'note' => form_error('note', ''),
                 'setRewardNewUser' => form_error('a_set_reward[new]', ''),
                 'setRewardExistingUser' => form_error('a_set_reward[existing]', ''),
-                'status' => form_error('status', ''),
-                'condition_d11o' => $condition_do
+                'status' => form_error('status', '')
             );
 
             return $this->_echo_json(E::FORM_SUBMIT_FAILED_UPDATE, $json);
+        }
+
+        if(($status == 'active') && ($campaign['affiliationStatus'] !== 'APPROVED')) {
+            $this->output->set_status_header(400);
+            return $this->_echo_json(E::CAMPAIGN_STATUS_CANNOT_UPDATE_NOW, ['campaign' => $id]);
         }
 
         return $this->_echo_json(E::SUCCESS);

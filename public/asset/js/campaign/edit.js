@@ -93,9 +93,6 @@ $(document).ready(function(){
 
 function validate(id) {
 
-  // $("#editForm").submit()
-  $("#editForm").serialize(),
-
   $.ajax({
     url: base_url + "cms/campaign/validate/"+id,
     type: 'POST',
@@ -115,25 +112,25 @@ function validate(id) {
     error: function (response) {
       responseJSON = response.responseJSON
 
-      const { result } = responseJSON
+      const { response_code, response_msg, result } = responseJSON
+
+      if(response_code) {
+          Swal.fire({
+          title : 'เกิดข้อผิดพลาด',
+          text : `${response_msg} (${response_code})`,
+          icon : 'warning'
+        })
+      }
 
       $.each(result, function(key, value) {
 
         if(value) {
           inputElement = $('#input-' + key)
-
-          // inputElement.parents('.form-group').addClass('has-danger has-error');
           inputElement.parents('.form-group').find('#error').html('<div class="text-danger">'+value+'</div>');
         }
 
       });
-      // result = response.responseJSON
-      // const { response_code, response_msg } = result
-      // Swal.fire({
-      //   title : 'เกิดข้อผิดพลาด',
-      //   text : `${response_msg} (${response_code})`,
-      //   icon : 'warning'
-      // })
+
     },
     success: function (response) {
       Swal.fire({
