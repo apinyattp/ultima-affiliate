@@ -1,46 +1,114 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Admitad extends MY_Controller
-{
-    public function __construct()
-    {
+class Admitad extends MY_Controller {
+
+    public function __construct() {
         parent::__construct();
+
         $this->load->library('gateway');
+        $this->load->library('admitad_api');
     }
 
-    private function _b64xxx() {
-        $client_id = 'im9wCh7HgDwKiBL90ClfVvag4BTgZI';
-        $client_secret = 'uUbk8kEWlqVcLZwabqEnOwKwduW8qT';
+    public function me() {
+        $me = $this->admitad_api->me();
 
-        $data = $client_id . ':' . $client_secret;
-
-        $data_b64_encoded = base64_encode($data);
-
-        return $data_b64_encoded;
+        $this->_echo_json(E::SUCCESS, $me);
     }
 
-    public function token() {
+    public function advcampaigns() {
+        $advcampaigns = $this->admitad_api->advcampaigns();
 
-        $body = [
-            'client_id' => 'im9wCh7HgDwKiBL90ClfVvag4BTgZI',
-            'grant_type' => 'client_credentials',
-            'scope' => 'advcampaigns'
+        $this->_echo_json(E::SUCCESS, $advcampaigns);
+    }
+
+    public function advcampaign($campaign_id) {
+        $advcampaign = $this->admitad_api->advcampaign($campaign_id);
+
+        $this->_echo_json(E::SUCCESS, $advcampaign);
+    }
+
+    public function report() {
+
+        $campaign_id = $this->input->get('campaign_id');
+        $date_start = $this->input->get('date_start');
+        $date_end = $this->input->get('date_end');
+        $order_by = $this->input->get('order_by');
+
+        // $date_start = empty($date_start) ? date('d.m.Y') : $date_start;
+        // $date_end = empty($date_end) ? date('d.m.Y', strtotime('+1 days')) : $date_end;
+
+        $report = $this->admitad_api->report($campaign_id, $date_start, $date_end, $order_by);
+
+        $field = [
+            'comment',
+            'click_user_ip',
+            'currency',
+            'website_name',
+            'status_updated',
+            'id',
+            'advcampaign_id',
+            'subid1',
+            'subid3',
+            'subid2',
+            'subid4',
+            'click_user_referer',
+            'click_date',
+            'action_id',
+            'status',
+            'order_id',
+            'cart',
+            'conversion_time',
+            'paid',
+            'payment',
+            'click_country_code',
+            'advcampaign_name',
+            'tariff_id',
+            'keyword',
+            'closing_date',
+            'positions',
+            'subid',
+            'action_date',
+            'processed',
+            'action_type',
+            'action'
         ];
 
-        $url = 'https://api.admitad.com/token/';
-
-        $_b64xxx = $this->_b64xxx();
-
-        $header = [
-            'Authorization: Basic ' . $_b64xxx
+        $field2 = [
+            'comment' => '',
+            'click_user_ip' => '',
+            'currency' => '',
+            'website_name' => '',
+            'status_updated' => '',
+            'id' => '',
+            'advcampaign_id' => '',
+            'subid1' => '',
+            'subid3' => '',
+            'subid2' => '',
+            'subid4' => '',
+            'click_user_referer' => '',
+            'click_date' => '',
+            'action_id' => '',
+            'status' => '',
+            'order_id' => '',
+            'cart' => '',
+            'conversion_time' => '',
+            'paid' => '',
+            'payment' => '',
+            'click_country_code' => '',
+            'advcampaign_name' => '',
+            'tariff_id' => '',
+            'keyword' => '',
+            'closing_date' => '',
+            'positions' => '',
+            'subid' => '',
+            'action_date' => '',
+            'processed' => '',
+            'action_type' => '',
+            'action'
         ];
 
-        $response = $this->gateway->curl_post($url, $body, $header);
-
-        $result = json_decode($response, TRUE);
-
-        $this->_echo_json(E::SUCCESS, $result);
+        $this->_echo_json(E::SUCCESS, $report);
     }
 
 }

@@ -67,7 +67,7 @@ class Gateway {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         }
 
-        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         if($this->_auth_user && $this->_auth_password) {
             curl_setopt($ch, CURLOPT_USERPWD, $this->_auth_user . ":" . $this->_auth_password);

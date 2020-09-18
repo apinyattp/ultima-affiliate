@@ -7,8 +7,14 @@ class Campaign extends MY_Controller {
         parent::__construct();
     }
 
+    private function _update_jelala($updated_ids) {
+        $this->load->library('jelala');
+        $this->jelala->update_campaign($updated_ids);
+    }
+
     public function update_campaign() {
         $this->_accesstrade_campaign();
+        $this->admitad_campaign();
     }
 
     public function _accesstrade_campaign() {
@@ -97,8 +103,97 @@ class Campaign extends MY_Controller {
 
         }
 
-        $this->load->library('jelala');
-        $this->jelala->update_campaign($updated_ids);
+        $this->_update_jelala($updated_ids);
+        
+    }
+
+    public function admitad_campaign() {
+
+        $status = ['active' => 'APPROVED', 'pending' => 'APPLYING', 'declined' => 'REJECTED'];
+
+        $this->load->library('admitad_api');
+        $advcampaigns = $this->admitad_api->advcampaigns();
+
+        $updated_ids = [];
+
+        $this->load->model('campaign_model');
+        foreach($advcampaigns['results'] as $campaign) {
+
+            $campaign_id = $campaign['id'];
+
+            $updated_ids[] = $campaign_id;
+
+            // $campaign_detail = $this->admitad_api->advcampaign($campaign_id);
+
+            // CHECK CAMPAIGN
+            $a_campaign = $this->campaign_model->get_by_id($campaign_id);
+            if(empty($a_campaign)) {
+                $this->campaign_model->insert($campaign_id);
+            }
+
+            // UPDATE REWARD DATA
+            $this->campaign_model->update_data(
+                $campaign_id,
+                $campaign['name'],
+                'admitad',
+                $campaign['site_url'],
+                NULL, // type
+                $campaign['activation_date'],
+                NULL,
+                NULL,
+                NULL, // $pointBack
+                $campaign['image'],
+                $campaign['description'],
+                $campaign['description'],
+                NULL, // customCreativesAvailable
+                NULL, // seoContentAvailable
+                $campaign['show_products_links'],
+                $campaign['allow_deeplink'], 
+                $campaign['gotolink'], // quicklink
+                $status[$campaign['connection_status']], // affiliateStatus
+                NULL, // affiliatedDate
+                $campaign['currency']
+            );
+
+            // UPDATE CATEGORY REWARD
+            foreach($campaign['actions_detail'] as $action_detail) {
+
+                foreach($action_detail['tariffs'] as $tariff) {
+                    foreach($tariff['rates'] as $rate) {
+
+                        $category_id = $action_detail['id'];
+                        $type = ($rate) ? 'CPA_SALES' : 'CPA_FIXED';
+                        $reward = $rate['size'];
+                        $name = $action_detail['name'];
+
+                        $this->campaign_model->update_category_reward($campaign_id, $category_id, $type, $reward, $name);
+
+                    }
+                }
+
+            }
+
+            $categories = [];
+            foreach($campaign['categories'] as $category) {
+                $categories[] = [
+                    'id' => $category['id'],
+                    'campaign_id' => $campaign_id,
+                    'name' => $category['name'],
+                    'value' => NULL,
+                    'item' => NULL,
+                    'parent_id' => empty($category['parent']) ? NULL : $category['parent']['id']
+                ];
+            }
+            $this->campaign_model->update_category($campaign_id, $categories);
+
+            if(empty($this->campaign_model->get_set_reward($campaign_id))) {
+                $this->campaign_model->insert_set_reward($campaign_id);
+            }  
+
+        }
+
+        $this->_update_jelala($updated_ids);
+
     }
 
 }

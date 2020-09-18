@@ -14,6 +14,7 @@
         </a>
     </li>
     <?php for($i=1; $i<=$total_page; $i++) { ?>
+        <?php if(abs($page - $i) > 3) { if(abs($page - $i) == 4) echo '<button class="btn btn-primary btn-link" disabled> ... </button>'; continue;} ?>
         <li class="page-item">
             <a href="<?php echo $url . 'page=' . $i; ?>">
                 <button class="btn btn-primary btn-link" <?php echo ($page == $i) ? 'disabled' : ''; ?>>

@@ -58,13 +58,13 @@ class Report extends MY_Controller {
                 $conversion['reward'],
                 $conversion['transactionAmount'],
                 $conversion['sessionId'],
+                NULL,
                 json_encode($conversion['parameters']),
                 (!empty($conversion['products'])) ? json_encode($conversion['products']) : NULL,
                 (!empty($other_parameters)) ? json_encode($other_parameters) : NULL
             );
         }
 
-        // print_r($conversions);
     }
 
 }
