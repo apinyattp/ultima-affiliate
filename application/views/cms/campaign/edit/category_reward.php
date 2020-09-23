@@ -3,7 +3,7 @@
   <p class="category">aa</p>
 </div>
 <div class="px-5 mb-3">
-  <div class="table-responsive">
+  <div class="table-responsive table-mh-5">
     <table class="table">
       <colgroup>
         <col span="1" class="w-50">

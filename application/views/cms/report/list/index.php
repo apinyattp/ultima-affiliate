@@ -1,4 +1,3 @@
-
 <div class="row">
   <div class="col-md-12">
     <div class="card px-5 py-2">
@@ -6,8 +5,9 @@
         <h4 class="title">Conversion Report</h4>
         <p class="category"></p>
       </div>
-      <?php $this->load->view('cms/report/list/search_filter'); ?>
       <div class="card-body">
+        <?php $this->load->view('cms/report/list/search_filter'); ?></div>
+        <?php $this->load->view('cms/report/list/summary'); ?>
         <div class="table-responsive">
           <table class="table">
             <thead>

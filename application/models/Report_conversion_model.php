@@ -85,4 +85,15 @@ class Report_conversion_model extends CI_Model {
         return $this->qs->get('report_conversion');
     }
 
+    public function get_summary($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE) {
+
+        $this->db->select('COALESCE(SUM(reward), 0) as reward, COALESCE(SUM(transaction_amount), 0) as transaction_amount');
+
+        if($start_date) $this->db->where($period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
+        if($end_date) $this->db->where($period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
+        if($status) $this->db->where('status', $status);
+        if($campaign_id) $this->db->where('campaign_id', $campaign_id);
+        return $this->db->get('report_conversion')->row_array();
+    }
+
 }

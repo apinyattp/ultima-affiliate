@@ -56,12 +56,21 @@ class Report extends MY_Controller {
 
         $a_campaign = $qs_campaign->result('cms/campaign/list', TRUE);
 
+        // GET SUMMARY
+        $a_summary = [
+            'pending' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'PENDING'),
+            'approved' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'APPROVED'),
+            'rejected' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'REJECTED'),
+            'total' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id)
+        ];
+
         $a_header_data = [
             'page' => 'report',
             'a_admin' => $a_admin
         ];
 
         $a_data = [
+            'a_summary' => $a_summary,
             'a_conversion' => $a_conversion,
             'a_campaign' => $a_campaign['lists'],
             'keyword' => $keyword,
