@@ -35,7 +35,7 @@
                   <td class="text-right"><?php echo $conversion['reward'] ?></td>
                   <td class="text-center"><?php echo $conversion['click_time'] ?></td>
                   <td class="text-center"><?php echo $conversion['conversion_time'] ?></td>
-                  <td class="text-center"><?php echo $conversion['confirmation_time'] ?></td>
+                  <td class="text-center"><?php echo ($conversion['confirmation_time'] == '0000-00-00 00:00:00') ? '' : $conversion['confirmation_time'] ?></td>
                   <td class="text-center"><?php echo $conversion['datetime_updated'] ?></td>
                   <td><?php echo $conversion['status'] ?></td>
                   <td class="text-center">

@@ -10,10 +10,12 @@ return [
     'a_campaign' => $a_campaign,
     'uid' => $data['uid'],
     'reward' => $data['reward'],
+    'transaction_amount' => $data['transaction_amount'],
     'verification_id' => $data['verification_id'],
     'click_time' => $data['click_time'],
     'conversion_time' => $data['conversion_time'],
     'confirmation_time' => $data['confirmation_time'],
     'datetime_updated' => $data['datetime_updated'],
     'status' => $data['status'],
+    'user_agent' => $data['user_agent']
 ];

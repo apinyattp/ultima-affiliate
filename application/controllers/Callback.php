@@ -48,7 +48,7 @@ class Callback extends MY_Controller {
         $reward = $conversion['reward'];
         $transaction_amount = $conversion['total_price'];
         $session_id = NULL;
-        $user_agent = $conversion['user_agent'];
+        $user_agent = $conversion['click_user_agent'];
 
         $parameters = $products = $other_parameters = NULL;
 
