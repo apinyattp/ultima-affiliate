@@ -8,10 +8,10 @@ class Report extends MY_Controller {
     }
 
     public function import() {
-        $this->_accesstrade_conversion();
+        $this->accesstrade_conversion();
     }
 
-    public function _accesstrade_conversion() {
+    public function accesstrade_conversion() {
         
         $fromDate = date('Y-m-d');
         $toDate = date('Y-m-d', strtotime("+1 days"));

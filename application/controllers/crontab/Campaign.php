@@ -131,6 +131,8 @@ class Campaign extends MY_Controller {
                 $this->campaign_model->insert($campaign_id);
             }
 
+            if($a_campaign['deleted']) continue;
+
             // UPDATE REWARD DATA
             $this->campaign_model->update_data(
                 $campaign_id,
