@@ -67,4 +67,62 @@ class Report extends MY_Controller {
 
     }
 
+    public function admitad_conversion() {
+
+        $a_status = ['new' => 'PENDING', 'pending' => 'PENDING', 'approved' => 'APPROVED', 'declined' => 'REJECTED'];
+
+        $this->load->library('admitad_api');
+
+        $date_start = date('d.m.Y', strtotime('2020-09-01'));
+        $date_end = date('d.m.Y');
+
+        $limit = 100;
+        $offset = 0;
+
+        while($offset >= 0) {
+
+            $a_conversion = $this->admitad_api->report(NULL, $date_start, $date_end, 'date', $limit, $offset);
+
+            $site_id = $this->config->item('website');
+
+            if(empty($a_conversion['results'])) break;
+
+
+            $this->load->model('report_conversion_model');
+            foreach($a_conversion['results'] as $conversion) {
+
+                $conversion_id = $conversion['action_id'];
+
+                $this->load->library('admitad_api');
+                $rate = $this->admitad_api->rate($conversion['currency'], 'THB', $conversion['action_date']);
+        
+                $products = json_encode($conversion['positions']);
+
+                $a_data = [
+                    'source' => 'admitad',
+                    'uid' => $conversion['subid4'],
+                    'site_id' => $site_id,
+                    'site_name' => $conversion['website_name'],
+                    'campaign_id' => $conversion['advcampaign_id'],
+                    'campaign_name' => $conversion['advcampaign_name'],
+                    'verification_id' => $conversion['order_id'],
+                    'click_time' => $conversion['click_date'],
+                    'conversion_time' => $conversion['action_date'],
+                    'confirmation_time' => ($conversion['status'] == 'approved') ? $conversion['status_updated'] : NULL,
+                    'status' => isset($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : 'PENDING',
+                    'reward' => $conversion['payment'] * $rate,
+                    'transaction_amount' => $conversion['cart'] * $rate,
+                    'products' => $products
+                ];
+
+                $this->report_conversion_model->update($conversion_id, $a_data);
+
+            }
+
+            $offset += 1;
+    
+        }
+
+    }
+
 }

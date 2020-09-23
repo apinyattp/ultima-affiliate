@@ -54,6 +54,22 @@ class Report_conversion_model extends CI_Model {
         }
     }
 
+    public function update($conversion_id, $a_data) {
+        $this->db->where('conversion_id', $conversion_id);
+        $this->db->update('report_conversion', $a_data);
+    }
+
+    public function update_status($conversion_id,$status, $confirmation_time, $reward, $transaction_amount) {
+        $a_data = [
+            'status' => $status,
+            'confirmation_time' => $confirmation_time,
+            'reward' => $reward,
+            'transaction_amount' => $transaction_amount
+        ];
+        $this->db->where('conversion_id', $conversion_id);
+        $this->db->update('report_conversion');
+    }
+
     public function get_list($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE) {
         $this->load->library('qs');
         if($start_date) $this->qs->where($period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');

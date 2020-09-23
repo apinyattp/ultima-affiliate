@@ -119,7 +119,7 @@ class Admitad_api {
         return $result;
     }
 
-    public function report($campaign=NULL, $date_start=NULL, $date_end=NULL, $order_by=NULL) {
+    public function report($campaign=NULL, $date_start=NULL, $date_end=NULL, $order_by=NULL, $limit=50, $offset=NULL) {
         $header = $this->_header('statistics');
 
         $data = [
@@ -127,7 +127,9 @@ class Admitad_api {
             'campaign' => $campaign,
             'date_start' => $date_start,
             'date_end' => $date_end,
-            'order_by' => $order_by
+            'order_by' => $order_by,
+            'limit' => $limit,
+            'offset' => $offset
         ];
 
         $url = $this->_endpoint . 'statistics/actions/';
@@ -156,5 +158,20 @@ class Admitad_api {
         $result = json_decode($response, TRUE);
 
         return $result;
+    }
+
+    public function rate($base, $target, $date) {
+
+        $date = date('Y-m-d', strtotime($date));
+
+        $this->_ci->load->model('data_model');
+        $exchange_rate =  $this->_ci->data_model->get_by_date('admitad', $date);
+        if(empty($exchange_rate)) {
+            $exchange_rate =  $this->currency_exchange_rate($base, 'THB', $date);
+
+            $this->_ci->data_model->create('admitad', $exchange_rate['base'], $exchange_rate['target'], $exchange_rate['rate'], $exchange_rate['date']);
+        }
+
+        return $exchange_rate['rate'];
     }
 }
