@@ -7,12 +7,13 @@
     <!-- Material Kit CSS -->
     <link href="<?php echo asset_base_url()?>paper/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo asset_base_url()?>paper/assets/css/paper-dashboard.css">
-    <title>Sign in Ultima-Life Affiliate</title>
+    <title>Sign in Jelala Affiliate</title>
   </head>
   <body>
-    <div class="wrapper">
-      <div class="row">
-        <div class="col-md-4 mx-auto">
+    <div class="wrapper container">
+      <div class="row d-flex h-100 align-items-center">
+        <div class="col-md-6 mx-auto">
+          <h2>Jelala Affiliate</h2>
           <div class="card">
             <div class="card-header">
               <h5 class="card-title">Sign in</h5>

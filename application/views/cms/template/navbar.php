@@ -11,12 +11,12 @@
     </div>
     <div class="sidebar-wrapper overflow-hidden">
         <ul class="nav">
-            <li class="<?php echo ($page == 'dashboard') ? 'active' : ''?>">
+            <!-- <li class="<?php echo ($page == 'dashboard') ? 'active' : ''?>">
             <a href="<?php echo site_url('cms/dashboard');?>">
                 <i class="nc-icon nc-bank"></i>
                 <p>Dashboard</p>
             </a>
-            </li>
+            </li> -->
             <li class="<?php echo ($page == 'campaign') ? 'active' : ''?>">
             <a href="<?php echo site_url('cms/campaign');?>">
                 <i class="nc-icon nc-diamond"></i>
@@ -26,7 +26,7 @@
             <li class="<?php echo ($page == 'report') ? 'active' : ''?>">
             <a href="<?php echo site_url('cms/report');?>">
                 <i class="nc-icon nc-pin-3"></i>
-                <p>Report</p>
+                <p>Conversion Report</p>
             </a>
             </li>
             <!-- <li class="<?php echo ($page == 'user') ? 'active' : ''?>">

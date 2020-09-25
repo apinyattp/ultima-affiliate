@@ -11,7 +11,7 @@
       var base_url = "<?php echo base_url() ?>"
     </script>
     <?php echo $this->head->js_get() ?>
-    <title>Ultima-Life Affiliate</title>
+    <title>Jelala Affiliate</title>
   </head>
   <body>
   <div class="wrapper h-100">

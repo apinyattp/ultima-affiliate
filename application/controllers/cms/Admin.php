@@ -29,7 +29,7 @@ class Admin extends MY_Controller {
         $result = $this->format->run('module/admin/admin/login_success', $a_admin);
 
         setcookie('utoken', $result['token'], time() + 28800, '/');
-        redirect('cms/dashboard');
+        redirect('cms/campaign');
     }
 
     public function logout() {
