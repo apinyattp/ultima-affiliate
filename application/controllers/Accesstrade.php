@@ -146,7 +146,7 @@ class Accesstrade extends MY_Controller
             'fromDate' => date($format, strtotime($fromDate)),
             'toDate' => date($format, strtotime($toDate)),
             'campaignId' => $campaignId,
-            'periodBase' => empty($periodBase) ? 'CONVERSION_DATE' : 'UPDATED_DATE',
+            'periodBase' => empty($periodBase) ? 'CONVERSION_DATE' : $periodBase,
             'conversionStatuses' => $conversionStatuses
         ];
 

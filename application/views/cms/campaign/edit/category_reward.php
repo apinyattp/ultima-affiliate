@@ -1,6 +1,5 @@
 <div>
   <h5 class="title">Category Reward</h5>
-  <p class="category">aa</p>
 </div>
 <div class="px-5 mb-3">
   <div class="table-responsive table-mh-5">

@@ -7,15 +7,25 @@
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-end">
     <li class="page-item">
+        <a href="<?php echo $url . 'page=1'?>">
+        <button class="btn btn-primary btn-link" <?php echo ($page == 1) ? 'disabled' : ''; ?>>
+            First
+        </button>
+        </a>
+    </li>
+    <li class="page-item">
         <a href="<?php echo $url . 'page=' .( $page - 1); ?>">
         <button class="btn btn-primary btn-link" <?php echo ($page == 1) ? 'disabled' : ''; ?>>
-            Previous
+            &laquo;
         </button>
         </a>
     </li>
     <?php for($i=1; $i<=$total_page; $i++) { ?>
-        <?php if(abs($page - $i) > 3) { if(abs($page - $i) == 4) echo '<button class="btn btn-primary btn-link" disabled> ... </button>'; continue;} ?>
-        <li class="page-item">
+        <?php if(abs($page - $i) > 3) { 
+            if(abs($page - $i) == 4) echo '<button class="btn btn-primary btn-link" disabled> ... </button>';  
+            continue;
+        } ?>
+        <li class="page-item">  
             <a href="<?php echo $url . 'page=' . $i; ?>">
                 <button class="btn btn-primary btn-link" <?php echo ($page == $i) ? 'disabled' : ''; ?>>
                 <?php echo $i; ?>
@@ -25,7 +35,14 @@
     <?php } ?>
     <li class="page-item">
         <a href="<?php echo $url . 'page=' .( $page + 1); ?>">
-        <button class="btn btn-primary btn-link" <?php echo ($page == $total_page) ? 'disabled' : ''; ?>>Next</button>
+        <button class="btn btn-primary btn-link" <?php echo ($page == $total_page) ? 'disabled' : ''; ?>>&raquo;</button>
+        </a>
+    </li>
+    <li class="page-item">
+        <a href="<?php echo $url . 'page=' . $total_page ?>">
+        <button class="btn btn-primary btn-link" <?php echo ($page == $total_page) ? 'disabled' : ''; ?>>
+            Last
+        </button>
         </a>
     </li>
     </ul>

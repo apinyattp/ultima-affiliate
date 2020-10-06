@@ -1,8 +1,12 @@
 $(document).ready(function(){
   $('#startDatePicker').datepicker({
+    // 'date': $(this).val()
   });
 
   $('#endDatePicker').datepicker({
+  });
+
+  $('.input-daterange').each(function() {
   });
 
   $('#sortable').sortable();

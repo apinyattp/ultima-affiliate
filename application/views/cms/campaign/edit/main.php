@@ -39,7 +39,7 @@
           <input type="text" class="form-control" id="input-enddate" placeholder="<?php echo empty($endDate) ? null : date('m/d/Y', strtotime($endDate)); ?>" readonly>
         </div>
         <div class="form-group col-md-6 mb-4">
-          <label class="control-label" for="input-cashback">Cashback Duration (Day) *</label>
+          <label class="control-label" for="input-cashback">Cashback Duration (Day) * (Recommend : 90-120)</label>
           <input type="text" class="form-control" id="input-cashback" name="cashback" placeholder="" value="<?php echo $cashback;?>">
           <label for="input-cashback"><span id="error"></span></label>
         </div>

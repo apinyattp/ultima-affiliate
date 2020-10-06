@@ -50,15 +50,6 @@
         </div>
       </div>
     </div>
-    <div class="form-group col-md-2">
-        <label for="inputStatus">Status</label>
-        <select id="inputStatus" class="form-control" name="status">
-            <option value="" selected>All</option>
-            <?php foreach($a_status as $value => $text) { ?>
-              <option value="<?php echo $value ?>"><?php echo $text ?></option>
-            <?php } ?>
-        </select>
-    </div>
     <div class="col-md-1">
       <button id="searchBtn" class="btn btn-primary">Search</button>        
     </div>

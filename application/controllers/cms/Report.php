@@ -26,6 +26,8 @@ class Report extends MY_Controller {
         $sort = $this->input->get('sort');
 
         $period_base = empty($period_base) ? 'datetime_updated' : $period_base;
+        // $start_date = empty($start_date) ? date('Y-m-d') : $start_date;
+        // $end_date = empty($end_date) ? date('m/d/Y') : $end_date;
 
         $page = max(1, $page);
         $perpage = empty($perpage) ? 10 : $perpage;
