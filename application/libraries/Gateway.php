@@ -5,7 +5,7 @@ class Gateway {
     private $_ci;
     private $_auth_user;
     private $_auth_password;
-    var $_debug = TRUE;
+    var $_debug;
 
     private $_httpcode;
 
