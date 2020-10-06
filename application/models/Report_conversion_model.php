@@ -67,7 +67,7 @@ class Report_conversion_model extends CI_Model {
             'transaction_amount' => $transaction_amount
         ];
         $this->db->where('conversion_id', $conversion_id);
-        $this->db->update('report_conversion');
+        $this->db->update('report_conversion', $a_data);
     }
 
     public function get_list($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE) {
