@@ -9,7 +9,7 @@ class Report extends MY_Controller {
 
     public function import() {
         $this->accesstrade_conversion();
-        $this->admitad_conversion();
+        // $this->admitad_conversion();
     }
 
     public function accesstrade_conversion() {
