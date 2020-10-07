@@ -9,7 +9,7 @@ class Report extends MY_Controller {
 
     public function import() {
         $this->accesstrade_conversion();
-        // $this->admitad_conversion();
+        $this->admitad_conversion();
     }
 
     public function accesstrade_conversion() {
@@ -89,8 +89,8 @@ class Report extends MY_Controller {
 
         $this->load->library('admitad_api');
 
-        $date_start = date('d.m.Y', strtotime('2020-09-01'));
-        $date_end = date('d.m.Y');
+        $date_start = date('d.m.Y');
+        $date_end = date('d.m.Y', strtotime("+1 days"));
 
         $limit = 100;
         $offset = 0;
