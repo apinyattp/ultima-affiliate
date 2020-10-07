@@ -120,11 +120,10 @@ class Report extends MY_Controller {
                 $reward = $conversion['payment'] * $rate;
 
                 $transaction_amount = $conversion['cart'] * $rate;
-print_r($status);
-print_r($a_conversion);die();
+
                 // UPDATE STATUS
-                $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id);
-                if($status != 'PENDING' && !empty($a_conversion)) {
+                $conversion_data = $this->report_conversion_model->get_by_conversion_id($conversion_id);
+                if($status != 'PENDING' && !empty($conversion_data)) {
                     $this->report_conversion_model->update_status(
                         $conversion_id, 
                         $status, 
