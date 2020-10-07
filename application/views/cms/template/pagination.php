@@ -1,7 +1,13 @@
 <?php 
+
+    $get = $_GET;
+    $remove = ['page', 'perpage'];
+    array_diff_key($get, array_flip($remove));
+    $http_build_query = http_build_query($get);
+
     $page = $page;
     $perpage = $perpage;
-    $url = base_url() . $path . '?perpage='.$perpage.'&';
+    $url = base_url() . $path . '?'.$http_build_query.'&perpage='.$perpage.'&';
 ?>
 
 <nav aria-label="Page navigation">
