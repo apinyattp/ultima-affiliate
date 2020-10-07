@@ -100,7 +100,7 @@ class Report extends MY_Controller {
         while($offset >= 0) {
 
             $a_conversion = $this->admitad_api->report(NULL, $date_start, $date_end, 'date', $limit, $offset);
-
+print_r($a_conversion);die();
             $site_id = $this->config->item('website');
 
             if(empty($a_conversion['results'])) break;
