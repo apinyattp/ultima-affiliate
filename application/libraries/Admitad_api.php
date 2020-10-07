@@ -143,7 +143,7 @@ class Admitad_api {
 
     public function currency_exchange_rate($base, $target, $date) {
         $header = $this->_header('public_data');
-
+print_r($date);die();
         $data = [
             'language' => $this->_language,
             'base' => $base,
