@@ -123,7 +123,10 @@ class Report extends MY_Controller {
 
                 // UPDATE STATUS
                 $conversion_data = $this->report_conversion_model->get_by_conversion_id($conversion_id);
+                print_r($status);
+                print_r($conversion_data);
                 if($status != 'PENDING' && !empty($conversion_data)) {
+                    echo 11;die();
                     $this->report_conversion_model->update_status(
                         $conversion_id, 
                         $status, 
@@ -134,7 +137,7 @@ class Report extends MY_Controller {
 
                     return TRUE;
                 }
-        
+echo 22;die();
                 $a_data = [
                     'source' => 'admitad',
                     'uid' => $conversion['subid4'],
