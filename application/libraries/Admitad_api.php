@@ -156,7 +156,7 @@ class Admitad_api {
         $response = $this->_ci->gateway->curl_get($url, $data, $header);
 
         $result = json_decode($response, TRUE);
-
+print_r($result);die();
         return $result;
     }
 
