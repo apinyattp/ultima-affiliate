@@ -282,4 +282,25 @@ class Campaign extends MY_Controller {
         $this->jelala->update_campaign($ids);
     }
 
+    public function export() {
+        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        
+        $keyword = $this->input->get('keyword');
+        $status = $this->input->get('status');
+
+        $this->load->model('campaign_model');
+
+        $this->load->library('qs');
+        $qs_result = $this->campaign_model->get_list($keyword, $status);
+
+        $a_header = [
+            'Campaign Name',
+            'Link',
+            'Quicklink',
+            'Affiliate Status'
+        ];
+
+        $qs_result->export('export_campaign', 'csv', $a_header, 'cms/campaign/export');
+    }
+
 }

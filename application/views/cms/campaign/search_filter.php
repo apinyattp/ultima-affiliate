@@ -21,7 +21,13 @@
     </form>
   </div>
   <div class="p-2 align-self-end">
-    <div class="">
+    <div>
+      <a href="<?php echo base_url().'cms/campaign/export'?>">
+        <button id="exportCampaignButton" class="btn btn-info">
+            Export Campaign
+            <i class="pl-2 fas fa-download"></i>
+        </button>  
+      </a>
       <button id="syncCampaignButton" class="btn btn-info" onclick="syncCampaign()">
         Sync Campaign
         <i class="pl-2 fas fa-download"></i>

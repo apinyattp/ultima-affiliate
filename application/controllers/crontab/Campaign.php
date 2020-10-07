@@ -114,6 +114,8 @@ class Campaign extends MY_Controller {
         $this->load->library('admitad_api');
         $advcampaigns = $this->admitad_api->advcampaigns();
 
+        if(!isset($advcampaigns['results'])) return TRUE;
+
         $updated_ids = [];
 
         $this->load->model('campaign_model');
