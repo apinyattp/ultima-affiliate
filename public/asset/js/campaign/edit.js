@@ -55,9 +55,12 @@ $(document).ready(function(){
     }
   })
 
-  ClassicEditor.create( document.querySelector( '#descriptionEditor' ) )
+  ClassicEditor.create( document.querySelector( '#input-description' ) )
+  .then( newEditor => {
+      descriptionEditor = newEditor;
+  } )
   .catch( error => {
-    // console.error( error );
+    // console.error( error );  
   } );
 
   ClassicEditor.create( document.querySelector( '#input-condition_do' ) )
@@ -100,7 +103,7 @@ function validate(id) {
       'display_name': $('#input-display_name').val(),
       'cashback': $('#input-cashback').val(),
       'image_file_id': $('#input-image_file_id').val(),
-      'description': $('#input-description').val(),
+      'description': descriptionEditor.getData(),
       'status': $('#input-status').val(),
       'condition_do': doEditor.getData(),
       'condition_dont': dontEditor.getData(),

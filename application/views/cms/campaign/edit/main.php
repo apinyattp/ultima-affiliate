@@ -49,7 +49,7 @@
         </div>
         <div class="form-group col-md-6 mb-4">
           <label class="control-label" for="input-description">Set New Description *</label>
-          <textarea class="form-control mh-100" id="input-description" name="description" rows="10"><?php echo $description;?></textarea>
+          <textarea class="form-control ck-editor__editable ck-editor__editable_inline" id="input-description" name="description" rows="10"><?php echo $description;?></textarea>
           <label for="input-description"><span id="error"></span></label>
         </div>
         <div class="form-group col-md-6 mb-4">

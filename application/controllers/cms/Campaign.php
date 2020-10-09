@@ -15,6 +15,10 @@ class Campaign extends MY_Controller {
         redirect('cms/campaign/list');
     }
 
+    private function _update_jelala($ids) {
+        $this->jelala->update_campaign($ids);
+    }
+
     private function _highlight_list() {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
 
@@ -276,10 +280,6 @@ class Campaign extends MY_Controller {
         if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
         
         return $this->_echo_json(E::SUCCESS);
-    }
-
-    private function _update_jelala($ids) {
-        $this->jelala->update_campaign($ids);
     }
 
     public function export() {

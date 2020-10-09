@@ -43,3 +43,8 @@ input[type=number] {
   max-height: 500px;
   overflow-y: auto;
 }
+
+.ck-editor__editable_inline {
+  min-height: 264.33px;
+  max-height: 264.33px;
+}
