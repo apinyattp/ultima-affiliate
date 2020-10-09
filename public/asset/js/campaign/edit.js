@@ -55,7 +55,11 @@ $(document).ready(function(){
     }
   })
 
-  ClassicEditor.create( document.querySelector( '#input-description' ) )
+  const unusedPlugins =  [ "MediaEmbed", "Image", "ImageCaption", "ImageStyle", "ImageToolbar", "ImageUpload" ]
+
+  ClassicEditor.create( document.querySelector( '#input-description' ), {
+    removePlugins: unusedPlugins,
+  } )
   .then( newEditor => {
       descriptionEditor = newEditor;
   } )
@@ -63,7 +67,9 @@ $(document).ready(function(){
     // console.error( error );  
   } );
 
-  ClassicEditor.create( document.querySelector( '#input-condition_do' ) )
+  ClassicEditor.create( document.querySelector( '#input-condition_do' ), {
+    removePlugins: unusedPlugins,
+  } )
   .then( newEditor => {
       doEditor = newEditor;
   } )
@@ -71,7 +77,9 @@ $(document).ready(function(){
     // console.error( error );  
   } );
 
-  ClassicEditor.create( document.querySelector( '#input-condition_dont' ) )
+  ClassicEditor.create( document.querySelector( '#input-condition_dont' ), {
+    removePlugins: unusedPlugins,
+  } )
   .then( newEditor => {
       dontEditor = newEditor;
   } )
@@ -79,7 +87,9 @@ $(document).ready(function(){
     // console.error( error );
   } );
 
-  ClassicEditor.create( document.querySelector( '#input-note' ) )
+  ClassicEditor.create( document.querySelector( '#input-note' ), {
+    removePlugins: unusedPlugins,
+  } )
   .then( newEditor => {
       noteEditor = newEditor;
   } )
