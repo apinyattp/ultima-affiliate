@@ -29,9 +29,15 @@ class Report extends MY_Controller {
         foreach($conversions['conversionReportItems'] as $conversion) {
 
             $uid = 0;
+            $click_user_agent = NULL;
             foreach($conversion['parameters'] as $parameter) {
-                if($parameter['name'] != 'uid') continue;
-                $uid = $parameter['value'];
+                if($parameter['name'] == 'uid') {
+                    $uid = $parameter['value'];
+                }else if($parameter['name'] == 'click_user_agent') {
+                    $click_user_agent = $parameter['value'];
+                }else {
+                    continue;
+                }
             }
 
             $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion['conversionId']);
@@ -74,7 +80,7 @@ class Report extends MY_Controller {
                 $conversion['reward'],
                 $conversion['transactionAmount'],
                 $conversion['sessionId'],
-                NULL,
+                $click_user_agent,
                 json_encode($conversion['parameters']),
                 (!empty($conversion['products'])) ? json_encode($conversion['products']) : NULL,
                 (!empty($other_parameters)) ? json_encode($other_parameters) : NULL
