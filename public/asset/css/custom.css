@@ -48,8 +48,3 @@ input[type=number] {
   min-height: 264.33px;
   max-height: 264.33px;
 }
-
-.badge-super-danger {
-  border-color: #FF4E29;
-  background-color: #FF4E29;
-}
