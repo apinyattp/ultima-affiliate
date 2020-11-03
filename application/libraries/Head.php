@@ -29,7 +29,7 @@ class Head {
     );
 
     private $_html = array();
-    private $_title = 'Ulyima Life Affiliate';
+    private $_title = 'Jelala Affiliate';
     private $_top_title = '';
     private $_description = '';
     private $_keyword = '';

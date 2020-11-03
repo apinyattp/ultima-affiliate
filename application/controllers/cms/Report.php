@@ -76,7 +76,6 @@ class Report extends MY_Controller {
             'a_conversion' => $a_conversion,
             'a_campaign' => $a_campaign['lists'],
             'keyword' => $keyword,
-            'a_status' => $a_status,
             'status' => $status,
             'period_base' => $period_base,
             'start_date' => $start_date,
@@ -109,6 +108,45 @@ class Report extends MY_Controller {
         $this->load->view('cms/template/header', $a_header_data);
         $this->load->view('cms/report/detail/index', $a_data);
         $this->load->view('cms/template/footer');
+    }
+
+    public function export() {
+        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+
+        $keyword = $this->input->get('keyword');
+        $status = $this->input->get('status');
+        $period_base = $this->input->get('period_base');
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+        $campaign_id = $this->input->get('campaign_id');
+
+        $period_base = empty($period_base) ? 'datetime_updated' : $period_base;
+
+        $a_status = ['pending' => 'PENDING', 'approved' => 'APPROVED', 'rejected' => 'REJECTED'];
+
+        $status = (isset($a_status[$status])) ? $a_status[$status] : NULL;
+
+        $this->load->model('report_conversion_model');
+        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status);
+
+        $this->load->library('qs');
+
+        $a_header = [
+            'Conversion ID',
+            'Campaign',
+            'Uid',
+            'Cashback',
+            'Transaction Amount',
+            'Transaction ID',
+            'Click Time',
+            'Conversion Time',
+            'Confirmation Time',
+            'Updaeted Time',
+            'Status'
+        ];
+
+        $qs_conversion->export('conversion_report', 'csv', $a_header, 'cms/report/conversion/export');
+
     }
 
 }

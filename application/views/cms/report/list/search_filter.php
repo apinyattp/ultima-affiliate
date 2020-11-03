@@ -9,6 +9,15 @@
             <?php } ?>
         </select>
     </div>
+    <div class="form-group col-md-2">
+      <label for="inputStatus">Status</label>
+      <select id="inputStatus" id="status" name="status" class="form-control">
+          <option value="" <?php if(empty($status)) echo 'selected' ?>>All</option>
+          <option value="pending" <?php if($status == 'PENDING') echo 'selected' ?>>Pending</option>
+          <option value="approved" <?php if($status == 'APPROVED') echo 'selected' ?>>Approved</option>
+          <option value="rejected" <?php if($status == 'REJECTED') echo 'selected' ?>>Rejected</option>
+      </select>
+    </div>
     <div class="col-md-2">
       <div class="form-check form-check-radio">
           <label class="form-check-label">

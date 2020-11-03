@@ -1,5 +1,5 @@
 function update_comingsoon_status(id) {
-console.log(id)
+
     element = $('#comingSoonToggle'+id)
 
     coming_soon = (element.attr('checked')) ? 0 : 1

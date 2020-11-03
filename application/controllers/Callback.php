@@ -160,4 +160,11 @@ class Callback extends MY_Controller {
         );
     }
 
+    public function nsq() {
+        $data = json_encode($_GET);
+
+        $this->load->model('callback_model');
+        $this->callback_model->create('nsq', $data);
+    }
+
 }
