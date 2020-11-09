@@ -55,46 +55,64 @@ $(document).ready(function(){
     }
   })
 
-  const unusedPlugins =  [ "MediaEmbed", "Image", "ImageCaption", "ImageStyle", "ImageToolbar", "ImageUpload" ]
+  const editorConfig = {
+    toolbar: {
+      items: [
+        'heading',
+        '|',
+        'bold',
+        'italic',
+        // 'fontSize',
+        'fontColor',
+        'link',
+        'bulletedList',
+        'numberedList',
+        '|',
+        'indent',
+        'outdent',
+        '|',
+        'blockQuote',
+        'insertTable',
+        'undo',
+        'redo'
+      ]
+    }
+  }
 
-  ClassicEditor.create( document.querySelector( '#input-description' ), {
-    removePlugins: unusedPlugins,
-  } )
-  .then( newEditor => {
-      descriptionEditor = newEditor;
+  ClassicEditor.create( document.querySelector( '#input-description' ), editorConfig )
+  .then( editor => {
+    descriptionEditor = editor;
   } )
   .catch( error => {
-    // console.error( error );  
+    console.error( 'Oops, something went wrong!' );
+    console.error( error );
   } );
 
-  ClassicEditor.create( document.querySelector( '#input-condition_do' ), {
-    removePlugins: unusedPlugins,
-  } )
-  .then( newEditor => {
-      doEditor = newEditor;
+  ClassicEditor.create( document.querySelector( '#input-condition_do' ), editorConfig )
+  .then( editor => {
+    descriptionEditor = editor;
   } )
   .catch( error => {
-    // console.error( error );  
+    console.error( 'Oops, something went wrong!' );
+    console.error( error );
   } );
 
-  ClassicEditor.create( document.querySelector( '#input-condition_dont' ), {
-    removePlugins: unusedPlugins,
-  } )
-  .then( newEditor => {
-      dontEditor = newEditor;
+  ClassicEditor.create( document.querySelector( '#input-condition_dont' ), editorConfig )
+  .then( editor => {
+    dontEditor = editor;
   } )
   .catch( error => {
-    // console.error( error );
+    console.error( 'Oops, something went wrong!' );
+    console.error( error );
   } );
 
-  ClassicEditor.create( document.querySelector( '#input-note' ), {
-    removePlugins: unusedPlugins,
-  } )
-  .then( newEditor => {
-      noteEditor = newEditor;
+  ClassicEditor.create( document.querySelector( '#input-note' ), editorConfig )
+  .then( editor => {
+    noteEditor = editor;
   } )
   .catch( error => {
-    // console.error( error );
+    console.error( 'Oops, something went wrong!' );
+    console.error( error );
   } );
 
   $('#btn-save').on('click', function (e) {
