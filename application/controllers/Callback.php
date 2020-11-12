@@ -160,6 +160,13 @@ class Callback extends MY_Controller {
         );
     }
 
+    public function involve_asia() {
+        $data = json_encode($_GET);
+
+        $this->load->model('callback_model');
+        $this->callback_model->create('involve_asia', $data);
+    }
+    
     public function nsq() {
         $data = json_encode($_GET);
 
