@@ -90,7 +90,7 @@ $(document).ready(function(){
 
   ClassicEditor.create( document.querySelector( '#input-condition_do' ), editorConfig )
   .then( editor => {
-    descriptionEditor = editor;
+    doEditor = editor;
   } )
   .catch( error => {
     console.error( 'Oops, something went wrong!' );
