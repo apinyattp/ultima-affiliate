@@ -1,5 +1,9 @@
 <form action="<?php echo site_url('cms/report/list');?>"  method="get" autocomplete="off">
   <div class="row">
+    <div class="form-group col-md-6">
+      <label for="inputKeyword">Keyword (uid)</label>
+      <input id="keyword" name="keyword" type="text" class="form-control" placeholder="" value="<?php echo $keyword?>">
+    </div>
     <div class="form-group col-md-3">
         <label for="inputCampaign">Campaign</label>
         <select id="inputCampaign" id="campaign" name="campaign_id" class="form-control">
@@ -18,27 +22,37 @@
           <option value="rejected" <?php if($status == 'REJECTED') echo 'selected' ?>>Rejected</option>
       </select>
     </div>
-    <div class="col-md-2">
-      <div class="form-check form-check-radio">
-          <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="period_base" id="period_base1" value="conversion_time" <?php if($period_base == 'conversion_time') echo 'checked'?>>
-              Conversion Time
-              <span class="form-check-sign"></span>
-          </label>
-      </div>
-      <div class="form-check form-check-radio">
-          <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="period_base" id="period_base2" value="confirmation_time" <?php if($period_base == 'confirmation_time') echo 'checked'?>>
-              Confirmation Time
-              <span class="form-check-sign"></span>
-          </label>
-      </div>
-      <div class="form-check form-check-radio">
-          <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="period_base" id="period_base3" value="datetime_updated" <?php if($period_base == 'datetime_updated') echo 'checked'?>>
-              Updated Time
-              <span class="form-check-sign"></span>
-          </label>
+  </div>
+  <div class="row">
+    <div class="col-md-6 align-self-center">
+      <div class="row">
+        <div class="col">
+          <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="period_base" id="period_base1" value="conversion_time" <?php if($period_base == 'conversion_time') echo 'checked'?>>
+                  Conversion Time
+                  <span class="form-check-sign"></span>
+              </label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="period_base" id="period_base2" value="confirmation_time" <?php if($period_base == 'confirmation_time') echo 'checked'?>>
+                  Confirmation Time
+                  <span class="form-check-sign"></span>
+              </label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-check form-check-radio">
+              <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="period_base" id="period_base3" value="datetime_updated" <?php if($period_base == 'datetime_updated') echo 'checked'?>>
+                  Updated Time
+                  <span class="form-check-sign"></span>
+              </label>
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-group col-md-2">
@@ -59,7 +73,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-1 my-auto">
       <button id="searchBtn" class="btn btn-primary">Search</button>        
     </div>
   </div>
