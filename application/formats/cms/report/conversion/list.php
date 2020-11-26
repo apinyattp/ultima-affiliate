@@ -11,7 +11,7 @@ return [
     'uid' => $data['uid'],
     'reward' => $data['reward'],
     'original_reward' => $data['original_reward'],
-    'currency' => $data['currency'],
+    'currency' => empty($data['currency']) ? 'THB' : $data['currency'],
     'verification_id' => $data['verification_id'],
     'click_time' => $data['click_time'],
     'conversion_time' => $data['conversion_time'],

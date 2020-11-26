@@ -13,14 +13,17 @@ foreach((array) $products as $key => $product) {
 
 return [
     'id' => $data['id'],
+    'source' => $data['source'],
     'conversion_id' => $data['conversion_id'],
     'a_campaign' => $this->format->run('api/report/campaign', $a_campaign),
     'uid' => $data['uid'],
     'reward' => $data['reward'],
+    'currency' => empty($data['currency']) ? 'THB' : $data['currency'],
     'customerType' => $data['customerType'],
     'click_time' => $data['click_time'],
     'conversion_time' => $data['conversion_time'],
     'confirmation_time' => $data['confirmation_time'],
+    'paid_time' => $data['paid_time'],
     'datetime_updated' => $data['datetime_updated'],
     'status' => $data['status'],
     'transaction_id' => $data['verification_id'],
