@@ -138,7 +138,14 @@ class Report_conversion_model extends CI_Model {
 
         $this->db->select('COALESCE(SUM(reward), 0) as reward, COALESCE(SUM(transaction_amount), 0) as transaction_amount');
 
-        $this->db->where('currency', $currency);
+        if($currency == 'THB') {
+            $this->db->group_start();
+            $this->db->where('currency', 'THB');
+            $this->db->or_where('currency IS NULL', NULL, TRUE);
+            $this->db->group_end();
+        }else {
+            $this->db->where('currency', $currency);
+        }
         if($start_date) $this->db->where($period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
         if($end_date) $this->db->where($period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
         if($status) $this->db->where('status', $status);
