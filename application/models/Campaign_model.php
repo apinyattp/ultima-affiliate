@@ -21,6 +21,17 @@ class campaign_model extends CI_Model {
         return $this->db->get('campaign')->row_array();
     }
 
+    public function get_by_code($campaign_code, $status=FALSE) {
+        $this->db->select('*');
+        $this->db->select('campaign.description as description');
+        $this->db->select('campaign_data.description as default_description');
+        $this->db->where('code', $campaign_code);
+        if($status) $this->db->where('status', $status);
+        $this->db->limit(1);
+        $this->db->join('campaign_data', 'campaign.id = campaign_data.campaign_id');
+        return $this->db->get('campaign')->row_array();
+    }
+
     public function get_data_by_id($campaign_id) {
         $this->db->where('campaign_id', $campaign_id);
         $this->db->limit(1);
@@ -49,6 +60,11 @@ class campaign_model extends CI_Model {
 
     public function insert($id) {
         $this->db->insert('campaign', ['id' => $id]);
+        return $this->db->insert_id();
+    }
+
+    public function insert_by_code($campaign_code) {
+        $this->db->insert('campaign', ['code' => $campaign_code]);
         return $this->db->insert_id();
     }
 
@@ -101,13 +117,6 @@ class campaign_model extends CI_Model {
             $this->db->update('campaign_data', $a_set);
         }
     }
-
-    // UPDATE STATUS ACTIVE / INACTIVE
-    // public function update_status($campaign_id, $status) {
-    //     $this->db->set('status', $status);
-    //     $this->db->where('id', $campaign_id);
-    //     $this->db->update('campaign');
-    // }
 
     // UPDATE STATUS COMING SOON
     public function update_comingsoon_status($campaign_id, $coming_soon) {
@@ -167,10 +176,11 @@ class campaign_model extends CI_Model {
         return $this->db->get('campaign_category_reward')->row('min_reward');
     }
 
-    public function update_category_reward($campaign_id, $category_id, $type, $reward, $name=TRUE) {
+    public function update_category_reward($campaign_id, $category_id, $type, $reward, $name=TRUE, $text=NULL) {
         $a_set = [
             'campaign_id' => $campaign_id,
             'category_id' => $category_id,
+            'text' => $text,
             'name' => $name,
             'type' => $type,
             'reward' => $reward

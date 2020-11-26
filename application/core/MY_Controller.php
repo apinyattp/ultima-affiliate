@@ -116,4 +116,11 @@ class MY_Controller extends Builder\Core\Controller {
         return FALSE;
     }
 
+    protected function gen_campaign_code($str, $id) {
+        $strid = sprintf("%05d", $id);
+                
+        $code = "{$str}{$strid}";
+
+        return $code;
+    }
 }

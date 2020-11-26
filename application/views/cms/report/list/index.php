@@ -21,14 +21,15 @@
             <thead>
               <tr class="text-nowrap">
                 <th scope="col">Conversion ID</th>
-                <!-- <th scope="col">Transaction ID</th> -->
+                <th scope="col">Order ID</th>
                 <th scope="col">Campaign</th>
                 <th scope="col">UID</th>
                 <th scope="col">Cashback</th>
                 <th scope="col">Cashback <br><small>(Include Vat)</small></th>
-                <th scope="col" class="text-center">Click Time</th>
+                <th scope="col">Currency</th>
                 <th scope="col">Conversion Time</th>
                 <th scope="col">Confirmation Time</th>
+                <th scope="col">Paid Time</th>
                 <th scope="col">Updated Time</th>
                 <th scope="col">Status</th>
                 <th class="text-center" scope="col">Detail</th>
@@ -38,19 +39,22 @@
               <?php foreach($a_conversion['lists'] as $conversion) { ?>
                 <tr>
                   <td><?php echo $conversion['conversion_id'] ?></td>
-                  <!-- <td><?php echo $conversion['verification_id'] ?></td> -->
+                  <td><?php echo $conversion['verification_id'] ?></td>
                   <td><?php echo $conversion['a_campaign']['name'] ?></td>
                   <td><?php echo $conversion['uid'] ?></td>
-                  <td class="text-right"><?php echo $conversion['reward'] ?></td>
+                  <td class="text-right">
+                    <?php echo ($conversion['original_reward']) ? $conversion['original_reward'] : $conversion['reward']; ?>
+                  </td>
                   <td class="text-right">
                     <?php 
                       $vat = ($conversion['reward'] / 100) * 7;
                       echo $conversion['reward'] + $vat;
                     ?>
                   </td>
-                  <td class="text-center"><?php echo $conversion['click_time'] ?></td>
+                  <td class="text-center"><?php echo (is_null($conversion['currency'])) ? 'THB' : $conversion['currency'] ?></td>
                   <td class="text-center"><?php echo $conversion['conversion_time'] ?></td>
                   <td class="text-center"><?php echo ($conversion['confirmation_time'] == '0000-00-00 00:00:00') ? '' : $conversion['confirmation_time'] ?></td>
+                  <td class="text-center"><?php echo $conversion['paid_time'] ?></td>
                   <td class="text-center"><?php echo $conversion['datetime_updated'] ?></td>
                   <td class="text-center">
                     <?php

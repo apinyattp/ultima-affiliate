@@ -1,7 +1,7 @@
 <tr class="<?php if($deleted) echo 'disabled'?>">
   <td scope="row">
   <div class="text-left">
-      <img src="<?php echo $image_url ?>" class="rounded">
+      <img src="<?php echo $image_url ?>" class="rounded" style="max-height: 100px">
   </div>
   </td>
   <td><?php echo $name?></td>

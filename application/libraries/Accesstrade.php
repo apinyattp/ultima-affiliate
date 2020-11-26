@@ -119,4 +119,22 @@ class Accesstrade extends MY_Controller {
         return $response;       
     }
 
+    public function payment($fromMonth, $toMonth) {
+
+        $url = $this->endpoint . 'v1/publishers/me/payment';
+
+        $format = 'Y-m';
+
+        $data = [
+            'fromMonth' => date($format, strtotime($fromMonth)),
+            'toMonth' => date($format, strtotime($toMonth)),
+            'invoiceNumber' => ''
+        ];
+
+        $header = $this->_header();
+        $response = json_decode($this->_ci->gateway->curl_get($url, $data, $header), TRUE);
+
+        return $response;   
+    }
+
 }

@@ -1,7 +1,7 @@
 <form action="<?php echo site_url('cms/report/list');?>"  method="get" autocomplete="off">
   <div class="row">
     <div class="form-group col-md-6">
-      <label for="inputKeyword">Keyword (uid)</label>
+      <label for="inputKeyword">Keyword (UID, Conversion ID, Order ID)</label>
       <input id="keyword" name="keyword" type="text" class="form-control" placeholder="" value="<?php echo $keyword?>">
     </div>
     <div class="form-group col-md-3">

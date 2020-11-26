@@ -15,6 +15,7 @@ class Campaign extends MY_Controller {
     public function update_campaign() {
         $this->_accesstrade_campaign();
         $this->admitad_campaign();
+        $this->involve_asia_campaign();
     }
 
     public function _accesstrade_campaign() {
@@ -121,16 +122,18 @@ class Campaign extends MY_Controller {
         $this->load->model('campaign_model');
         foreach($advcampaigns['results'] as $campaign) {
 
-            $campaign_id = $campaign['id'];
+            $id = sprintf("%05d", $campaign['id']);
+                
+            $campaign_code = "AMA{$id}";
 
-            $updated_ids[] = $campaign_id;
+            $a_campaign = $this->campaign_model->get_by_code($campaign_code);
 
-            // $campaign_detail = $this->admitad_api->advcampaign($campaign_id);
-
-            // CHECK CAMPAIGN
-            $a_campaign = $this->campaign_model->get_by_id($campaign_id);
             if(empty($a_campaign)) {
-                $this->campaign_model->insert($campaign_id);
+                $a_campaign = $this->campaign_model->get_by_id($campaign['id']);
+
+                $campaign_id = !empty($a_campaign) ? $a_campaign['id'] : $this->campaign_model->insert_by_code($campaign_code);
+            }else {
+                $campaign_id = $a_campaign['id'];
             }
 
             if($a_campaign['deleted']) continue;
@@ -196,6 +199,96 @@ class Campaign extends MY_Controller {
 
         }
 
+        $this->_update_jelala($updated_ids);
+
+    }
+
+    public function involve_asia_campaign() {
+
+        $a_campaign_type = ['cpa' => 'CPA', 'cps' => 'CPS'];
+
+        $this->load->config('affiliate/involve_asia');
+        $a_offer_id = $this->config->item('a_offer_id');
+
+        $this->load->library('involve_asia_api');
+        $this->load->model('campaign_model');
+
+        foreach($a_offer_id as $offer_id) {
+
+            $result = $this->involve_asia_api->offers([$offer_id]); 
+
+            if(empty($result['data']['data'])) continue;
+
+            foreach($result['data']['data'] as $campaign) {
+
+                $offer_id = sprintf("%05d", $campaign['offer_id']);
+                
+                $campaign_code = "IVA{$offer_id}";
+
+                $a_campaign = $this->campaign_model->get_by_code($campaign_code);
+
+                if(empty($a_campaign)) {
+                    $campaign_id = $this->campaign_model->insert_by_code($campaign_code);
+                }else {
+                    $campaign_id = $a_campaign['id'];
+                }
+
+                if($a_campaign['deleted']) continue;
+
+                $updated_ids[] = $campaign_id;
+
+                $name = $campaign['offer_name'];
+                $source = 'involve_asia';
+                $url = $campaign['preview_url'];
+                $type = (isset($a_campaign_type[$campaign['lookup_value']])) ? $a_campaign_type[$campaign['lookup_value']] : $campaign['lookup_value'];
+                $startDate = $endDate = $selfConversion = $pointBack = NULL;
+                $imageUrl = $campaign['logo'];
+                $description = $englishDescription = $campaign['description'];
+                $customCreativesAvailable = $seoContentAvailable = $productFeedAvailable = NULL;
+                $quickLinkAvailable = TRUE;
+                $quicklink = $campaign['tracking_link'];
+                $affiliationStatus = 'APPROVED';
+                $affiliatedDate = NULL;
+                $currency = $campaign['currency'];
+
+                $this->campaign_model->update_data(
+                    $campaign_id,
+                    $name,
+                    $source,
+                    $url,
+                    $type,
+                    $startDate,
+                    $endDate,
+                    $selfConversion,
+                    $pointBack,
+                    $imageUrl,
+                    $description,
+                    $englishDescription,
+                    $customCreativesAvailable,
+                    $seoContentAvailable,
+                    $productFeedAvailable,
+                    $quickLinkAvailable,
+                    $quicklink,
+                    $affiliationStatus,
+                    $affiliatedDate,
+                    $currency
+                );
+    
+            }
+
+            // UPDATE CATEGORY REWARD
+            foreach($campaign['commissions'] as $index => $commission) {
+                $category_id = $index;
+                $type = 'CPA_SALES';
+                $text = $commission[key($commission)];
+                $reward = $commission[key($commission)];
+                $name = key($commission);
+
+                $this->campaign_model->update_category_reward($campaign_id, $category_id, $type, $reward, $name, $text);
+            }
+
+        }
+        
         $this->_update_jelala($updated_ids);
 
     }

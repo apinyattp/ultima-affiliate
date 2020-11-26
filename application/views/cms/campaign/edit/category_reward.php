@@ -5,7 +5,7 @@
   <div class="table-responsive table-mh-5">
     <table class="table">
       <colgroup>
-        <col span="1" class="w-50">
+        <col span="1" class="w-25">
         <col span="1" class="w-50">
         <col span="1" class="w-auto">
         <col span="1" class="w-auto">
@@ -35,10 +35,19 @@
             </td>
             <td>
               <div class="form-group">
-                <input type="text" class="form-control text-right" value="<?php echo $category_reward['reward']?>" readonly>
+                <?php 
+                  if(!empty($category_reward['text'])) {
+                    $reward = str_replace('%', '', $category_reward['text']);
+                  }else {
+                    $reward = $category_reward['reward'];
+                  }
+                ?>
+                <input type="text" class="form-control text-right" value="<?php echo $reward ?>" readonly>
               </div>
             </td>
-            <td><?php echo ($category_reward['type'] == 'CPA_FIXED') ? 'บาท' : '%' ?></td>
+            <td>
+              <?php echo ($category_reward['type'] == 'CPA_FIXED') ? 'บาท' : '%' ?>
+            </td>
             <!-- <td>
               <div class="form-group">
                 <input type="text" class="form-control text-right" id="categoryRewardInput<?php echo $category_reward['id'] ?>" name="category_rewards[<?php echo $category_reward['id'] ?>][custom_reward]" value="<?php echo $category_reward['custom_reward']?>">
