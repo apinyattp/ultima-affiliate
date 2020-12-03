@@ -33,6 +33,7 @@ class Campaign extends MY_Controller {
 
         $keyword = $this->input->get('keyword');
         $status = $this->input->get('status');
+        $source = $this->input->get('source');
         $page = $this->input->get('page');
         $perpage = $this->input->get('perpage');
         $sort = $this->input->get('sort');
@@ -52,7 +53,7 @@ class Campaign extends MY_Controller {
             'a_admin' => $a_admin
         ];
 
-        $qs = $this->campaign_model->get_list($keyword, $status, $a_sort[$sort]);
+        $qs = $this->campaign_model->get_list($keyword, $source, $status, $a_sort[$sort]);
 
         $this->load->library('qs');
         $qs->page($page, $perpage);
@@ -291,7 +292,7 @@ class Campaign extends MY_Controller {
         $this->load->model('campaign_model');
 
         $this->load->library('qs');
-        $qs_result = $this->campaign_model->get_list($keyword, $status);
+        $qs_result = $this->campaign_model->get_list($keyword, NULL, $status);
 
         $a_header = [
             'Campaign Name',

@@ -6,6 +6,7 @@
         <th scope="col">Name</th>
         <th scope="col">Reward</th>
         <th scope="col" class="text-center">Affiliated From</th>
+        <th scope="col" class="text-center">Source</th>
         <th scope="col" class="text-center">Highlight</th>
         <th scope="col" class="text-center">Coming soon</th>
         <th scope="col" class="text-center">Status</th>

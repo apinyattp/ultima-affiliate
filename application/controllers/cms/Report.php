@@ -54,7 +54,7 @@ class Report extends MY_Controller {
         $a_conversion = $qs_conversion->result('cms/report/conversion/list');
 
         $this->load->model('campaign_model');
-        $qs_campaign = $this->campaign_model->get_list(FALSE, FALSE, 'name ASC');
+        $qs_campaign = $this->campaign_model->get_list(FALSE, FALSE, FALSE, 'name ASC');
 
         $a_campaign = $qs_campaign->result('cms/campaign/list', TRUE);
 

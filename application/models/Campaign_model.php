@@ -38,9 +38,10 @@ class campaign_model extends CI_Model {
         return $this->db->get('campaign_data')->row_array();
     }
 
-    public function get_list($keyword=FALSE, $status=FALSE, $sort=FALSE) {
+    public function get_list($keyword=FALSE, $source=FALSE, $status=FALSE, $sort=FALSE) {
         $this->load->library('qs');
         if($status) $this->qs->where('status', $status);
+        if($source) $this->qs->where('source', $source);
         if($sort) $this->qs->order_by($sort);
         if($keyword) {
             $this->qs->group_start();

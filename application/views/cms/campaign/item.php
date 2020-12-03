@@ -15,7 +15,8 @@
       <?php } ?>
       </ul>
   </td>
-  <td class="text-center"><?php echo $affiliated_date ?></td>
+  <td class="text-center"><?php echo ($affiliated_date) ? $affiliated_date: '-' ?></td>
+  <td class="text-center"><?php echo ucwords(str_replace('_', ' ', $source )) ?></td>
   <td class="text-center">
     <button class="btn <?php echo !($is_highlight) ? 'btn-success' : 'btn-default' ?> btn-round btn-sm" 
             id="pinBtn<?php echo $id ?>" 
