@@ -14,6 +14,8 @@ $config = array(
         2204, // Tops (TH)
         2162, // Trip.com
         1259, // Super Sports,
-        1243, //Sephora
+        1243, // Sephora,
+        2123, // Agoda Hotel
+        2134, // Agoda Flight
     ]
 );
