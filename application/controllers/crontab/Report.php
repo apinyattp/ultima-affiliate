@@ -184,7 +184,7 @@ class Report extends MY_Controller {
                 $uid = (empty($conversion['aff_sub1'])) ? 0 : $conversion['aff_sub1'];
 
                 $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
-                
+                echo  $this->db->last_query();
                 $site_name = 'Jelala';
         
                 $campaign_code = $this->gen_campaign_code('IVA', $conversion['offer_id']);
