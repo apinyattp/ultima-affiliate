@@ -212,7 +212,7 @@ class Campaign extends MY_Controller {
 
         $this->load->library('involve_asia_api');
         $this->load->model('campaign_model');
-print_r($a_offer_id);die();
+
         foreach($a_offer_id as $offer_id) {
 
             $result = $this->involve_asia_api->offers([$offer_id]); 
@@ -226,7 +226,7 @@ print_r($a_offer_id);die();
                 $campaign_code = "IVA{$offer_id}";
 
                 $a_campaign = $this->campaign_model->get_by_code($campaign_code);
-
+print_r($a_campaign);
                 if(empty($a_campaign)) {
                     $campaign_id = $this->campaign_model->insert_by_code($campaign_code);
                 }else {
