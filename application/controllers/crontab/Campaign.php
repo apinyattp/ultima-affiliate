@@ -226,7 +226,7 @@ class Campaign extends MY_Controller {
                 $campaign_code = "IVA{$offer_id}";
 
                 $a_campaign = $this->campaign_model->get_by_code($campaign_code);
-print_r($a_campaign);
+
                 if(empty($a_campaign)) {
                     $campaign_id = $this->campaign_model->insert_by_code($campaign_code);
                 }else {
