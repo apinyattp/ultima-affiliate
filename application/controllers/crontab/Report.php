@@ -177,7 +177,7 @@ class Report extends MY_Controller {
         while($page >= 1) {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $page, $limit);
             if(empty($a_conversion['data']['data'])) break;
-print_r($a_conversion['data']['data']);
+
             foreach($a_conversion['data']['data'] as $conversion) {
 
                 $conversion_id = $conversion['conversion_id'];
@@ -188,6 +188,7 @@ print_r($a_conversion['data']['data']);
         
                 $campaign_code = $this->gen_campaign_code('IVA', $conversion['offer_id']);
                 $a_campaign = $this->campaign_model->get_by_code($campaign_code);
+                echo $this->db->last_query();
                 print_r( $a_conversion);
                 print_r( $campaign_code);
                 print_r($a_campaign);die();
