@@ -179,7 +179,7 @@ class Report extends MY_Controller {
             if(empty($a_conversion['data']['data'])) break;
 
             foreach($a_conversion['data']['data'] as $conversion) {
-                
+
                 $conversion_id = $conversion['conversion_id'];
                 $uid = (empty($conversion['aff_sub1'])) ? 0 : $conversion['aff_sub1'];
 
@@ -189,7 +189,8 @@ class Report extends MY_Controller {
         
                 $campaign_code = $this->gen_campaign_code('IVA', $conversion['offer_id']);
                 $a_campaign = $this->campaign_model->get_by_code($campaign_code);
-
+                print_r( $campaign_code);
+                print_r($a_campaign);die();
                 $campaign_id = $a_campaign['id'];
                 $campaign_name = $conversion['offer_name'];
 
