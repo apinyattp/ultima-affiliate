@@ -24,6 +24,7 @@ class Report extends MY_Controller {
         $page = $this->input->get('page');
         $perpage = $this->input->get('perpage');
         $sort = $this->input->get('sort');
+        $source = $this->input->get('source');
 
         $period_base = empty($period_base) ? 'datetime_updated' : $period_base;
         // $start_date = empty($start_date) ? date('Y-m-d') : $start_date;
@@ -46,7 +47,7 @@ class Report extends MY_Controller {
         $status = (isset($a_status[$status])) ? $a_status[$status] : NULL;
 
         $this->load->model('report_conversion_model');
-        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status, $a_sort[$sort]);
+        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status, $a_sort[$sort], $source);
 
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
@@ -119,6 +120,7 @@ class Report extends MY_Controller {
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
         $campaign_id = $this->input->get('campaign_id');
+        $source = $this->input->get('source');
 
         $period_base = empty($period_base) ? 'datetime_updated' : $period_base;
 
@@ -127,7 +129,7 @@ class Report extends MY_Controller {
         $status = (isset($a_status[$status])) ? $a_status[$status] : NULL;
 
         $this->load->model('report_conversion_model');
-        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status);
+        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status, FALSE, $source);
 
         $this->load->library('qs');
 

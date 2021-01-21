@@ -117,7 +117,7 @@ class Report_conversion_model extends CI_Model {
         $this->db->update('report_conversion', $a_data);
     }
 
-    public function get_list($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE) {
+    public function get_list($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE, $source=FALSE) {
         $this->load->library('qs');
         if($start_date) $this->qs->where($period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
         if($end_date) $this->qs->where($period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
@@ -130,6 +130,7 @@ class Report_conversion_model extends CI_Model {
                 $this->qs->or_like('verification_id', $keyword);
             $this->qs->group_end();
         }
+        if(!empty($source)) $this->qs->where('source', $source);
         if($sort) $this->qs->order_by($sort);
         return $this->qs->get('report_conversion');
     }
