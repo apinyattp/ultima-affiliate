@@ -176,11 +176,10 @@ class Report extends MY_Controller {
 
         while($page >= 1) {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $page, $limit);
-            print_r($a_conversion);die();
             if(empty($a_conversion['data']['data'])) break;
 
             foreach($a_conversion['data']['data'] as $conversion) {
-
+                
                 $conversion_id = $conversion['conversion_id'];
                 $uid = (empty($conversion['aff_sub1'])) ? 0 : $conversion['aff_sub1'];
 
