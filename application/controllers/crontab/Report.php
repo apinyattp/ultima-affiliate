@@ -8,8 +8,8 @@ class Report extends MY_Controller {
     }
 
     public function import() {
-        // $this->accesstrade_conversion();
-        // $this->admitad_conversion();
+        $this->accesstrade_conversion();
+        $this->admitad_conversion();
         $this->involve_asia_conversion();
     }
 
