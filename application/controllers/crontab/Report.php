@@ -189,6 +189,7 @@ class Report extends MY_Controller {
         
                 $campaign_code = $this->gen_campaign_code('IVA', $conversion['offer_id']);
                 $a_campaign = $this->campaign_model->get_by_code($campaign_code);
+                print_r( $a_conversion);
                 print_r( $campaign_code);
                 print_r($a_campaign);die();
                 $campaign_id = $a_campaign['id'];
