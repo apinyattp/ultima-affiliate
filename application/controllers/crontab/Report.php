@@ -8,11 +8,11 @@ class Report extends MY_Controller {
     }
 
     public function import() {
-        echo 11;
+        file_put_contents('./log_'.date("j.n.Y").'.log', '11111', FILE_APPEND);
         $this->accesstrade_conversion();
-        echo 22;
+        file_put_contents('./log_'.date("j.n.Y").'.log', '22222', FILE_APPEND);
         $this->admitad_conversion();
-        echo 33;
+        file_put_contents('./log_'.date("j.n.Y").'.log', '33333', FILE_APPEND);
         $this->involve_asia_conversion();
     }
 
