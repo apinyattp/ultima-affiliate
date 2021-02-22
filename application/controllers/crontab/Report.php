@@ -164,7 +164,7 @@ class Report extends MY_Controller {
         $this->load->model('report_conversion_model');
         $this->load->model('campaign_model');
 
-        $limit = 100;
+        $limit = 1000;
         $page = 1;
         $source = 'involve_asia';
 
@@ -260,6 +260,7 @@ class Report extends MY_Controller {
 
             }
 
+            sleep(5);
             $page += 1;
         }
     }
