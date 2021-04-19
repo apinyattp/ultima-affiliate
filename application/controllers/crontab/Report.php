@@ -9,7 +9,7 @@ class Report extends MY_Controller {
 
     public function import() {
         $this->accesstrade_conversion();
-        $this->admitad_conversion();
+        //$this->admitad_conversion();
         $this->involve_asia_conversion();
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
     }
