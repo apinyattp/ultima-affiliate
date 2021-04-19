@@ -194,7 +194,6 @@ class Report extends MY_Controller {
                 $campaign_name = $conversion['offer_name'];
                 
                 if(is_null($campaign_id)) {
-                    echo $conversion['offer_id'];
                     $campaign_id = 0;
                 }
                 $customerType = $creative_id = $creative_name = NULL;
