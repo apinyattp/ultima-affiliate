@@ -193,7 +193,7 @@ class Report extends MY_Controller {
                 $campaign_id = $a_campaign['id'];
                 $campaign_name = $conversion['offer_name'];
                 
-                if(empty($campaign_id)) $campaign_id = 0;
+                if(is_null($campaign_id)) $campaign_id = 0;
                 $customerType = $creative_id = $creative_name = NULL;
 
                 $verification_id = $conversion['adv_sub1'];
