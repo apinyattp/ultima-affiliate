@@ -58,7 +58,7 @@
                   <td class="text-center"><?php echo $conversion['datetime_updated'] ?></td>
                   <td class="text-center">
                     <?php
-                      $a_badge_color = ['APPROVED' => 'badge-success', 'PENDING' => 'badge-warning', 'REJECTED' => 'badge-danger'];
+                      $a_badge_color = ['APPROVED' => 'badge-success', 'PENDING' => 'badge-warning', 'REJECTED' => 'badge-danger', 'INVALID' => 'badge-danger'];
                       $badge_color = $a_badge_color[$conversion['status']];
                     ?>
                     <h5 class="mb-0"><span class="badge <?php echo $badge_color ?>"><?php echo $conversion['status'] ?></span></h5>
