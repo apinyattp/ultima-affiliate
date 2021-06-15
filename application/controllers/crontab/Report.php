@@ -202,7 +202,7 @@ class Report extends MY_Controller {
 
                 $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['datetime_conversion']));
 
-                $status = isset($a_status[$conversion['conversion_status']]) ? $a_status[$conversion['conversion_status']] : 'PENDING';
+                $status = isset($a_status[ucfirst($conversion['conversion_status'])]) ? $a_status[ucfirst($conversion['conversion_status'])] : 'PENDING';
 
                 $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
             
