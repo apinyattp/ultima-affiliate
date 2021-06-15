@@ -151,6 +151,7 @@ class Report_conversion_model extends CI_Model {
         if($end_date) $this->db->where($period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
         if($status) $this->db->where('status', $status);
         if($campaign_id) $this->db->where('campaign_id', $campaign_id);
+        
         $this->db->where('status !=', 'INVALID');
         
         return $this->db->get('report_conversion')->row_array();
