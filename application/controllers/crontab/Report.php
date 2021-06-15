@@ -203,7 +203,8 @@ class Report extends MY_Controller {
                 $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['datetime_conversion']));
 
                 $status = isset($a_status[ucfirst($conversion['conversion_status'])]) ? $a_status[ucfirst($conversion['conversion_status'])] : 'PENDING';
-
+                print_r($a_conversion);
+ print_r($status);die();
                 $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
             
                 $reward = $conversion['payout'];
@@ -226,7 +227,7 @@ class Report extends MY_Controller {
                 ]);
 
                 if(empty($a_conversion)) {
-                                print_r($status);die();
+                               
                     $this->report_conversion_model->update_by_conversion_id2(
                         $conversion_id,
                         $source,
