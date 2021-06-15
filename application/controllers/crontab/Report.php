@@ -172,7 +172,7 @@ class Report extends MY_Controller {
         $site_id = $this->config->item('tracking_link_id');
 
 
-        $start_date = date('Y-m-d', strtotime('2021-01-01'));
+        $start_date = date('Y-m-d', strtotime('2020-11-01'));
         $end_date = date('Y-m-d');
 
         while($page >= 1) {
@@ -203,8 +203,7 @@ class Report extends MY_Controller {
                 $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['datetime_conversion']));
 
                 $status = isset($a_status[ucfirst($conversion['conversion_status'])]) ? $a_status[ucfirst($conversion['conversion_status'])] : 'PENDING';
-                print_r($a_conversion);
- print_r($status);die();
+
                 $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
             
                 $reward = $conversion['payout'];
