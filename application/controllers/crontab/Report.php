@@ -178,7 +178,7 @@ class Report extends MY_Controller {
         while($page >= 1) {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $page, $limit);
             if(empty($a_conversion['data']['data'])) break;
-            print_r($a_conversion['data']['data']);die();
+
             foreach($a_conversion['data']['data'] as $conversion) {
 
                 $conversion_id = $conversion['conversion_id'];
@@ -226,6 +226,7 @@ class Report extends MY_Controller {
                 ]);
 
                 if(empty($a_conversion)) {
+                                print_r($status);die();
                     $this->report_conversion_model->update_by_conversion_id2(
                         $conversion_id,
                         $source,
