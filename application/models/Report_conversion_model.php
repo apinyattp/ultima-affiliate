@@ -132,6 +132,9 @@ class Report_conversion_model extends CI_Model {
         }
         if(!empty($source)) $this->qs->where('source', $source);
         if($sort) $this->qs->order_by($sort);
+        
+        $this->qs->where('status !=', 'INVALID');
+        
         return $this->qs->get('report_conversion');
     }
 
