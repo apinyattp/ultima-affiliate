@@ -1,0 +1,9 @@
+{
+    "response_code": 200,
+    "response_msg": "Success",
+    "result": {
+      "uuid": "1234",
+      "jelala_id": "jelala_fb17a8cabdf874dfb923759ea026e9dfc877df92e6de3b68bab4156e3f4b49cb",
+      "company": "jelala"
+    }
+  }

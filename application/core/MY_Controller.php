@@ -62,14 +62,23 @@ class MY_Controller extends Builder\Core\Controller {
     }
 
     protected function _api_authorization() {
+        $this->load->config('affiliate/main');
         $this->load->library('module/admin/authorization');
         $token = $this->admin_authorization->http_authorization_token();
 
-        $key = md5('JelalaAffiliate');
+        $validate = FALSE;
+        
+        $a_company = $this->config->item('companies');
 
-        if(hash('sha256', $key) === $token) return TRUE;
+        foreach($a_company as $company) {
+            $key = md5($company.'Affiliate');
+            if(hash('sha256', $key) === $token) {
+                $validate = strtolower($company);
+                break;
+            }
+        }
 
-        return FALSE;
+        return $validate;
     }
 
     protected function _admin_authorization() {
