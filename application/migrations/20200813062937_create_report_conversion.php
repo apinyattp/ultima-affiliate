@@ -39,7 +39,7 @@ class Migration_Create_report_conversion extends CI_Migration
 				'type' => 'VARCHAR',
 				'null' => FALSE,
 				'unsigned' => TRUE,
-				'constraint' => 40,
+				'constraint' => 255,
 				'comment' => 'User ID'
 			),
 			'site_id' => array(
