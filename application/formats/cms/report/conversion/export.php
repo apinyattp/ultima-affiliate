@@ -4,6 +4,7 @@ $this->load->model('campaign_model');
 $a_campaign = $this->campaign_model->get_by_id($data['campaign_id']);
 
 return [
+    'company' => empty($data['company']) ? 'jelala' : $data['company'],
     'conversion_id' => $data['conversion_id'],
     'campaign_name' => $a_campaign['name'],
     'uid' => $data['uid'],

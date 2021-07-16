@@ -22,6 +22,13 @@
     </div>
     <div class="card px-2 mx-auto">
         <div class="card-body">
+            <h6 class="card-title">rejected reward</h6>
+            <h5 class="card-text"><?php echo number_format($a_summary['rejected']['reward'], 2)?> THB</h5>
+            <small>Transaction Amount : <?php echo number_format($a_summary['rejected']['transaction_amount'], 2)?> THB</small>
+        </div>
+    </div>
+    <div class="card px-2 mx-auto">
+        <div class="card-body">
             <h6 class="card-title">total reward</h6>
             <h5 class="card-text"><?php echo number_format($a_summary['total']['reward'], 2)?> THB</h5>
             <small>Transaction Amount : <?php echo number_format($a_summary['total']['transaction_amount'], 2)?> THB</small>

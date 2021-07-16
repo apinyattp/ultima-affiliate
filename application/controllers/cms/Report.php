@@ -5,6 +5,7 @@ class Report extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->config('affiliate/main');
     }
 
     public function index(){
@@ -12,9 +13,10 @@ class Report extends MY_Controller {
     }
 
     public function list() {
-        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        if(($auth = $this->_admin_authorization()) !== TRUE) redirect('cms/admin');
         $a_admin = $this->_auth_admin();
-
+        
+        $company = $a_admin['role'] == 'admin' ? $this->input->get('company') : $a_admin['role'];
         $keyword = $this->input->get('keyword');
         $status = $this->input->get('status');
         $period_base = $this->input->get('period_base');
@@ -47,7 +49,7 @@ class Report extends MY_Controller {
         $status = (isset($a_status[$status])) ? $a_status[$status] : NULL;
 
         $this->load->model('report_conversion_model');
-        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status, $a_sort[$sort], $source);
+        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status, $a_sort[$sort], $source, $company);
 
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
@@ -61,10 +63,10 @@ class Report extends MY_Controller {
 
         // GET SUMMARY
         $a_summary = [
-            'pending' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'PENDING'),
-            'approved' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'APPROVED'),
-            'rejected' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'REJECTED'),
-            'total' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id)
+            'pending' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'PENDING', FALSE, $company),
+            'approved' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'APPROVED', FALSE, $company),
+            'rejected' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'REJECTED', FALSE, $company),
+            'total' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, FALSE, $company)
         ];
 
         $a_header_data = [
@@ -81,7 +83,10 @@ class Report extends MY_Controller {
             'period_base' => $period_base,
             'start_date' => $start_date,
             'end_date' => $end_date,
-            'campaign_id' => $campaign_id
+            'campaign_id' => $campaign_id,
+            'company' => $company,
+            'companies' => $this->config->item('companies'),
+            'role' => $a_admin['role']
         ];
 
         $this->load->view('cms/template/header', $a_header_data);
@@ -90,7 +95,7 @@ class Report extends MY_Controller {
     }
 
     public function detail($id) {
-        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        if(($auth = $this->_admin_authorization()) !== TRUE) redirect('cms/admin');
         $a_admin = $this->_auth_admin();
 
         $this->load->model('report_conversion_model');
@@ -112,8 +117,10 @@ class Report extends MY_Controller {
     }
 
     public function export() {
-        if(($auth = $this->_admin_authorization('admin')) !== TRUE) redirect('cms/admin');
+        if(($auth = $this->_admin_authorization()) !== TRUE) redirect('cms/admin');
 
+        $a_admin = $this->_auth_admin();
+        $company = $a_admin['role'] == 'admin' ? $this->input->get('company') : $a_admin['role'];
         $keyword = $this->input->get('keyword');
         $status = $this->input->get('status');
         $period_base = $this->input->get('period_base');
@@ -129,11 +136,12 @@ class Report extends MY_Controller {
         $status = (isset($a_status[$status])) ? $a_status[$status] : NULL;
 
         $this->load->model('report_conversion_model');
-        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status, FALSE, $source);
+        $qs_conversion = $this->report_conversion_model->get_list($period_base, $start_date, $end_date, $keyword, $campaign_id, $status, FALSE, $source, $company);
 
         $this->load->library('qs');
 
         $a_header = [
+            'Company',
             'Conversion ID',
             'Campaign',
             'Uid',

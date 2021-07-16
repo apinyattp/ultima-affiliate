@@ -31,5 +31,6 @@ return [
     'datetime_updated' => $data['datetime_updated'],
     'status' => $data['status'],
     'transaction_id' => $data['verification_id'],
-    'products' => $products
+    'products' => $products,
+    'company' => empty($data['company']) ? 'jelala' : $data['company']
 ];

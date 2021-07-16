@@ -12,7 +12,7 @@ class Report extends MY_Controller {
     }
 
     public function list() {
-        if(($this->_api_authorization()) !== TRUE) return $this->_echo_json(E::PERMISSION_DENIED);
+        if(($auth = $this->_api_authorization()) === FALSE) return $this->_echo_json(E::PERMISSION_DENIED);
 
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
@@ -22,6 +22,7 @@ class Report extends MY_Controller {
         $page = $this->input->get('page');
         $perpage = $this->input->get('perpage');
         $sort = $this->input->get('sort');
+        $company = $auth;
 
         $page = max(1, $page);
         $perpage = empty($perpage) ? 100 : $perpage;
@@ -47,14 +48,15 @@ class Report extends MY_Controller {
             $keyword, 
             $campaign_id, 
             $status, 
-            $a_sort[$sort]
+            $a_sort[$sort],
+            FALSE,
+            $company
         );
 
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
 
         $a_conversion = $qs_conversion->result('api/report/list');
-
         return $this->_echo_json(E::SUCCESS, $a_conversion);
     }
 

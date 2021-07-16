@@ -8,7 +8,7 @@ class Campaign extends MY_Controller {
     }
 
     public function detail() {
-        if(($this->_api_authorization()) !== TRUE) return $this->_echo_json(E::PERMISSION_DENIED);
+        if(($auth = $this->_api_authorization()) === FALSE) return $this->_echo_json(E::PERMISSION_DENIED);
 
         $id = $this->input->get('id');
 

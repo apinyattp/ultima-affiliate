@@ -1,6 +1,6 @@
 <form action="<?php echo site_url('cms/report/list');?>"  method="get" autocomplete="off">
   <div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-<?php echo $role == 'admin' ? '5' : '6'?>">
       <label for="inputKeyword">Keyword (UID, Conversion ID, Order ID)</label>
       <input id="keyword" name="keyword" type="text" class="form-control" placeholder="" value="<?php echo $keyword?>">
     </div>
@@ -22,6 +22,17 @@
           <option value="rejected" <?php if($status == 'REJECTED') echo 'selected' ?>>Rejected</option>
       </select>
     </div>
+    <?php if($role == 'admin'){ ?>
+      <div class="form-group col-md-2">
+        <label for="inputStatus">Company</label>
+        <select id="inputStatus" id="company" name="company" class="form-control">
+            <option value="" <?php if(empty($company)) echo 'selected' ?>>All</option>
+            <?php foreach($companies as $company_item) { ?>
+              <option value="<?php echo strtolower($company_item);?>" <?php if(strtolower($company_item) == $company) echo 'selected' ?>><?php echo $company_item?></option>
+            <?php } ?>
+        </select>
+      </div>
+    <?php } ?>
   </div>
   <div class="row">
     <div class="col-md-6 align-self-center">

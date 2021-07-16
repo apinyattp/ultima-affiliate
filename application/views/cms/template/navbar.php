@@ -6,12 +6,14 @@
     </div>
     <div class="sidebar-wrapper overflow-hidden">
         <ul class="nav">
-            <li class="<?php echo ($page == 'campaign') ? 'active' : ''?>">
-            <a href="<?php echo site_url('cms/campaign');?>">
-                <i class="nc-icon nc-diamond"></i>
-                <p>Campaign</p>
-            </a>
-            </li>
+            <?php if ($a_admin['role'] == 'admin'){ ?>
+                <li class="<?php echo ($page == 'campaign') ? 'active' : ''?>">
+                    <a href="<?php echo site_url('cms/campaign');?>">
+                        <i class="nc-icon nc-diamond"></i>
+                        <p>Campaign</p>
+                    </a>
+                </li>
+            <?php } ?>
             <li class="<?php echo ($page == 'report') ? 'active' : ''?>">
             <a href="<?php echo site_url('cms/report');?>">
                 <i class="nc-icon nc-pin-3"></i>

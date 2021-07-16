@@ -27,7 +27,7 @@ class Jelala {
 
     public function update_campaign($ids) {
 
-        $url = $this->baseurl . 'api/integration/affiliate/flag/';
+        $url = $this->baseurl . 'api/integration/affiliate//';
 
         $data = [
             'ids' => is_array($ids) ? $ids : [$ids]
@@ -45,7 +45,7 @@ class Jelala {
     }
 
     public function delete_campaign($ids) {
-        $url = $this->baseurl . 'api/integration/affiliate/flag/';
+        $url = $this->baseurl . 'api/integration/affiliate//';
     
         $data = [
             'ids' => is_array($ids) ? $ids : [$ids]

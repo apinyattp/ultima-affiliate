@@ -19,4 +19,5 @@ return [
     'paid_time' => $data['paid_time'],
     'datetime_updated' => $data['datetime_updated'],
     'status' => $data['status'],
+    'company' => empty($data['company']) ? 'jelala' : $data['company'],
 ];
