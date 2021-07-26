@@ -9,23 +9,25 @@
             <?php if ($a_admin['role'] == 'admin'){ ?>
                 <li class="<?php echo ($page == 'campaign') ? 'active' : ''?>">
                     <a href="<?php echo site_url('cms/campaign');?>">
-                        <i class="nc-icon nc-diamond"></i>
+                        <i class="nc-icon nc-trophy"></i>
                         <p>Campaign</p>
                     </a>
                 </li>
             <?php } ?>
             <li class="<?php echo ($page == 'report') ? 'active' : ''?>">
                 <a href="<?php echo site_url('cms/report');?>">
-                    <i class="nc-icon nc-pin-3"></i>
+                    <i class="nc-icon nc-chart-pie-36"></i>
                     <p>Conversion Report</p>
                 </a>
             </li>
-            <li class="<?php echo ($page == 'missing_conversion') ? 'active' : ''?>">
-                <a href="<?php echo site_url('cms/missing_conversion');?>">
-                    <i class="nc-icon nc-pin-3"></i>
-                    <p>Missing Conversion</p>
-                </a>
-            </li>
+            <?php if ($a_admin['role'] == 'admin'){ ?>
+                <li class="<?php echo ($page == 'missing_conversion') ? 'active' : ''?>">
+                    <a href="<?php echo site_url('cms/missing_conversion');?>">
+                        <i class="nc-icon nc-simple-remove"></i>
+                        <p>Missing Conversion</p>
+                    </a>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 </div>
