@@ -36,8 +36,8 @@
                   <td><?php echo $conversion['uid'] ?></td>
                   <td><?php echo $conversion['company'] ?></td>
                   <td><?php echo $conversion['amount'] ?></td>
-                  <td class="text-center"><?php echo $conversion['order_date'] ?></td>
-                  <td class="text-center"><?php echo $conversion['datetime_updated'] ?></td>
+                  <td><?php echo $conversion['order_date'] ?></td>
+                  <td><?php echo $conversion['datetime_updated'] ?></td>
                 </tr>
               <?php } ?>
             </tbody>

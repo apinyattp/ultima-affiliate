@@ -3,7 +3,7 @@
 GET:/report/list
 
 ###Header
-HEADER:Authorization,d16804c817c155ac767f0e834e551075287f8f130061db907e53d5fc9510423c,20bbda59642ca9beab7eb5e4b4316e46504918be5b8204413115539f3655d2b6
+HEADER:Authorization
 
 ###Input
 INPUT:start_date,required|date, format : YYYY-MM-DD
@@ -26,7 +26,7 @@ JSON:document/report/list
 POST:/report/update_missing_conversion
 
 ###Header
-HEADER:Authorization,d16804c817c155ac767f0e834e551075287f8f130061db907e53d5fc9510423c,20bbda59642ca9beab7eb5e4b4316e46504918be5b8204413115539f3655d2b6
+HEADER:Authorization
 
 ###Input
 INPUT:uuid,required|string

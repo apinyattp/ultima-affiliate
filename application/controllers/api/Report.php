@@ -66,7 +66,8 @@ class Report extends MY_Controller {
         $this->load->model('missing_conversion_model');
 
         $a_data = $this->input->post();
-
+        $a_data['company'] = $auth;
+        
         $a_data = $this->format->run('api/missing_conversion/create', $a_data);
 
         $id = $this->missing_conversion_model->update_missing_conversion($a_data);

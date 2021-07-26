@@ -13,6 +13,6 @@ return [
     'company' => empty($a_users) ? 'jelala' : $a_users['company'],
     'amount' => $data['amount'],
     'order_id' => $data['order_id'],
-    'order_date' => $data['order_date'],
+    'order_date' => date('Y-m-d', strtotime($data['order_date'])),
     'datetime_updated' => $data['datetime_updated']
 ];
