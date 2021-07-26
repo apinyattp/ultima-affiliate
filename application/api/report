@@ -20,3 +20,27 @@ ERROR:PERMISSION_DENIED
 ###RESULT
 JSON:document/report/list
 ==============================================================
+
+##Update missing conversion
+
+POST:/report/update_missing_conversion
+
+###Header
+HEADER:Authorization,d16804c817c155ac767f0e834e551075287f8f130061db907e53d5fc9510423c,20bbda59642ca9beab7eb5e4b4316e46504918be5b8204413115539f3655d2b6
+
+###Input
+INPUT:uuid,required|string
+INPUT:campaign_id,required|int
+INPUT:order_id,required|int
+INPUT:amount,required|float
+INPUT:order_date,required|date, format : YYYY-MM-DD H:i:s
+
+##Error
+ERROR:SUCCESS
+ERROR:REQUIRE_PARAMETER
+ERROR:INVALID_FORMAT
+ERROR:PERMISSION_DENIED
+
+###RESULT
+JSON:document/report/list
+==============================================================
