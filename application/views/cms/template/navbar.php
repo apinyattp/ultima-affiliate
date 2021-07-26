@@ -15,10 +15,16 @@
                 </li>
             <?php } ?>
             <li class="<?php echo ($page == 'report') ? 'active' : ''?>">
-            <a href="<?php echo site_url('cms/report');?>">
-                <i class="nc-icon nc-pin-3"></i>
-                <p>Conversion Report</p>
-            </a>
+                <a href="<?php echo site_url('cms/report');?>">
+                    <i class="nc-icon nc-pin-3"></i>
+                    <p>Conversion Report</p>
+                </a>
+            </li>
+            <li class="<?php echo ($page == 'missing_conversion') ? 'active' : ''?>">
+                <a href="<?php echo site_url('cms/missing_conversion');?>">
+                    <i class="nc-icon nc-pin-3"></i>
+                    <p>Missing Conversion</p>
+                </a>
             </li>
         </ul>
     </div>

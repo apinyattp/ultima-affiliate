@@ -9,7 +9,7 @@ class Missing_conversion extends MY_Controller {
     }
 
     public function index(){
-        redirect('cms/report/list');
+        redirect('cms/missing_conversion/list');
     }
 
     public function list() {
@@ -52,7 +52,7 @@ class Missing_conversion extends MY_Controller {
         $a_campaign = $qs_campaign->result('cms/campaign/list', TRUE);
 
         $a_header_data = [
-            'page' => 'report',
+            'page' => 'missing_conversion',
             'a_admin' => $a_admin
         ];
 
@@ -76,7 +76,7 @@ class Missing_conversion extends MY_Controller {
     public function export() {
         if(($auth = $this->_admin_authorization()) !== TRUE) redirect('cms/admin');
         $a_admin = $this->_auth_admin();
-        
+
         if($a_admin['role'] != 'admin')  redirect('cms/admin');
         
         $keyword = $this->input->get('keyword');
