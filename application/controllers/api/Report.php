@@ -63,13 +63,13 @@ class Report extends MY_Controller {
     public function update_missing_conversion() {
         if(($auth = $this->_api_authorization()) === FALSE) return $this->_echo_json(E::PERMISSION_DENIED);
 
-        $this->load->model('report_conversion_model');
+        $this->load->model('missing_conversion_model');
 
         $a_data = $this->input->post();
 
         $a_data = $this->format->run('api/missing_conversion/create', $a_data);
 
-        $id = $this->report_conversion_model->update_missing_conversion($a_data);
+        $id = $this->missing_conversion_model->update_missing_conversion($a_data);
         return $this->_echo_json(E::SUCCESS, ['id' => (int)$id]);
     }
 
