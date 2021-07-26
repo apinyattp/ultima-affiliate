@@ -9,6 +9,7 @@ class Campaign extends MY_Controller {
         $this->load->model('campaign_model');
 
         $this->load->library('jelala');
+        $this->load->config('jelala');
     }
 
     public function index(){
@@ -16,7 +17,13 @@ class Campaign extends MY_Controller {
     }
 
     private function _update_jelala($ids) {
-        $this->jelala->update_campaign($ids);
+        $a_company = $this->config->item('company');
+
+        foreach($a_company as $company){
+            $url = $company['baseurl'];
+            $header = $company['header'];
+            $this->jelala->update_campaign($ids, $url, $header);
+        }
     }
 
     private function _highlight_list() {
@@ -252,7 +259,13 @@ class Campaign extends MY_Controller {
 
         $this->campaign_model->delete($campaign_id);
 
-        $this->jelala->delete_campaign($campaign_id);
+        $a_company = $this->config->item('company');
+
+        foreach($a_company as $company){
+            $url = $company['baseurl'];
+            $header = $company['header'];
+            $this->jelala->delete_campaign($campaign_id, $url, $header);
+        }
 
         return $this->_echo_json(E::SUCCESS);
     }

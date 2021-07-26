@@ -8,32 +8,16 @@ class Jelala {
 
         $this->_ci->load->library('gateway');
 
-        $this->_ci->load->config('jelala');
-        $this->baseurl = $this->_ci->config->item('baseurl');
-        $this->header = $this->_ci->config->item('header');
+        // $this->_ci->load->config('jelala');
     }
 
-    // affiliate flag
-    // Authorization: basic x9rjl70un1pcvwk6evj66gt17fnrqyrus4omsx9n
-    // baseurl: https://jelala.com/
-
-    // Update flag
-    // method POST:/api/integration//affiliate/flag/
-    // INPUT: {"ids":[1,2,3]}
-
-    // Delete flag
-    // method DELETE: /api/integration//affiliate/flag/
-    // INPUT: {"ids":[1,2,3]}
-
-    public function update_campaign($ids) {
-
-        $url = $this->baseurl . 'api/integration/affiliate//';
+    public function update_campaign($ids, $base_url, $header) {
+        $url = $base_url . 'api/integration/affiliate//';
 
         $data = [
             'ids' => is_array($ids) ? $ids : [$ids]
         ];
 
-        $header = $this->header;
         $response = json_decode($this->_ci->gateway->curl_json($url, $data, $header), TRUE);
 
         $httpcode = $this->_ci->gateway->_httpcode();
@@ -44,14 +28,13 @@ class Jelala {
 
     }
 
-    public function delete_campaign($ids) {
-        $url = $this->baseurl . 'api/integration/affiliate//';
+    public function delete_campaign($ids, $base_url, $header) {
+        $url = $base_url . 'api/integration/affiliate//';
     
         $data = [
             'ids' => is_array($ids) ? $ids : [$ids]
         ];
 
-        $header = $this->header;
         $response = json_decode($this->_ci->gateway->curl_delete($url, $data, $header), TRUE);
 
         $httpcode = $this->_ci->gateway->_httpcode();

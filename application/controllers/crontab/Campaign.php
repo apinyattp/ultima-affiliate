@@ -9,7 +9,14 @@ class Campaign extends MY_Controller {
 
     private function _update_jelala($updated_ids) {
         $this->load->library('jelala');
-        $this->jelala->update_campaign($updated_ids);
+        $this->load->config('jelala');
+        $a_company = $this->config->item('company');
+
+        foreach($a_company as $company){
+            $url = $company['baseurl'];
+            $header = $company['header'];
+            $this->jelala->update_campaign($updated_ids, $url, $header);
+        }
     }
 
     public function update_campaign() {
