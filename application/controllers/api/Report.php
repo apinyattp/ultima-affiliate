@@ -106,7 +106,6 @@ class Report extends MY_Controller {
             $reward = !empty($a_set_reward) ? $a_set_reward['existing'] : 0.1;
             $summary_reward = (int)$a_data['amount'] * ((int)$reward/100);
             
-            $now = date('Y-m-d H:i:s');
             $this->report_conversion_model->update_by_conversion_id2(
                 $id,
                 'involve_asia',
@@ -119,8 +118,8 @@ class Report extends MY_Controller {
                 NULL,
                 NULL,
                 $a_data['order_id'],
-                $now,
-                $now,
+                $a_data['order_date'],
+                $a_data['order_date'],
                 NULL,
                 'PENDING',
                 $summary_reward,
