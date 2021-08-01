@@ -20,4 +20,5 @@ return [
     'datetime_updated' => $data['datetime_updated'],
     'status' => $data['status'],
     'company' => empty($data['company']) ? 'jelala' : $data['company'],
+    'missing_id' => $data['missing_id']
 ];

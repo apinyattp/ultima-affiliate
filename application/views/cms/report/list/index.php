@@ -32,6 +32,7 @@
                 <th scope="col">Paid Time</th>
                 <th scope="col">Updated Time</th>
                 <th scope="col">Status</th>
+                <th scope="col">missing conversion</th>
                 <th class="text-center" scope="col">Detail</th>
               </tr>
             </thead>
@@ -62,6 +63,9 @@
                       $badge_color = $a_badge_color[$conversion['status']];
                     ?>
                     <h5 class="mb-0"><span class="badge <?php echo $badge_color ?>"><?php echo $conversion['status'] ?></span></h5>
+                  </td>
+                  <td class="text-center">
+                    <h5 class="mb-0"><span class="badge <?php echo $conversion['missing_id'] > 0 ? 'badge-success' : '' ?>"><?php echo $conversion['missing_id'] > 0 ? 'Yes' : 'No' ?></span></h5>
                   </td>
                   <td class="text-center">
                     <form action="<?php echo site_url('cms/report/detail/' . $conversion['id']); ?>">

@@ -152,7 +152,8 @@ class Report extends MY_Controller {
             'Conversion Time',
             'Confirmation Time',
             'Updaeted Time',
-            'Status'
+            'Status',
+            'Missing Conversion'
         ];
 
         $qs_conversion->export('conversion_report', 'csv', $a_header, 'cms/report/conversion/export');

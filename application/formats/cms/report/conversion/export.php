@@ -16,4 +16,5 @@ return [
     'confirmation_time' => $data['confirmation_time'],
     'datetime_updated' => $data['datetime_updated'],
     'status' => $data['status'],
+    'missing_id' => $data['missing_id'] > 0 ? 'Yes' : 'No'
 ];

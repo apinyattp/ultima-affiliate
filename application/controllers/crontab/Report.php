@@ -180,9 +180,14 @@ class Report extends MY_Controller {
             if(empty($a_conversion['data']['data'])) break;
 
             foreach($a_conversion['data']['data'] as $conversion) {
-
+    
                 $conversion_id = $conversion['conversion_id'];
                 $uid = (empty($conversion['aff_sub1'])) ? 0 : $conversion['aff_sub1'];
+                
+                $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub1']);
+                if(!empty($check_missing_conversion)) {
+                    $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+                }
 
                 $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
                 $site_name = 'Jelala';

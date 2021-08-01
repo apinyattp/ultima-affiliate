@@ -86,6 +86,8 @@ class Report extends MY_Controller {
         if(($auth = $this->_api_authorization()) === FALSE) return $this->_echo_json(E::PERMISSION_DENIED);
 
         $this->load->model('missing_conversion_model');
+        $this->load->model('report_conversion_model');
+        $this->load->model('campaign_model');
 
         $a_data = $this->input->post();
         $a_data['company'] = $auth;
@@ -93,6 +95,48 @@ class Report extends MY_Controller {
         $a_data = $this->format->run('api/missing_conversion/create', $a_data);
 
         $id = $this->missing_conversion_model->update_missing_conversion($a_data);
+
+        $check_conversion_exist = $this->report_conversion_model->get_by_order_id($a_data['order_id']);
+        if(empty($check_conversion_exist)) {
+            $a_conversion_missing = $this->report_conversion_model->get_by_missing_id($id);
+        
+            $a_campaign = $this->campaign_model->get_by_id($a_data['campaign_id']);
+            $a_set_reward = $this->campaign_model->get_set_reward($a_data['campaign_id']);
+    
+            $reward = !empty($a_set_reward) ? $a_set_reward['existing'] : 1;
+            $summary_reward = (int)$a_data['amount'] * ((int)$reward/100);
+            
+            $now = date('Y-m-d H:i:s');
+            $this->report_conversion_model->update_by_conversion_id2(
+                $id,
+                'involve_asia',
+                $a_data['uuid'],
+                '194802',
+                'Jelala',
+                $a_data['campaign_id'],
+                !empty( $a_campaign) ? $a_campaign['display_name'] : '',
+                NULL,
+                NULL,
+                NULL,
+                $a_data['order_id'],
+                $now,
+                $now,
+                NULL,
+                'PENDING',
+                $summary_reward,
+                $summary_reward,
+                $a_data['amount'],
+                $a_data['amount'],
+                'THB',
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+                $id
+            );
+        }
+
         return $this->_echo_json(E::SUCCESS, ['id' => (int)$id]);
     }
 
