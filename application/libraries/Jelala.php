@@ -11,8 +11,9 @@ class Jelala {
         // $this->_ci->load->config('jelala');
     }
 
-    public function update_campaign($ids, $base_url, $header) {
-        $url = $base_url . 'api/integration/affiliate//';
+    public function update_campaign($ids, $url, $header) {
+
+        // $url = $base_url . 'api/integration/affiliate//';
 
         $data = [
             'ids' => is_array($ids) ? $ids : [$ids]
