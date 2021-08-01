@@ -96,7 +96,7 @@ class Campaign extends MY_Controller {
         $this->form_validation->set_rules('condition_do', 'Condition Do', 'required');
         $this->form_validation->set_rules('condition_dont', 'Condition Dont', 'required');
         $this->form_validation->set_rules('note', 'Note', 'required');
-
+        
         if ($this->form_validation->run() == FALSE) {
 
             $campaign = $this->campaign_model->get_by_id($id);
@@ -123,7 +123,6 @@ class Campaign extends MY_Controller {
             $this->load->view('cms/campaign/edit/main', $set_data);
             $this->load->view('cms/template/footer');
         } else {
-
             $display_name = $this->input->post('display_name');
             $cashback = $this->input->post('cashback');
             $image_file_id = $this->input->post('image_file_id');
@@ -150,8 +149,13 @@ class Campaign extends MY_Controller {
             // $this->campaign_model->update_custom_reward($id, 'default', $a_custom_reward['default']);
             // $this->campaign_model->update_custom_reward($id, 'category', $a_custom_reward['category']);
             // $this->campaign_model->update_custom_reward($id, 'customer_type', $a_custom_reward['customer_type']);
-
-            $this->campaign_model->update_set_reward($id, $a_set_reward['new'], $a_set_reward['existing']);    
+            
+            $get_reward = $this->campaign_model->get_set_reward($id);
+            if(empty($get_reward)) {
+                $this->campaign_model->insert_set_reward($id, $a_set_reward['new'], $a_set_reward['existing']);   
+            }else{
+                $this->campaign_model->update_set_reward($id, $a_set_reward['new'], $a_set_reward['existing']);   
+            }
 
             $this->_update_jelala($id);
 
