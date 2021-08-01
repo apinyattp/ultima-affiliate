@@ -117,6 +117,9 @@ class Missing_conversion extends MY_Controller {
         $this->load->model('missing_conversion_model');
         $this->missing_conversion_model->update_status_rejected($missing_id);
 
+        $this->load->model('report_conversion_model');
+        $this->report_conversion_model->update_status_rejected($missing_id);
+        
         return $this->_echo_json(E::SUCCESS);
     }
 

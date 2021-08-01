@@ -214,4 +214,10 @@ class Report_conversion_model extends CI_Model {
         $this->db->delete('report_conversion');
     }
 
+    public function update_status_rejected($missing_id) {
+        $this->db->where('missing_id', $missing_id);
+        $this->db->update('report_conversion', ['status' => 'REJECTED']);
+        return TRUE;
+    }
+
 }
