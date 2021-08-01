@@ -103,7 +103,7 @@ class Report extends MY_Controller {
             $a_campaign = $this->campaign_model->get_by_id($a_data['campaign_id']);
             $a_set_reward = $this->campaign_model->get_set_reward($a_data['campaign_id']);
     
-            $reward = !empty($a_set_reward) ? $a_set_reward['existing'] : 1;
+            $reward = !empty($a_set_reward) ? $a_set_reward['existing'] : 0.1;
             $summary_reward = (int)$a_data['amount'] * ((int)$reward/100);
             
             $now = date('Y-m-d H:i:s');
