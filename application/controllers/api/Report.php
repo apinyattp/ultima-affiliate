@@ -60,6 +60,28 @@ class Report extends MY_Controller {
         return $this->_echo_json(E::SUCCESS, $a_conversion);
     }
 
+    public function get_missing_conversion() {
+        if(($auth = $this->_api_authorization()) === FALSE) return $this->_echo_json(E::PERMISSION_DENIED);
+
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
+        $page = $this->input->get('page');
+        $perpage = $this->input->get('perpage');
+
+        $page = max(1, $page);
+        $perpage = empty($perpage) ? 100 : $perpage;
+
+        $this->load->model('missing_conversion_model');
+
+        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date);
+        
+        $this->load->library('qs');
+        $qs_conversion->page($page, $perpage);
+
+        $a_conversion = $qs_conversion->result('api/missing_conversion/list');
+        return $this->_echo_json(E::SUCCESS, $a_conversion);
+    }
+
     public function update_missing_conversion() {
         if(($auth = $this->_api_authorization()) === FALSE) return $this->_echo_json(E::PERMISSION_DENIED);
 

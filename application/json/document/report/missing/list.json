@@ -1,0 +1,38 @@
+{
+    "response_code": 200,
+    "response_msg": "Success",
+    "result": {
+      "pagination": {
+        "perpage": 100,
+        "page": 1,
+        "total_page": 1,
+        "total_items": 8
+      },
+      "lists": [
+        {
+          "id": "1",
+          "campaign_id": "29",
+          "campaign_name": "AIS Shopping Online",
+          "uid": "1",
+          "company": "shopgenix",
+          "amount": "12.00",
+          "order_id": "1",
+          "order_date": "2021-01-01",
+          "status": "",
+          "datetime_updated": "2021-07-26 07:43:45"
+        },
+        {
+          "id": "3",
+          "campaign_id": "29",
+          "campaign_name": "AIS Shopping Online",
+          "uid": "1",
+          "company": "shopgenix",
+          "amount": "12.00",
+          "order_id": "3",
+          "order_date": "2021-01-01",
+          "status": "rejected",
+          "datetime_updated": "2021-07-26 07:43:45"
+        }
+      ]
+    }
+  }

@@ -57,4 +57,10 @@ class Missing_conversion_model extends CI_Model {
         return $this->db->get('missing_conversion')->row_array();
     }
 
+    public function update_status_rejected($id) {
+        $this->db->where('id', $id);
+        $this->db->update('missing_conversion', ['status' => 'rejected']);
+        return TRUE;
+    }
+
 }

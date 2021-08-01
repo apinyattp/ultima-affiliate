@@ -26,6 +26,7 @@
                 <th scope="col">Amount</th>
                 <th scope="col">Order date</th>
                 <th scope="col">Updated Time</th>
+                <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody class="font-size-08">
@@ -38,6 +39,16 @@
                   <td><?php echo $conversion['amount'] ?></td>
                   <td><?php echo $conversion['order_date'] ?></td>
                   <td><?php echo $conversion['datetime_updated'] ?></td>
+                  <td id="status_reject_<?php echo $conversion['id'] ?>">
+                    <?php if($conversion['status'] == 'rejected'){ ?>
+                      <h5 class="mb-0"><span class="badge badge-danger"><?php echo ucfirst($conversion['status']) ?></span></h5>
+                    <?php }else{ ?>
+                      <button class="btn btn-warning btn-sm" onclick="update_rejected(<?php echo $conversion['id'] ?>)">
+                        REJECT
+                        <i class="far fa-window-close"></i>
+                      </button>
+                    <?php } ?>
+                  </td>
                 </tr>
               <?php } ?>
             </tbody>

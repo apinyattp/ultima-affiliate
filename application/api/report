@@ -21,6 +21,29 @@ ERROR:PERMISSION_DENIED
 JSON:document/report/list
 ==============================================================
 
+##Get missing conversion
+
+GET:/report/get_missing_conversion
+
+###Header
+HEADER:Authorization
+
+###Input
+INPUT:start_date,date, format : YYYY-MM-DD
+INPUT:end_date,date, format : YYYY-MM-DD
+INPUT:page,int, default : 1
+INPUT:perpage,int, default : 100
+
+##Error
+ERROR:SUCCESS
+ERROR:REQUIRE_PARAMETER
+ERROR:INVALID_FORMAT
+ERROR:PERMISSION_DENIED
+
+###RESULT
+JSON:document/report/missing/list
+==============================================================
+
 ##Update missing conversion
 
 POST:/report/update_missing_conversion
@@ -42,5 +65,5 @@ ERROR:INVALID_FORMAT
 ERROR:PERMISSION_DENIED
 
 ###RESULT
-JSON:document/report/list
+JSON:document/blank
 ==============================================================

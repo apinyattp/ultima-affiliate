@@ -18,6 +18,8 @@ class Missing_conversion extends MY_Controller {
 
         if($a_admin['role'] != 'admin')  redirect('cms/admin');
 
+        $this->head->js_add('js/missing/list.js');
+
         $keyword = $this->input->get('keyword');
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
@@ -102,6 +104,20 @@ class Missing_conversion extends MY_Controller {
 
         $qs_conversion->export('missing_conversion_report', 'csv', $a_header, 'cms/report/missing/export');
 
+    }
+
+    public function update_rejected() {
+        if(($auth = $this->_admin_authorization()) !== TRUE) redirect('cms/admin');
+        $a_admin = $this->_auth_admin();
+
+        if($a_admin['role'] != 'admin')  return $this->_echo_json(E::NOT_FOUND_ACCOUNT);
+
+        $missing_id = $this->input->post('id');
+
+        $this->load->model('missing_conversion_model');
+        $this->missing_conversion_model->update_status_rejected($missing_id);
+
+        return $this->_echo_json(E::SUCCESS);
     }
 
 }
