@@ -77,7 +77,7 @@ class Admin extends MY_Controller {
     }
 
     public function change_password() {
-        if(($auth = $this->_authorization()) !== TRUE) return $this->_echo_json($auth);
+        if(($auth = $this->_admin_authorization()) !== TRUE) return $this->_echo_json($auth);
 
         $a_admin = $this->_auth_admin();
 
