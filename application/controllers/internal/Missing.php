@@ -8,6 +8,8 @@ class Missing extends MY_Controller {
     }
 
     public function recal_missing() {
+        exit();
+        
         $this->load->model('missing_conversion_model');
         $this->load->model('report_conversion_model');
         $this->load->model('campaign_model');
