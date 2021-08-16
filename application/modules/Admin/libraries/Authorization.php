@@ -16,8 +16,7 @@ class Authorization {
 
         $this->_ci->load->helper('jwt');
         $payload = jwt_decode($token);
-        print_r($token);
-        print_r($payload);die();
+
         // FAIL TO DECODE TOKEN
         if($payload === FALSE) return \E::INVALID_FORMAT_TOKEN;
 
@@ -27,7 +26,7 @@ class Authorization {
 
         // CHECK admin VAR
         if(empty($admin_id)) return \E::INVALID_FORMAT_TOKEN;
-        if(empty($password_token)) return \E::INVALID_FORMAT_TOKEN;
+        // if(empty($password_token)) return \E::INVALID_FORMAT_TOKEN;
         if(empty($expire)) return \E::INVALID_FORMAT_TOKEN;
 
         // CHECK EXPIRE
@@ -39,7 +38,7 @@ class Authorization {
         $a_admin = $this->_ci->admin_admin_model->get_by_id($admin_id);
 
         // CHECK admin DATA
-        if($a_admin['password_token'] !== $password_token) return \E::PERMISSION_TOKEN_EXPIRE;
+        // if($a_admin['password_token'] !== $password_token) return \E::PERMISSION_TOKEN_EXPIRE;
 
         // CHECK MODULE LOADED
         $admin_role = (bool) $this->_ci->load->find_module('admin_role');
