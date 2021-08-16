@@ -16,7 +16,8 @@ class Authorization {
 
         $this->_ci->load->helper('jwt');
         $payload = jwt_decode($token);
-
+        print_r($token);
+        print_r($payload);die();
         // FAIL TO DECODE TOKEN
         if($payload === FALSE) return \E::INVALID_FORMAT_TOKEN;
 
