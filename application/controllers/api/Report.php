@@ -104,7 +104,7 @@ class Report extends MY_Controller {
             $a_set_reward = $this->campaign_model->get_set_reward($a_data['campaign_id']);
     
             $reward = !empty($a_set_reward) ? $a_set_reward['existing'] : 0.1;
-            $summary_reward = (floatval)$a_data['amount'] * ((floatval)$reward/100);
+            $summary_reward = (float)$a_data['amount'] * ((float)$reward/100);
             
             $this->report_conversion_model->update_by_conversion_id2(
                 $id,
