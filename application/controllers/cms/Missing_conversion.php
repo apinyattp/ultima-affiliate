@@ -34,12 +34,12 @@ class Missing_conversion extends MY_Controller {
         $perpage = empty($perpage) ? 10 : $perpage;
 
         $a_sort = [
+             'order_date_asc' => 'order_date ASC',
             'order_date_desc' => 'order_date DESC',
-            'order_date_asc' => 'order_date ASC',
             'datetime_updated_asc' => 'datetime_updated ASC',
-            'datetime_updated_desc' => 'datetime_updated desc',
+            'datetime_updated_desc' => 'datetime_updated DESC',
             'datetime_created_asc' => 'datetime_created ASC',
-            'datetime_created_desc' => 'datetime_created desc',
+            'datetime_created_desc' => 'datetime_created DESC',
         ];
         if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
 
@@ -96,12 +96,12 @@ class Missing_conversion extends MY_Controller {
         $sort = $this->input->get('sort');
         
         $a_sort = [
-            'order_date_desc' => 'order_date DESC',
             'order_date_asc' => 'order_date ASC',
+            'order_date_desc' => 'order_date DESC',
             'datetime_updated_asc' => 'datetime_updated ASC',
-            'datetime_updated_desc' => 'datetime_updated desc',
+            'datetime_updated_desc' => 'datetime_updated DESC',
             'datetime_created_asc' => 'datetime_created ASC',
-            'datetime_created_desc' => 'datetime_created desc',
+            'datetime_created_desc' => 'datetime_created DESC',
         ];
         if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
         
