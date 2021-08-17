@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="form-group col-md-3">
-      <label for="endDatePicker">Sort by</label>
+      <label for="inputSort">Sort by</label>
         <select id="inputSort" id="sort" name="sort" class="form-control">
             <?php foreach($a_sort as $sort_data) { ?>
               <option value="<?php echo $sort_data;?>" <?php if($sort_data == $sort) echo 'selected' ?>><?php echo $sort_data?></option>
