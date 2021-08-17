@@ -69,7 +69,9 @@ class Missing_conversion extends MY_Controller {
             'a_conversion' => $a_conversion,
             'company' => $company,
             'source' => $source,
-            'companies' => $this->config->item('companies')
+            'companies' => $this->config->item('companies'),
+            'sort' => $sort,
+            'a_sort' => $a_sort
         ];
 
         $this->load->view('cms/template/header', $a_header_data);
