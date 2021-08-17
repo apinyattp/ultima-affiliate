@@ -16,8 +16,8 @@ class Missing_conversion_model extends CI_Model {
         $this->qs->join('user', 'user.jelala_id = missing_conversion.uuid', 'left');
         $this->qs->join('campaign_data', 'missing_conversion.campaign_id = campaign_data.campaign_id', 'left');
     
-        if($start_date) $this->qs->where('missing_conversion.order_date >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
-        if($end_date) $this->qs->where('missing_conversion.order_date <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
+        if($start_date) $this->qs->where('missing_conversion.datetime_created >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
+        if($end_date) $this->qs->where('missing_conversion.datetime_created <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
         if($campaign_id) $this->qs->where('missing_conversion.campaign_id', $campaign_id);
         if($keyword) {
             $this->qs->group_start();
