@@ -119,6 +119,7 @@ class Missing_conversion extends MY_Controller {
             'Order Date',
             'Status',
             'Source',
+            'Datetime Created',
             'Datetime Updated'
         ];
 
