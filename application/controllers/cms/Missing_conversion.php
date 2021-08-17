@@ -87,9 +87,10 @@ class Missing_conversion extends MY_Controller {
         $end_date = $this->input->get('end_date');
         $campaign_id = $this->input->get('campaign_id');
         $company = $this->input->get('company');
+        $source = $this->input->get('source');
 
         $this->load->model('missing_conversion_model');
-        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, FALSE, $company);
+        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, FALSE, $company, $source);
 
         $this->load->library('qs');
 
@@ -100,6 +101,7 @@ class Missing_conversion extends MY_Controller {
             'Amount',
             'Order ID',
             'Order Date',
+            'Source',
             'Datetime Updated'
         ];
 
