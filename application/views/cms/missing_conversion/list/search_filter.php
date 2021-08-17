@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="row">
-   <div class="form-group col-md-4">
+   <div class="form-group col-md-3">
         <label for="inputStatus">Company</label>
         <select id="inputStatus" id="company" name="company" class="form-control">
             <option value="" <?php if(empty($company)) echo 'selected' ?>>All</option>
@@ -32,7 +32,7 @@
             <?php } ?>
         </select>
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label for="startDatePicker">Start Date</label>
       <div class="input-group">
         <input id="startDatePicker" type="text" class="form-control date" name="start_date" placeholder="" value="<?php echo $start_date?>">
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label for="endDatePicker">End Date</label>
       <div class="input-group">
         <input id="endDatePicker" type="text" class="form-control" name="end_date" placeholder="" value="<?php echo $end_date?>">
@@ -49,6 +49,14 @@
           <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
         </div>
       </div>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="endDatePicker">Sort by</label>
+        <select id="inputSort" id="sort" name="sort" class="form-control">
+            <?php foreach($a_sort as $sort_data) { ?>
+              <option value="<?php echo $sort_data;?>" <?php if($sort_data == $sort) echo 'selected' ?>><?php echo $sort_data?></option>
+            <?php } ?>
+        </select>
     </div>
     <div class="col-md-1 my-auto">
       <button id="searchBtn" class="btn btn-primary">Search</button>        
