@@ -8,12 +8,13 @@ class Missing_conversion_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get_list($start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $sort=FALSE, $company=FALSE) {
+    public function get_list($start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $sort=FALSE, $company=FALSE, $source=FALSE) {
 
         $this->load->library('qs');
-        $this->qs->select('missing_conversion.*, user.jelala_id, user.company');
+        $this->qs->select('missing_conversion.*, user.jelala_id, user.company, campaign_data.source');
         $this->qs->from('missing_conversion');
         $this->qs->join('user', 'user.jelala_id = missing_conversion.uuid', 'left');
+        $this->qs->join('campaign_data', 'missing_conversion.campaign_id = campaign_data.campaign_id', 'left');
     
         if($start_date) $this->qs->where('missing_conversion.order_date >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
         if($end_date) $this->qs->where('missing_conversion.order_date <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
@@ -32,7 +33,10 @@ class Missing_conversion_model extends CI_Model {
                     $this->qs->or_where('company IS NULL', NULL, TRUE);
                 }
             $this->qs->group_end();
-        } 
+        }
+        if(!empty($source)) {
+            $this->db->where('campaign_data.source', $source);
+        }
         return $this->qs->get();
     }
 
