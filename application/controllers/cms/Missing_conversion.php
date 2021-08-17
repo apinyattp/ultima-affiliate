@@ -28,6 +28,7 @@ class Missing_conversion extends MY_Controller {
         $page = $this->input->get('page');
         $perpage = $this->input->get('perpage');
         $sort = $this->input->get('sort');
+        $source = $this->input->get('source');
 
         $page = max(1, $page);
         $perpage = empty($perpage) ? 10 : $perpage;
@@ -41,7 +42,7 @@ class Missing_conversion extends MY_Controller {
         if(!isset($a_sort[$sort])) $sort = 'datetime_updated_desc';
 
         $this->load->model('missing_conversion_model');
-        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company);
+        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source);
 
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
