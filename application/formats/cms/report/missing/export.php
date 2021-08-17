@@ -12,5 +12,6 @@ return [
     'order_date' => date('Y-m-d H:i:s', strtotime($data['order_date'])),
     'status' => $data['status'],
     'source' => $data['source'],
+    'datetime_created' => $data['datetime_created'],
     'datetime_updated' => $data['datetime_updated']
 ];
