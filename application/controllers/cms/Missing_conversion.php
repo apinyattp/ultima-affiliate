@@ -38,8 +38,10 @@ class Missing_conversion extends MY_Controller {
             'order_date_asc' => 'order_date ASC',
             'datetime_updated_asc' => 'datetime_updated ASC',
             'datetime_updated_desc' => 'datetime_updated desc',
+            'datetime_created_asc' => 'datetime_created ASC',
+            'datetime_created_desc' => 'datetime_created desc',
         ];
-        if(!isset($a_sort[$sort])) $sort = 'datetime_updated_desc';
+        if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
 
         $this->load->model('missing_conversion_model');
         $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source);
@@ -98,8 +100,10 @@ class Missing_conversion extends MY_Controller {
             'order_date_asc' => 'order_date ASC',
             'datetime_updated_asc' => 'datetime_updated ASC',
             'datetime_updated_desc' => 'datetime_updated desc',
+            'datetime_created_asc' => 'datetime_created ASC',
+            'datetime_created_desc' => 'datetime_created desc',
         ];
-        if(!isset($a_sort[$sort])) $sort = 'datetime_updated_desc';
+        if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
         
         $this->load->model('missing_conversion_model');
         $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source);
