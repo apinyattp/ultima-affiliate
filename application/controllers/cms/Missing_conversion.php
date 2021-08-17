@@ -111,6 +111,7 @@ class Missing_conversion extends MY_Controller {
             'Amount',
             'Order ID',
             'Order Date',
+            'Status',
             'Source',
             'Datetime Updated'
         ];
