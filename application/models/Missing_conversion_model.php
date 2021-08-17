@@ -35,7 +35,7 @@ class Missing_conversion_model extends CI_Model {
             $this->qs->group_end();
         }
         if(!empty($source)) {
-            $this->db->where('campaign_data.source', $source);
+            $this->qs->where('campaign_data.source', $source);
         }
         return $this->qs->get();
     }
