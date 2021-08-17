@@ -26,6 +26,7 @@
                 <th scope="col">Amount</th>
                 <th scope="col">Order date</th>
                 <th scope="col">Source</th>
+                <th scope="col">Created Time</th>
                 <th scope="col">Updated Time</th>
                 <th scope="col">Status</th>
               </tr>
@@ -40,6 +41,7 @@
                   <td><?php echo $conversion['amount'] ?></td>
                   <td><?php echo $conversion['order_date'] ?></td>
                   <td><?php echo $conversion['source'] ?></td>
+                  <td><?php echo $conversion['datetime_created'] ?></td>
                   <td><?php echo $conversion['datetime_updated'] ?></td>
                   <td id="status_reject_<?php echo $conversion['id'] ?>">
                     <?php if($conversion['status'] == 'rejected'){ ?>
