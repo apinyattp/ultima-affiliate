@@ -57,7 +57,7 @@ class Report_conversion_model extends CI_Model {
         }
     }
 
-    public function update_by_conversion_id2($conversion_id, $source, $uid, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $original_reward=NULL, $transaction_amount, $original_transaction_amount=NULL, $currency=NULL, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0) {
+    public function update_by_conversion_id2($conversion_id, $source, $uid, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $original_reward=NULL, $transaction_amount, $original_transaction_amount=NULL, $currency=NULL, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0, $paid_time=FALSE) {
         $a_data = [
             'conversion_id' => $conversion_id,
             'uid' => $uid,
@@ -86,6 +86,9 @@ class Report_conversion_model extends CI_Model {
             'source' => $source,
             'missing_id' => $missing_id
         ];
+        if(!empty($paid_time)) {
+            $a_data['paid_time'] = date('Y-m-d H:i:s', strtotime($paid_time));
+        }
         $conversion = $this->get_by_conversion_id($conversion_id);
         if(empty($conversion)) {
             $this->db->insert('report_conversion', $a_data);

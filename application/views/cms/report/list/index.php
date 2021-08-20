@@ -9,6 +9,16 @@
         <?php $this->load->view('cms/report/list/search_filter'); ?></div>
         <?php $this->load->view('cms/report/list/summary'); ?>
         <div class="text-right">
+          <a href="javascript:void(0)">
+            <button onclick="importConversion()" class="btn btn-warning">
+              Import
+              <i class="pl-2 fas fa-upload"></i>
+              <div class="spinner-border spinner-border-sm" role="status" style="display:none;">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+            <input type="file" id="file_import" style="display:none;">
+          </a>
           <a href="<?php echo base_url().'cms/report/export?'.http_build_query($_GET) ?>">
             <button id="exportConversionReportButton" class="btn btn-info">
               Export
@@ -16,6 +26,7 @@
             </button>
           </a>
         </div>
+        
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -79,7 +90,7 @@
             </tbody>
           </table>
         </div>
-  
+
         <?php
           $a_conversion['pagination']['path'] = 'cms/report/list';
           $this->load->view('cms/template/pagination', $a_conversion['pagination']) 

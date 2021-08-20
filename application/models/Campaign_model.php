@@ -14,6 +14,7 @@ class campaign_model extends CI_Model {
         $this->db->select('*');
         $this->db->select('campaign.description as description');
         $this->db->select('campaign_data.description as default_description');
+        $this->db->select('campaign_data.source as source');
         $this->db->where('id', $campaign_id);
         if($status) $this->db->where('status', $status);
         $this->db->limit(1);

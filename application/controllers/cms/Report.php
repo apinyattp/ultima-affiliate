@@ -16,6 +16,8 @@ class Report extends MY_Controller {
         if(($auth = $this->_admin_authorization()) !== TRUE) redirect('cms/admin');
         $a_admin = $this->_auth_admin();
         
+        $this->head->js_add('js/report/list.js');
+
         $company = $a_admin['role'] == 'admin' ? $this->input->get('company') : $a_admin['role'];
         $keyword = $this->input->get('keyword');
         $status = $this->input->get('status');
@@ -157,6 +159,129 @@ class Report extends MY_Controller {
         ];
 
         $qs_conversion->export('conversion_report', 'csv', $a_header, 'cms/report/conversion/export');
+
+    }
+
+    public function import_conversion() {
+        $a_upload = [];
+        $a_error = [];
+        $filename= $_FILES["file"]["tmp_name"]; 
+        
+        $this->load->model('campaign_model');
+        $this->load->model('user_model');
+        $this->load->model('report_conversion_model');
+
+        if($_FILES["file"]["size"] > 0) {
+            $handle = fopen($filename,"r");
+            $row = 0;
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                if($row == 0) {
+                    $header = $data;
+                    if(count($header) != 15) {
+                        $a_error[$row] = [
+                            'header ผิด'
+                        ];
+                    }
+                    $row++;
+                    continue; 
+                }
+
+                for($index = 0; $index < count($data); $index++) {
+                    if($index == 7 || $index == 8 || $index == 12) continue;
+                    if(empty($data[$index])) {
+                        $a_error[$row] = [
+                            'บรรทัดที่ '. $row . ' : ' . $header[$index] . ' ไม่มีข้อมูลใน csv'
+                        ];
+                    }
+                }
+                $campaign = $this->campaign_model->get_by_id($data[1]);
+                if(empty($campaign)) {
+                    $a_error[$row] = [
+                        'บรรทัดที่ '. $row . ' : campaign id: ' . $data[1] . ' ไม่มีในระบบ'
+                    ];
+                }else{
+                    $data[] = $campaign['source'];
+                    $data[] = $campaign['display_name'];
+                }
+                
+                if(!in_array(strtoupper($data[9]), ['PENDING', 'APPROVED','REJECTED', 'NEW', 'PAID', 'INVALID'])) {
+                    $a_error[$row] = [
+                        'บรรทัดที่ '. $row . ' :  status : ' . $data[9] . ' ไม่ถูกต้อง'
+                    ];
+                }
+                if(strtoupper($data[9]) == 'PAID' && empty($data[8])) {
+                    $a_error[$row] = [
+                        'บรรทัดที่ '. $row . ' :  ต้องระบุ paid time'
+                    ];
+                }
+                if(strtoupper($data[9]) == 'APPROVED' && empty($data[7])) {
+                    $a_error[$row] = [
+                        'บรรทัดที่ '. $row . ' :  ต้องระบุ confirmation time'
+                    ];
+                }
+                if(!in_array(ucfirst($data[2]), $this->config->item('companies'))) {
+                    $a_error[$row] = [
+                        'บรรทัดที่ '. $row . ' :  Company ไม่ถูกต้อง'
+                    ];
+                }
+               
+                if(empty($a_error[$row])) {
+                    $uuid_data = $this->user_model->check_by_uuid($data[3]);
+                    if(empty($uuid_data)) {
+                        $uuid_data = $this->user_model->create_user_relation($data[3], strtolower($data[2]));
+                    }else{
+                        if($uuid_data['company'] != strtolower($data[2])) {
+                            $a_error[$row] = [
+                                'บรรทัดที่ '. $row . ' :  Company ไม่ตรงกับ uuid ในระบบ'
+                            ];
+                        }
+                    }
+                    $a_upload[] = $data;
+                }
+   
+                $row++;
+            }
+            fclose($handle);
+
+            $status = 'success';
+            if(!empty($a_error)) {
+                $status = 'fail';
+            }else{
+                foreach($a_upload as $upload) {
+                    $this->report_conversion_model->update_by_conversion_id2(
+                        $upload[0],
+                        $upload[15],
+                        $upload[3],
+                        '194802',
+                        'Jelala',
+                        $upload[1],
+                        $upload[16],
+                        NULL,
+                        NULL,
+                        NULL,
+                        $upload[4],
+                        date('Y-m-d H:i:s', strtotime($upload[5])),
+                        date('Y-m-d H:i:s', strtotime($upload[6])),
+                        empty($upload[7] || strtoupper($upload[7]) == 'NULL' ) ? NULL : date('Y-m-d H:i:s', strtotime($upload[7])) ,
+                        strtoupper($upload[9]),
+                        $upload[10],
+                        $upload[10],
+                        $upload[11],
+                        $upload[11],
+                        'THB',
+                        NULL,
+                        NULL,
+                        NULL,
+                        empty($upload[12]) ? '' : json_encode($upload[12]),
+                        NULL,
+                        0,
+                        empty($upload[8] || strtoupper($upload[8]) == 'NULL' ) ? NULL : $upload[8]
+                    );
+                }
+            }
+
+            $this->_echo_json(E::SUCCESS, ['status' => $status, 'error' => array_values($a_error)]); 
+        }  
 
     }
 
