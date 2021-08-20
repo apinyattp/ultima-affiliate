@@ -29,6 +29,8 @@ class Missing_conversion extends MY_Controller {
         $perpage = $this->input->get('perpage');
         $sort = $this->input->get('sort');
         $source = $this->input->get('source');
+        $status_filter = $this->input->get('status');
+        $status_reject = $this->input->get('status_reject');
 
         $page = max(1, $page);
         $perpage = empty($perpage) ? 10 : $perpage;
@@ -42,9 +44,9 @@ class Missing_conversion extends MY_Controller {
             'datetime_created_desc' => 'datetime_created DESC',
         ];
         if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
-
+        
         $this->load->model('missing_conversion_model');
-        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source);
+        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source, $status_filter, $status_reject);
 
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
@@ -73,7 +75,9 @@ class Missing_conversion extends MY_Controller {
             'source' => $source,
             'companies' => $this->config->item('companies'),
             'sort' => $sort,
-            'a_sort' => $a_sort
+            'a_sort' => $a_sort,
+            'status_filter' => $status_filter,
+            'status_reject' => $status_reject
         ];
 
         $this->load->view('cms/template/header', $a_header_data);
@@ -118,6 +122,7 @@ class Missing_conversion extends MY_Controller {
             'Order ID',
             'Order Date',
             'Status',
+            'Status Rejected',
             'Source',
             'Datetime Created',
             'Datetime Updated'
@@ -142,6 +147,28 @@ class Missing_conversion extends MY_Controller {
         $this->report_conversion_model->update_status_rejected($missing_id);
         
         return $this->_echo_json(E::SUCCESS);
+    }
+
+    public function update_status() {
+        if(($auth = $this->_admin_authorization()) !== TRUE) redirect('cms/admin');
+        $a_admin = $this->_auth_admin();
+
+        if($a_admin['role'] != 'admin')  return $this->_echo_json(E::NOT_FOUND_ACCOUNT);
+
+        $missing_id = $this->input->post('id');
+
+        $this->load->model('missing_conversion_model');
+        
+        $a_missing_data = $this->missing_conversion_model->get_by_missing_id($missing_id);
+        
+        $status = 'new';
+        if($a_missing_data['status'] == 'new') {
+            $status = 'send_to_affiliate';
+        }
+
+        $this->missing_conversion_model->update_status($missing_id, $status);
+        
+        return $this->_echo_json(E::SUCCESS, ['status' => $status]);
     }
 
 }

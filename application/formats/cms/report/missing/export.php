@@ -11,6 +11,7 @@ return [
     'order_id' => $data['order_id'],
     'order_date' => date('Y-m-d H:i:s', strtotime($data['order_date'])),
     'status' => $data['status'],
+    'status_reject' => $data['status_reject'] == 'rejected' ? 'Y' : 'N',
     'source' => $data['source'],
     'datetime_created' => $data['datetime_created'],
     'datetime_updated' => $data['datetime_updated']

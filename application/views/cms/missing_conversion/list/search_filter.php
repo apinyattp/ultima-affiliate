@@ -1,10 +1,10 @@
 <form action="<?php echo site_url('cms/missing_conversion/list');?>"  method="get" autocomplete="off">
   <div class="row">
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-4">
       <label for="inputKeyword">Keyword (UID, Order ID)</label>
       <input id="keyword" name="keyword" type="text" class="form-control" placeholder="" value="<?php echo $keyword?>">
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-2">
         <label for="inputCampaign">Campaign</label>
         <select id="inputCampaign" id="campaign" name="campaign_id" class="form-control">
             <option value="" <?php if(empty($campaign_id)) echo 'selected' ?>>All</option>
@@ -13,7 +13,7 @@
             <?php } ?>
         </select>
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
         <label for="inputCampaign">Source</label>
         <select id="source" id="source" name="source" class="form-control">
             <option value="" <?php if(empty($source)) echo 'selected' ?>>All</option>
@@ -21,6 +21,23 @@
             <option value="involve_asia" <?php if($source == 'involve_asia') echo 'selected' ?>>Involve Asia</option>
         </select>
     </div>
+    <div class="form-group col-md-2">
+        <label for="inputStatusFilter">Status</label>
+        <select id="status_filter" name="status" class="form-control">
+            <option value="" <?php if(empty($status_filter)) echo 'selected' ?>>All</option>
+            <option value="new" <?php if($status_filter == 'new') echo 'selected' ?>>New</option>
+            <option value="send_to_affiliate" <?php if($status_filter == 'send_to_affiliate') echo 'selected' ?>>Send to Affiliate</option>
+        </select>
+    </div>
+    <div class="form-group col-md-2">
+        <label for="inputStatusFilter">Status Rejected</label>
+        <select id="status_reject" name="status_reject" class="form-control">
+            <option value="" <?php if(empty($status_reject)) echo 'selected' ?>>All</option>
+            <option value="send_to_advertiser" <?php if($status_reject == 'send_to_advertiser') echo 'selected' ?>>Not Rejected</option>
+            <option value="rejected" <?php if($status_reject == 'rejected') echo 'selected' ?>>Rejected</option>
+        </select>
+    </div>
+    
   </div>
   <div class="row">
    <div class="form-group col-md-3">

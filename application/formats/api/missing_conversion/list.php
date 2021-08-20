@@ -12,6 +12,6 @@ return [
     'amount' => $data['amount'],
     'order_id' => $data['order_id'],
     'order_date' => date('Y-m-d H:i:s', strtotime($data['order_date'])),
-    'status' => empty($data['status']) ? '' : $data['status'],
+    'status_reject' => empty($data['status_reject']) ? '' : $data['status_reject'],
     'datetime_updated' => $data['datetime_updated']
 ];

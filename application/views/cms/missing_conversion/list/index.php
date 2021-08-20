@@ -29,6 +29,7 @@
                 <th scope="col">Created Time</th>
                 <th scope="col">Updated Time</th>
                 <th scope="col">Status</th>
+                <th scope="col" width="100">Rejected</th>
               </tr>
             </thead>
             <tbody class="font-size-08">
@@ -43,12 +44,17 @@
                   <td><?php echo $conversion['source'] ?></td>
                   <td><?php echo $conversion['datetime_created'] ?></td>
                   <td><?php echo $conversion['datetime_updated'] ?></td>
+                  <td id="status_<?php echo $conversion['id'] ?>">
+                    <button class="btn btn-<?php echo $conversion['status'] == 'new' ? 'info' : 'warning' ?> btn-sm" onclick="update_status(<?php echo $conversion['id'] ?>)">
+                      <?php echo $conversion['status'] == 'new' ? strtoupper($conversion['status']) : 'SEND' ?>
+                    </button>
+                  </td>
                   <td id="status_reject_<?php echo $conversion['id'] ?>">
-                    <?php if($conversion['status'] == 'rejected'){ ?>
-                      <h5 class="mb-0"><span class="badge badge-danger"><?php echo ucfirst($conversion['status']) ?></span></h5>
+                    <?php if($conversion['status_reject'] == 'rejected'){ ?>
+                      <h5 class="mb-0"><span class="badge badge-danger"><?php echo strtoupper($conversion['status_reject']) ?></span></h5>
                     <?php }else{ ?>
                       <button class="btn btn-warning btn-sm" onclick="update_rejected(<?php echo $conversion['id'] ?>)">
-                        REJECT
+                        <?php echo 'REJECT'?>
                         <i class="far fa-window-close"></i>
                       </button>
                     <?php } ?>
