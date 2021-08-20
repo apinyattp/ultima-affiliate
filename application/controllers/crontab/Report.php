@@ -186,6 +186,7 @@ class Report extends MY_Controller {
                 
                 $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub1']);
                 if(!empty($check_missing_conversion)) {
+                    //logs conversion
                     $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
                 }
 
