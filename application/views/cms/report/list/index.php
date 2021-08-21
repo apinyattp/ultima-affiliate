@@ -9,7 +9,7 @@
         <?php $this->load->view('cms/report/list/search_filter'); ?></div>
         <?php $this->load->view('cms/report/list/summary'); ?>
         <div class="text-right">
-          <a href="javascript:void(0)">
+          <!-- <a href="javascript:void(0)">
             <button onclick="importConversion()" class="btn btn-warning">
               Import
               <i class="pl-2 fas fa-upload"></i>
@@ -18,7 +18,7 @@
               </div>
             </button>
             <input type="file" id="file_import" style="display:none;">
-          </a>
+          </a> -->
           <a href="<?php echo base_url().'cms/report/export?'.http_build_query($_GET) ?>">
             <button id="exportConversionReportButton" class="btn btn-info">
               Export
