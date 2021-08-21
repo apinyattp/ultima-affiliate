@@ -26,7 +26,11 @@ class Gateway {
             echo "Header: <br>\n";
             var_dump($header);
         }
-
+        echo "Method: $method<hr>\n";
+        echo "URL: $url<hr>\n";
+        echo "Body string: $body_string<hr>\n";
+        echo "Header: <br>\n";
+        var_dump($header);
         $ch = curl_init();
 
         switch (strtoupper($method)) {
@@ -93,7 +97,12 @@ class Gateway {
             var_dump(curl_getinfo($ch));
             echo "<hr>";
         }
-
+        echo "<hr>RESULT: $result<br>\n";
+        if($msg_error) echo "<hr>ERROR: $msg_error<br>\n";
+        echo "<hr>INFO:";
+        var_dump(curl_getinfo($ch));
+        echo "<hr>";
+        die();
         $this->_httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
