@@ -29,7 +29,13 @@ class Report extends MY_Controller {
 
         $this->load->model('report_conversion_model');
         foreach($conversions['conversionReportItems'] as $conversion) {
-
+            
+            $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['verificationId']);
+            if(!empty($check_missing_conversion)) {
+                //logs conversion
+                $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+            }
+            
             $uid = 0;
             $click_user_agent = NULL;
             foreach($conversion['parameters'] as $parameter) {
