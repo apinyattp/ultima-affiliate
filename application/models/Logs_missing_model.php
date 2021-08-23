@@ -10,7 +10,7 @@ class Logs_missing_model extends CI_Model {
     
     public function insert_logs($id) {
         $a_data = [
-            'report_conversion_id' => $id
+            'missing_id' => $missing_id
         ];
         $this->db->insert('logs_missing', $a_data);
         return TRUE;
