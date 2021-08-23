@@ -28,12 +28,13 @@ class Report extends MY_Controller {
         $totalConversionsCount = $conversions['totalConversionsCount'];
 
         $this->load->model('report_conversion_model');
+        $this->load->model('logs_missing_model');
         foreach($conversions['conversionReportItems'] as $conversion) {
             
             $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['verificationId']);
             if(!empty($check_missing_conversion)) {
-                //logs conversion
                 $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+                $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
             }
             
             $uid = 0;
@@ -169,6 +170,7 @@ class Report extends MY_Controller {
         $this->load->library('involve_asia_api');
         $this->load->model('report_conversion_model');
         $this->load->model('campaign_model');
+        $this->load->model('logs_missing_model');
 
         $limit = 1000;
         $page = 1;
@@ -192,8 +194,8 @@ class Report extends MY_Controller {
                 
                 $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub1']);
                 if(!empty($check_missing_conversion)) {
-                    //logs conversion
                     $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+                    $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
                 }
 
                 $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
