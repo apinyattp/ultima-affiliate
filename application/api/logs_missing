@@ -1,0 +1,22 @@
+##Get Logs missing List
+
+GET:/logs_missing/list
+
+###Header
+HEADER:Authorization
+
+###Input
+INPUT:start_date,required|date, format : YYYY-MM-DD
+INPUT:end_date,required|date, format : YYYY-MM-DD
+INPUT:page,int, default : 1
+INPUT:perpage,int, default : 100
+
+##Error
+ERROR:SUCCESS
+ERROR:REQUIRE_PARAMETER
+ERROR:INVALID_FORMAT
+ERROR:PERMISSION_DENIED
+
+###RESULT
+JSON:document/report/list
+==============================================================
