@@ -28,27 +28,20 @@ $this->dbforge->add_field(array(
 				'unsigned' => TRUE,
 				'constraint' => 11
 			),
-			'report_conversion_id' => array(
+			'missing_id' => array(
 				'type' => 'INT',
 				'null' => FALSE,
 				'unsigned' => TRUE,
 				'constraint' => 11
-				'comment' => 'report conversion id'
-			),
-      'missing_id' => array(
-				'type' => 'INT',
-				'null' => FALSE,
-				'unsigned' => TRUE,
-				'constraint' => 11
-				'comment' => 'missing id'
-			),
+				'comment' => 'report conversion id / missing_id'
+			)
 		));
-    $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+                $this->dbforge->add_field('`datetime_updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 		$this->dbforge->add_key('id', TRUE);
-		$this->dbforge->add_key(['missing_id', 'report_conversion_id']);
+		$this->dbforge->add_key(['missing_id']);
 		$this->dbforge->create_table('logs_missing', TRUE);
 	}
 }
 
-/* End of file 20210820101403_add_status_missing.php */
-/* Location: ./application/migrations/20210820101403_add_status_missing.php */
+/* End of file 20210823101403_create_logs_missing.php */
+/* Location: ./application/migrations/20210823101403_create_logs_missing.php */
