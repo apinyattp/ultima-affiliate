@@ -1,0 +1,18 @@
+{
+    "response_code": 200,
+    "response_msg": "Success",
+    "result": {
+      "pagination": {
+        "perpage": 100,
+        "page": 1,
+        "total_page": 1,
+        "total_items": 6
+      },
+      "lists": [
+            {
+                "id": "6"
+            },
+            "..."
+        ]
+    }
+}
