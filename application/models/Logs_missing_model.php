@@ -16,11 +16,10 @@ class Logs_missing_model extends CI_Model {
         return TRUE;
    }
     
-    public function get_list($start_date=FALSE, $end_date=FALSE, $sort=FALSE) {
+    public function get_list($start_date=FALSE, $end_date=FALSE) {
         $this->load->library('qs');
         if($start_date) $this->qs->where('datetime_updated >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
         if($end_date) $this->qs->where('datetime_updated <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
-        if($sort) $this->qs->order_by($sort);
         
         return $this->qs->get('logs_missing');
     }
