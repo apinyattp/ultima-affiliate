@@ -18,5 +18,5 @@ ERROR:INVALID_FORMAT
 ERROR:PERMISSION_DENIED
 
 ###RESULT
-JSON:document/report/list
+JSON:document/logs_missing/list
 ==============================================================
