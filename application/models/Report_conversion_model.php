@@ -196,17 +196,18 @@ class Report_conversion_model extends CI_Model {
         return $this->db->get('report_conversion')->row_array();
     }
 
-    public function get_by_order_id($verification_id) {
-        $this->db->where('missing_id', 0);
+    public function get_by_order_id($verification_id, $uid) {
         $this->db->where('verification_id', $verification_id);
+        $this->db->where('uid', $uid);
 
         $this->db->limit(1);
         return $this->db->get('report_conversion')->row_array();
     }
 
-    public function get_by_order_id_with_missing_conversion($verification_id) {
+    public function get_by_order_id_with_missing_conversion($verification_id, $uid) {
         $this->db->where('missing_id > ', 0);
         $this->db->where('verification_id', $verification_id);
+        $this->db->where('uid', $uid);
 
         $this->db->limit(1);
         return $this->db->get('report_conversion')->row_array();

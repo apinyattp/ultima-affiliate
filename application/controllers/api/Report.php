@@ -96,7 +96,7 @@ class Report extends MY_Controller {
 
         $id = $this->missing_conversion_model->update_missing_conversion($a_data);
 
-        $check_conversion_exist = $this->report_conversion_model->get_by_order_id($a_data['order_id']);
+        $check_conversion_exist = $this->report_conversion_model->get_by_order_id($a_data['order_id'], $a_data['uuid']);
         if(empty($check_conversion_exist)) {
             $a_conversion_missing = $this->report_conversion_model->get_by_missing_id($id);
         

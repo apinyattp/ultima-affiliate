@@ -30,13 +30,6 @@ class Report extends MY_Controller {
         $this->load->model('report_conversion_model');
         $this->load->model('logs_missing_model');
         foreach($conversions['conversionReportItems'] as $conversion) {
-            
-            $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['verificationId']);
-            if(!empty($check_missing_conversion)) {
-                $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
-                $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
-            }
-            
             $uid = 0;
             $click_user_agent = NULL;
             foreach($conversion['parameters'] as $parameter) {
@@ -47,6 +40,12 @@ class Report extends MY_Controller {
                 }else {
                     continue;
                 }
+            }
+
+            $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['verificationId'], $uid);
+            if(!empty($check_missing_conversion)) {
+                $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+                $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
             }
 
             $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion['conversionId'], 'accesstrade');
@@ -135,6 +134,12 @@ class Report extends MY_Controller {
                 $reward = $conversion['payment'] * $rate;
 
                 $transaction_amount = $conversion['cart'] * $rate;
+                
+                $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['order_id'], $conversion['subid4']);
+                if(!empty($check_missing_conversion)) {
+                    $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+                    $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
+                }
 
                 $a_data = [
                     'source' => 'admitad',
@@ -188,11 +193,10 @@ class Report extends MY_Controller {
             if(empty($a_conversion['data']['data'])) break;
 
             foreach($a_conversion['data']['data'] as $conversion) {
-    
                 $conversion_id = $conversion['conversion_id'];
                 $uid = (empty($conversion['aff_sub1'])) ? 0 : $conversion['aff_sub1'];
-                
-                $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub1']);
+
+                $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub1'], $uid);
                 if(!empty($check_missing_conversion)) {
                     $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
                     $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
@@ -275,7 +279,6 @@ class Report extends MY_Controller {
                     }
             
                 }
-
             }
 
             sleep(5);
