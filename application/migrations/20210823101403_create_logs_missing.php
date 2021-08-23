@@ -20,7 +20,7 @@ class Migration_Create_logs_missing extends CI_Migration
 
 	private function create_status_missing_table()
 	{
-$this->dbforge->add_field(array(
+		$this->dbforge->add_field(array(
 			'id' => array(
 				'type' => 'INT',
 				'null' => FALSE,
@@ -32,7 +32,7 @@ $this->dbforge->add_field(array(
 				'type' => 'INT',
 				'null' => FALSE,
 				'unsigned' => TRUE,
-				'constraint' => 11
+				'constraint' => 11,
 				'comment' => 'report conversion id / missing_id'
 			)
 		));
