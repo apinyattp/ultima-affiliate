@@ -9,6 +9,12 @@
         <?php $this->load->view('cms/report/list/search_filter'); ?></div>
         <?php $this->load->view('cms/report/list/summary'); ?>
         <div class="text-right">
+        <a href="javascript:void(0)">
+            <button onclick="window.open('<?php echo base_url()?>/template/report_conversion.csv')" class="btn btn-secondary">
+              DOWNLOAD TEMPLATE
+              <i class="pl-2 fas fa-download"></i>
+            </button>
+          </a>
           <a href="javascript:void(0)">
             <button onclick="importConversion()" class="btn btn-warning">
               Import

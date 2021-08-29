@@ -1,0 +1,2 @@
+conversion_id,campaign_id,company,uid,order_id,click_time,conversion_time,confirmation_time,paid_time,status,reward,transaction_amount,product,datetime_created,datetime_updated
+99999999,29,jelala,xxx-xxxx-xxx,1101l447514098,2020-09-02 16:40:54,2020-09-02 16:50:04,2021-06-30 00:00:00,NULL,PENDING,3.5,350,,2020-09-07 14:50:07,2021-06-21 23:00:09
