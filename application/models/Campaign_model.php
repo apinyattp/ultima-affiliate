@@ -70,7 +70,7 @@ class campaign_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    public function update($campaign_id, $display_name, $image_file_id=NULL, $cashback, $status, $description, $condition_do, $condition_dont, $note) {
+    public function update($campaign_id, $display_name, $image_file_id=NULL, $cashback, $status, $description, $condition_do, $condition_dont, $note, $maximum_commission=FALSE) {
         $a_set = [
             'id' => $campaign_id,
             'display_name' => $display_name,
@@ -81,6 +81,7 @@ class campaign_model extends CI_Model {
             'condition_do' => $condition_do,
             'condition_dont' => $condition_dont,
             'note' => $note,
+            'maximum_commission' => empty($maximum_commission) ? 0 : $maximum_commission, 
             'datetime_updated' => date('Y-m-d H:i:s')
         ];
 

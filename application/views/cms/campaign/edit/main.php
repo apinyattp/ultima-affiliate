@@ -68,11 +68,18 @@
           </div>
         </div>
         <div class="form-group col-md-6 mb-4">
-          <label for="exampleFormControlSelect1">Status *</label>
-          <select class="form-control" id="input-status" name="status">
-            <option <?php if($status == 'active') echo 'selected' ?> value="active">Active</option>
-            <option <?php if($status == 'inactive') echo 'selected' ?> value="inactive">Inactive</option>
-          </select>
+          <div class="form-group col-md-12">
+              <label for="exampleFormControlSelect1">Maximum commission (Fix Rate)</label>
+              <input type="text" class="form-control" id="input-maximum_commission" name="maximum_commission" placeholder="" value="<?php echo $maximum_commission;?>">
+              <label for="input-maximum_commission"><span id="error"></span></label>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="exampleFormControlSelect1">Status *</label>
+            <select class="form-control" id="input-status" name="status">
+              <option <?php if($status == 'active') echo 'selected' ?> value="active">Active</option>
+              <option <?php if($status == 'inactive') echo 'selected' ?> value="inactive">Inactive</option>
+            </select>
+          </div>
         </div>
       </div>
       

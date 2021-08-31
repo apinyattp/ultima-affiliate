@@ -27,6 +27,7 @@ return [
     'condition_do' => $data['condition_do'],
     'condition_dont' => $data['condition_dont'],
     'note' => $data['note'],
+    'maximum_commission' => (float)$data['maximum_commission'],
     'quicklink' => $data['quicklink'],
     'startDate' => $data['startDate'],
     'endDate' => $data['endDate'],

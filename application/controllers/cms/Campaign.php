@@ -133,12 +133,15 @@ class Campaign extends MY_Controller {
             // $category_rewards = $this->input->post('category_rewards');
             // $a_custom_reward = $this->input->post('a_custom_reward');
             $a_set_reward = $this->input->post('a_set_reward');
+            $maximum_commission = $this->input->post('maximum_commission');
             $status = $this->input->post('status');
+            
+            $maximum_commission = (float)$maximum_commission;
 
             $this->load->model('module/file/file_model', 'file_model');
             if(!$this->file_model->verify($image_file_id, 'campaign_logo', $id)) return $this->_echo_json(E::INVALID_FORMAT, ['image_file_id' => $image_file_id]);
 
-            $this->campaign_model->update($id, $display_name, $image_file_id, $cashback, $status, $description, $condition_do, $condition_dont, $note);
+            $this->campaign_model->update($id, $display_name, $image_file_id, $cashback, $status, $description, $condition_do, $condition_dont, $note, $maximum_commission);
 
             $this->file_model->update_live($image_file_id, $id, TRUE);
 

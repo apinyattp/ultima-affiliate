@@ -105,6 +105,13 @@ class Report extends MY_Controller {
     
             $reward = !empty($a_set_reward) ? $a_set_reward['existing'] : 0.1;
             $summary_reward = (float)$a_data['amount'] * ((float)$reward/100);
+
+            $maximum_commision = (float)$a_campaign['maximum_commission'];
+            if(!empty($maximum_commision)) {
+                if($summary_reward > $maximum_commision) {
+                    $summary_reward = $maximum_commision;
+                }
+            }
             
             $this->report_conversion_model->update_by_conversion_id2(
                 $id,
