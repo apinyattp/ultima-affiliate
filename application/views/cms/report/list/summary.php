@@ -34,4 +34,11 @@
             <small>Transaction Amount : <?php echo number_format($a_summary['total']['transaction_amount'], 2)?> THB</small>
         </div>
     </div>
+    <div class="card px-2 mx-auto" style="width: 200px;">
+        <div class="card-body">
+            <h6 class="card-title">missing total</h6>
+            <h5 class="card-text"><?php echo $a_summary['missing_total']?></h5>
+            <small></small>
+        </div>
+    </div>
 </div>

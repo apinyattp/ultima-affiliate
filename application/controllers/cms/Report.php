@@ -68,7 +68,8 @@ class Report extends MY_Controller {
             'pending' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'PENDING', FALSE, $company),
             'approved' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'APPROVED', FALSE, $company),
             'rejected' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'REJECTED', FALSE, $company),
-            'total' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, FALSE, $company)
+            'total' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, FALSE, $company),
+            'missing_total' => count($this->report_conversion_model->get_missing_order())
         ];
 
         $a_header_data = [

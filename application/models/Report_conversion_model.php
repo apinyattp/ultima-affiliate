@@ -184,8 +184,9 @@ class Report_conversion_model extends CI_Model {
         } 
 
         $this->db->where('status !=', 'INVALID');
-        // $this->db->where('status !=', 'REJECTED');
-
+        if(empty($status)) {
+            $this->db->where('status !=', 'REJECTED');
+        }
 
         return $this->db->get()->row_array();
     }
@@ -222,6 +223,11 @@ class Report_conversion_model extends CI_Model {
         $this->db->where('missing_id', $missing_id);
         $this->db->update('report_conversion', ['status' => 'REJECTED']);
         return TRUE;
+    }
+
+    public function get_missing_order() {
+        $this->db->where('missing_id >', 0);
+        return $this->db->get('report_conversion')->result_array();
     }
 
 }
