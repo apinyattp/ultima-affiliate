@@ -228,7 +228,7 @@ class Campaign extends MY_Controller {
             if(empty($result['data']['data'])) continue;
 
             foreach($result['data']['data'] as $campaign) {
-
+                echo $campaign['offer_name'] . '<br>'
                 $offer_id = sprintf("%05d", $campaign['offer_id']);
                 
                 $campaign_code = "IVA{$offer_id}";
