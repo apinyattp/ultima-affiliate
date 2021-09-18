@@ -48,6 +48,7 @@ $config = array(
         2848, // Cetaphil TH - Lazmall,
         2842, // BIODERMA TH - LAZMALL,
         2840, // Banfang (TH) Lazmall
-        2701, // ADDA TH - Lazmall
+        2701, // ADDA TH - Lazmall,
+        3337 // B2S
     ]
 );
