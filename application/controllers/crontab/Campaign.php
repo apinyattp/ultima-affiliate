@@ -217,7 +217,7 @@ class Campaign extends MY_Controller {
 
         $this->load->config('affiliate/involve_asia');
         $a_offer_id = $this->config->item('a_offer_id');
-
+        print_r($a_offer_id);
         $this->load->library('involve_asia_api');
         $this->load->model('campaign_model');
 
