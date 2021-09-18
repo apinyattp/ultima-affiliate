@@ -67,7 +67,7 @@ class Involve_asia_api {
         ];
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
-
+        var_dump($result);
         return json_decode($result, TRUE);
     }
 
