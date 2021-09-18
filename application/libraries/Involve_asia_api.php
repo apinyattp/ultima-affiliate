@@ -45,7 +45,7 @@ class Involve_asia_api {
         return $result['data']['token'];
     }
 
-    public function offers($a_offer_id=[], $a_offer_name=[], $offer_type=NULL, $a_category=[], $page=1, $limit=25) {
+    public function offers($a_offer_id=[], $a_offer_name=[], $offer_type=NULL, $a_category=[], $page=1, $limit=100) {
 
         $offer_ids = implode('|', $a_offer_id);
         $offer_names = implode('|', $a_offer_name);
@@ -67,7 +67,6 @@ class Involve_asia_api {
         ];
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
-        var_dump($result);
         return json_decode($result, TRUE);
     }
 
