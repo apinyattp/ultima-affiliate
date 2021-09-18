@@ -224,7 +224,9 @@ class Campaign extends MY_Controller {
         foreach($a_offer_id as $offer_id) {
 
             $result = $this->involve_asia_api->offers([$offer_id]); 
-
+            echo $offer_id .'====>';
+            echo print_r($result['data']['data']);
+            echo '<br>';
             if(empty($result['data']['data'])) continue;
 
             foreach($result['data']['data'] as $campaign) {
