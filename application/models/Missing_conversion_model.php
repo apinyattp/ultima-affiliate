@@ -8,7 +8,7 @@ class Missing_conversion_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get_list($start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $sort=FALSE, $company=FALSE, $source=FALSE, $status_filter=FALSE, $status_rejected=FALSE) {
+    public function get_list($start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $sort=FALSE, $company=FALSE, $source=FALSE, $status_filter=FALSE, $status_rejected=FALSE, $start_amount=FALSE, $end_amount=FALSE) {
 
         $this->load->library('qs');
         $this->qs->select('missing_conversion.*, user.jelala_id, user.company, campaign_data.source');
@@ -42,6 +42,12 @@ class Missing_conversion_model extends CI_Model {
         }
         if(!empty($status_rejected)) {
             $this->qs->where('missing_conversion.status_reject', $status_rejected);
+        }
+        if(!empty($start_amount)) {
+            $this->qs->where('missing_conversion.amount >=', $start_amount);
+        }
+        if(!empty($end_amount)) {
+            $this->qs->where('missing_conversion.amount <=', $end_amount);
         }
         return $this->qs->get();
     }

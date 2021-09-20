@@ -67,6 +67,18 @@
         </div>
       </div>
     </div>
+    <div class="form-group col-md-2">
+      <label for="startAmount">Amount Start</label>
+      <div class="input-group">
+        <input id="start_amount" type="text" class="form-control" name="start_amount" placeholder="" value="<?php echo $start_amount?>">
+      </div>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="endAmount">Amount End</label>
+      <div class="input-group">
+        <input id="end_amount" type="text" class="form-control" name="end_amount" placeholder="" value="<?php echo $end_amount?>">
+      </div>
+    </div>
     <div class="form-group col-md-3">
       <label for="inputSort">Sort by</label>
         <select id="inputSort" id="sort" name="sort" class="form-control">

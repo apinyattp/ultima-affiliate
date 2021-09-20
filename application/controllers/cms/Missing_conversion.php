@@ -31,22 +31,28 @@ class Missing_conversion extends MY_Controller {
         $source = $this->input->get('source');
         $status_filter = $this->input->get('status');
         $status_reject = $this->input->get('status_reject');
+        $start_amount = (float)$this->input->get('start_amount');
+        $end_amount = (float)$this->input->get('end_amount');
+
+        if($start_amount <= 0) $start_amount = 0;
+        if($end_amount <= 0) $end_amount = 0;
 
         $page = max(1, $page);
         $perpage = empty($perpage) ? 10 : $perpage;
 
         $a_sort = [
-             'order_date_asc' => 'order_date ASC',
+            'order_date_asc' => 'order_date ASC',
             'order_date_desc' => 'order_date DESC',
             'datetime_updated_asc' => 'datetime_updated ASC',
             'datetime_updated_desc' => 'datetime_updated DESC',
             'datetime_created_asc' => 'datetime_created ASC',
-            'datetime_created_desc' => 'datetime_created DESC',
+            'amount_asc' => 'amount ASC',
+            'amount_desc' => 'amount DESC',
         ];
         if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
         
         $this->load->model('missing_conversion_model');
-        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source, $status_filter, $status_reject);
+        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source, $status_filter, $status_reject, $start_amount, $end_amount);
 
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
@@ -77,7 +83,9 @@ class Missing_conversion extends MY_Controller {
             'sort' => $sort,
             'a_sort' => $a_sort,
             'status_filter' => $status_filter,
-            'status_reject' => $status_reject
+            'status_reject' => $status_reject,
+            'start_amount' => empty($start_amount) ? '' : $start_amount,
+            'end_amount' => empty($end_amount) ? '' : $end_amount,
         ];
 
         $this->load->view('cms/template/header', $a_header_data);
@@ -102,6 +110,11 @@ class Missing_conversion extends MY_Controller {
         $source = $this->input->get('source');
         $status_filter = $this->input->get('status');
         $status_reject = $this->input->get('status_reject');
+        $start_amount = (float)$this->input->get('start_amount');
+        $end_amount = (float)$this->input->get('end_amount');
+
+        if($start_amount <= 0) $start_amount = 0;
+        if($end_amount <= 0) $end_amount = 0;
         
         $a_sort = [
             'order_date_asc' => 'order_date ASC',
@@ -110,11 +123,14 @@ class Missing_conversion extends MY_Controller {
             'datetime_updated_desc' => 'datetime_updated DESC',
             'datetime_created_asc' => 'datetime_created ASC',
             'datetime_created_desc' => 'datetime_created DESC',
+            'amount_asc' => 'amount ASC',
+            'amount_desc' => 'amount DESC',
         ];
+
         if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
         
         $this->load->model('missing_conversion_model');
-        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source, $status_filter, $status_reject);
+        $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source, $status_filter, $status_reject, $start_amount, $end_amount);
 
         $this->load->library('qs');
 
