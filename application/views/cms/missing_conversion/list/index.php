@@ -1,7 +1,3 @@
-<?php
-echo http_build_query($_GET);
-echo http_build_query($this->input->get());
-?>
 <div class="row">
   <div class="col-md-12">
     <div class="card px-5 py-2">
