@@ -21,7 +21,7 @@
             <option value="involve_asia" <?php if($source == 'involve_asia') echo 'selected' ?>>Involve Asia</option>
         </select>
     </div>
-    <div class="form-group col-md-2">
+    <div class="form-group col-md-3">
         <label for="inputStatusFilter">Status</label>
         <select id="status_filter" name="status" class="form-control">
             <option value="" <?php if(empty($status_filter)) echo 'selected' ?>>All</option>
@@ -29,7 +29,10 @@
             <option value="send_to_affiliate" <?php if($status_filter == 'send_to_affiliate') echo 'selected' ?>>Send to Affiliate</option>
         </select>
     </div>
-    <div class="form-group col-md-2">
+    
+  </div>
+  <div class="row">
+    <div class="form-group col-md-3">
         <label for="inputStatusFilter">Status Rejected</label>
         <select id="status_reject" name="status_reject" class="form-control">
             <option value="" <?php if(empty($status_reject)) echo 'selected' ?>>All</option>
@@ -37,9 +40,6 @@
             <option value="rejected" <?php if($status_reject == 'rejected') echo 'selected' ?>>Rejected</option>
         </select>
     </div>
-    
-  </div>
-  <div class="row">
    <div class="form-group col-md-3">
         <label for="inputStatus">Company</label>
         <select id="inputStatus" id="company" name="company" class="form-control">
@@ -49,7 +49,7 @@
             <?php } ?>
         </select>
     </div>
-    <div class="form-group col-md-2">
+    <div class="form-group col-md-3">
       <label for="startDatePicker">Start Date</label>
       <div class="input-group">
         <input id="startDatePicker" type="text" class="form-control date" name="start_date" placeholder="" value="<?php echo $start_date?>">
@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group col-md-2">
+    <div class="form-group col-md-3">
       <label for="endDatePicker">End Date</label>
       <div class="input-group">
         <input id="endDatePicker" type="text" class="form-control" name="end_date" placeholder="" value="<?php echo $end_date?>">
@@ -67,17 +67,13 @@
         </div>
       </div>
     </div>
-    <div class="form-group col-md-2">
+    <div class="form-group col-md-3">
       <label for="startAmount">Amount Start</label>
-      <div class="input-group">
-        <input id="start_amount" type="text" class="form-control" name="start_amount" placeholder="" value="<?php echo $start_amount?>">
-      </div>
+      <input id="start_amount" type="text" class="form-control" name="start_amount" placeholder="" value="<?php echo $start_amount?>">
     </div>
-    <div class="form-group col-md-2">
+    <div class="form-group col-md-3">
       <label for="endAmount">Amount End</label>
-      <div class="input-group">
-        <input id="end_amount" type="text" class="form-control" name="end_amount" placeholder="" value="<?php echo $end_amount?>">
-      </div>
+      <input id="end_amount" type="text" class="form-control" name="end_amount" placeholder="" value="<?php echo $end_amount?>">
     </div>
     <div class="form-group col-md-3">
       <label for="inputSort">Sort by</label>
