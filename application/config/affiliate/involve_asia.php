@@ -49,10 +49,7 @@ $config = array(
         2842, // BIODERMA TH - LAZMALL,
         2840, // Banfang (TH) Lazmall
         2701, // ADDA TH - Lazmall,
-        3337, // B2S,
-    ],
-    'a_offer_name'=> [
-        'Tripadvisor (CPS)'
+        2919, // B2S,
     ]
 
 );

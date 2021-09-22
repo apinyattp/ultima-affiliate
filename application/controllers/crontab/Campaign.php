@@ -222,16 +222,10 @@ class Campaign extends MY_Controller {
         $this->load->library('involve_asia_api');
         $this->load->model('campaign_model');
 
-        $result_data_ids = $this->involve_asia_api->offers($a_offer_id); 
-        $result_data_name = $this->involve_asia_api->offers([], $a_offer_name); 
-        
-        if(empty($result_data_ids['data']['data'])) $result_data_ids['data']['data'] = [];
-        if(empty($result_data_name['data']['data'])) $result_data_name['data']['data'] = [];
-
-        $result_data = array_merge($result_data_ids['data']['data'], $result_data_name['data']['data']);
+        $result_data = $this->involve_asia_api->offers($a_offer_id); 
 
         $updated_ids = [];
-        foreach($result_data as $result) {
+        foreach($result_data['data']['data'] as $result) {
 
             $offer_id = $result['offer_id'];
             $campaign = $result;
