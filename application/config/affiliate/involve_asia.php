@@ -49,7 +49,8 @@ $config = array(
         2842, // BIODERMA TH - LAZMALL,
         2840, // Banfang (TH) Lazmall
         2701, // ADDA TH - Lazmall,
-        3337 // B2S
+        3337 // B2S,
+        101765 // Trip advisor
     ]
 
 );
