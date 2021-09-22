@@ -220,9 +220,9 @@ class Campaign extends MY_Controller {
 
         $this->load->library('involve_asia_api');
         $this->load->model('campaign_model');
-        print_r($a_offer_id);
+
         $result_data = $this->involve_asia_api->offers($a_offer_id); 
-        print_r($result_data);die();
+
         $updated_ids = [];
         foreach($result_data['data']['data'] as $result) {
 
