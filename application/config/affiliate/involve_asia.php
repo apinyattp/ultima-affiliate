@@ -50,7 +50,9 @@ $config = array(
         2840, // Banfang (TH) Lazmall
         2701, // ADDA TH - Lazmall,
         3337, // B2S,
-        101765 // Trip advisor
+    ],
+    'a_offer_name'=> [
+        'Tripadvisor (CPS)'
     ]
 
 );

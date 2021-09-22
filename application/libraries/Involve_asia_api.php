@@ -58,12 +58,19 @@ class Involve_asia_api {
 
         $url = $this->_endpoint . 'offers/all';
 
+        if(!empty($a_offer_id)) {
+            $filter_key = 'filters[offer_id]';
+            $filter_data = $offer_ids;
+        }else{
+            $filter_key = 'filters[offer_name]';
+            $filter_data = $offer_names;
+        }
         $params = [
             'page' => $page,
             'limit' => $limit,
             'sort_by' => 'relevant',
             'filters[country]' => 'Thailand',
-            'filters[offer_id]' => $offer_ids
+            $filter_key => $filter_data
         ];
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
