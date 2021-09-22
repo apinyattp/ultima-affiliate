@@ -63,7 +63,7 @@ class Involve_asia_api {
             'limit' => $limit,
             'sort_by' => 'relevant',
             'filters[country]' => 'Thailand',
-            'filters[offer_name]' => 'tripadvisor'
+            'filters[offer_id]' => $offer_ids
         ];
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
