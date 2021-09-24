@@ -77,6 +77,26 @@ class Involve_asia_api {
         return json_decode($result, TRUE);
     }
 
+    public function all_offers($page=1, $limit=10) {
+
+        $header = [
+            'Accept: application/json',
+             'Authorization: Bearer ' . $this->_auth()
+        ];
+
+        $url = $this->_endpoint . 'offers/all';
+
+        $params = [
+            'page' => $page,
+            'limit' => $limit,
+            'sort_by' => 'relevant',
+            'filters[country]' => 'Thailand'
+        ];
+
+        $result = $this->_ci->gateway->curl_post($url, $params, $header);
+        return json_decode($result, TRUE);
+    }
+
     public function conversion($start_date, $end_date, $a_offer_id=[], $page=1, $limit=100) {
         // https://api.involve.asia/api/conversions/range
 
