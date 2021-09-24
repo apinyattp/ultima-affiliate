@@ -77,7 +77,7 @@ class Involve_asia_api {
         return json_decode($result, TRUE);
     }
 
-    public function all_offers($page=1, $limit=10) {
+    public function all_offers($page=1, $limit=10, $country='Thailand') {
 
         $header = [
             'Accept: application/json',
@@ -90,7 +90,7 @@ class Involve_asia_api {
             'page' => $page,
             'limit' => $limit,
             'sort_by' => 'relevant',
-            'filters[country]' => 'Thailand'
+            'filters[country]' => $country
         ];
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
