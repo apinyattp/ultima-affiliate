@@ -30,7 +30,7 @@
       </a>
       <button id="syncCampaignButton" class="btn btn-info" onclick="syncCampaign()">
         Sync Campaign
-        <i class="pl-2 fas fa-download"></i>
+        <i class="pl-2 fas fa-sync"></i>
         <i class="fas fa-circle-notch fa-spin d-none"></i>
       </button>        
     </div>
