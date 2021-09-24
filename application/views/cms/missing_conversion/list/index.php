@@ -19,36 +19,36 @@
           <table class="table">
             <thead>
               <tr class="text-nowrap">
-                <th scope="col">Order ID</th>
+                <th scope="col">Status</th>
                 <th scope="col">Campaign</th>
+                <th scope="col">Order ID</th>
+                <th scope="col">Order date</th>
+                <th scope="col">Amount</th>
                 <th scope="col">UID</th>
                 <th scope="col">Company</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Order date</th>
                 <th scope="col">Source</th>
                 <th scope="col">Created Time</th>
                 <th scope="col">Updated Time</th>
-                <th scope="col">Status</th>
                 <th scope="col" width="100">Rejected</th>
               </tr>
             </thead>
             <tbody class="font-size-08">
               <?php foreach($a_conversion['lists'] as $conversion) { ?>
                 <tr>
-                  <td><?php echo $conversion['order_id'] ?></td>
-                  <td><?php echo $conversion['a_campaign']['name'] ?></td>
-                  <td><?php echo $conversion['uid'] ?></td>
-                  <td><?php echo $conversion['company'] ?></td>
-                  <td><?php echo $conversion['amount'] ?></td>
-                  <td><?php echo $conversion['order_date'] ?></td>
-                  <td><?php echo $conversion['source'] ?></td>
-                  <td><?php echo $conversion['datetime_created'] ?></td>
-                  <td><?php echo $conversion['datetime_updated'] ?></td>
                   <td id="status_<?php echo $conversion['id'] ?>">
                     <button class="btn btn-<?php echo $conversion['status'] == 'new' ? 'info' : 'warning' ?> btn-sm" onclick="update_status(<?php echo $conversion['id'] ?>)">
                       <?php echo $conversion['status'] == 'new' ? strtoupper($conversion['status']) : 'SEND' ?>
                     </button>
                   </td>
+                  <td><?php echo $conversion['a_campaign']['name'] ?></td>
+                  <td><?php echo $conversion['order_id'] ?></td>
+                  <td><?php echo $conversion['order_date'] ?></td>
+                  <td><?php echo $conversion['amount'] ?></td>
+                  <td><?php echo $conversion['uid'] ?></td>
+                  <td><?php echo $conversion['company'] ?></td>
+                  <td><?php echo $conversion['source'] ?></td>
+                  <td><?php echo $conversion['datetime_created'] ?></td>
+                  <td><?php echo $conversion['datetime_updated'] ?></td>
                   <td id="status_reject_<?php echo $conversion['id'] ?>">
                     <?php if($conversion['status_reject'] == 'rejected'){ ?>
                       <h5 class="mb-0"><span class="badge badge-danger"><?php echo strtoupper($conversion['status_reject']) ?></span></h5>
