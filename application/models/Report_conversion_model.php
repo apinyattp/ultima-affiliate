@@ -128,8 +128,14 @@ class Report_conversion_model extends CI_Model {
         $this->qs->from('report_conversion');
         $this->qs->join('user', 'user.jelala_id = report_conversion.uid', 'left');
 
-        if($start_date) $this->qs->where('report_conversion.'. $period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
-        if($end_date) $this->qs->where('report_conversion.'. $period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
+        if($start_date) $this->db->where('report_conversion.'. $period_base. ' >=',date('Y-m-d H:i:s',strtotime($start_date)));
+        if($end_date) {
+            $end_time = strtotime($end_date);
+            $_end_time = date('H:i:s', $end_time);
+            $_end_date = date('Y-m-d', $end_time);
+            if ($_end_time === '00:00:00') $_end_time = '23:59:59';
+            $this->db->where('report_conversion.'. $period_base.' <=',"$_end_date $_end_time");
+        }
         if($status) $this->qs->where('status', $status);
         if($campaign_id) $this->qs->where('campaign_id', $campaign_id);
         if($keyword) {
