@@ -28,11 +28,11 @@
             <i class="pl-2 fas fa-download"></i>
         </button>  
       </a>
-      <!-- <button id="syncCampaignButton" class="btn btn-info" onclick="syncCampaign()">
+      <button id="syncCampaignButton" class="btn btn-info" onclick="syncCampaign()">
         Sync Campaign
         <i class="pl-2 fas fa-sync"></i>
         <i class="fas fa-circle-notch fa-spin d-none"></i>
-      </button>         -->
+      </button>        
     </div>
   </div>
 </div>
