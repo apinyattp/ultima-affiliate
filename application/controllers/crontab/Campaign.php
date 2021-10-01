@@ -212,7 +212,7 @@ class Campaign extends MY_Controller {
     }
 
     public function involve_asia_campaign() {
-        
+
         $a_campaign_type = ['cpa' => 'CPA', 'cps' => 'CPS'];
 
         $this->load->config('affiliate/involve_asia');
@@ -226,7 +226,8 @@ class Campaign extends MY_Controller {
         $page = 1;
         
         $result_data = $this->involve_asia_api->all_offers($page, $perpage);
-
+        print_r($result_data);
+        exit();
         if(empty($result_data['data']['count'])) return;
         $total_page = ceil($result_data['data']['count']/ $perpage);
 
