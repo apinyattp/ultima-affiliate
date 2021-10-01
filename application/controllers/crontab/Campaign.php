@@ -234,7 +234,7 @@ class Campaign extends MY_Controller {
             if($page > 1) {
                 $result_data = $this->involve_asia_api->all_offers($page, $perpage);
             }
-            echo $page .'__';
+
             if(empty($result_data['data']['data'])) continue;
 
             foreach($result_data['data']['data'] as $result) {
