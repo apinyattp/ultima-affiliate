@@ -228,12 +228,14 @@ class Campaign extends MY_Controller {
         $result_data = $this->involve_asia_api->all_offers($page, $perpage);
         if(empty($result_data['data']['count'])) return;
         $total_page = ceil($result_data['data']['count']/ $perpage);
-        echo $total_page;die();
+
         $updated_ids = [];
         for($page = 1; $page <= $total_page; $page++){
             if($page > 1) {
                 $result_data = $this->involve_asia_api->all_offers($page, $perpage);
             }
+            echo $page .'__';
+            echo count($result_data['data']['data']);
             if(empty($result_data['data']['data'])) continue;
 
             foreach($result_data['data']['data'] as $result) {
