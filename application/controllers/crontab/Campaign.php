@@ -235,7 +235,6 @@ class Campaign extends MY_Controller {
                 $result_data = $this->involve_asia_api->all_offers($page, $perpage);
             }
             echo $page .'__';
-            echo count($result_data['data']['data']);
             if(empty($result_data['data']['data'])) continue;
 
             foreach($result_data['data']['data'] as $result) {
