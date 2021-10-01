@@ -212,6 +212,7 @@ class Campaign extends MY_Controller {
     }
 
     public function involve_asia_campaign() {
+        
         $a_campaign_type = ['cpa' => 'CPA', 'cps' => 'CPS'];
 
         $this->load->config('affiliate/involve_asia');
