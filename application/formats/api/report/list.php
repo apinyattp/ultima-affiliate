@@ -9,7 +9,7 @@ $products = json_decode($data['products'], TRUE);
 if($data['source'] == 'accesstrade') {
     foreach((array) $products as $key => $product) {
         $category_reward = $this->campaign_model->get_category_reward_by_id($product['categoryId']);
-    
+
         $products[$key]['category'] = $this->format->run('api/report/campaign_category_reward', $category_reward);
     }
 
@@ -32,5 +32,6 @@ return [
     'status' => $data['status'],
     'transaction_id' => $data['verification_id'],
     'products' => $products,
-    'company' => empty($data['company']) ? 'jelala' : $data['company']
+    'company' => empty($data['company']) ? 'jelala' : $data['company'],
+    'is_fake' => !empty($data['missing_id']),
 ];
