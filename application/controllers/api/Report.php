@@ -146,4 +146,30 @@ class Report extends MY_Controller {
         return $this->_echo_json(E::SUCCESS, ['id' => (int)$id]);
     }
 
+    public function fake_list() {
+        if(($auth = $this->_api_authorization()) === FALSE) return $this->_echo_json(E::PERMISSION_DENIED);
+
+        $page = $this->input->get('page');
+        $perpage = $this->input->get('perpage');
+        $sort = $this->input->get('sort');
+        $company = $auth;
+
+        $page = max(1, $page);
+        $perpage = empty($perpage) ? 100 : $perpage;
+
+        $sort = 'datetime_updated desc, id DESC';
+
+        $this->load->model('report_conversion_model');
+        $qs_conversion = $this->report_conversion_model->fake_list(
+            $sort,
+            $company
+        );
+
+        $this->load->library('qs');
+        $qs_conversion->page($page, $perpage);
+
+        $a_conversion = $qs_conversion->result('api/report/list');
+        return $this->_echo_json(E::SUCCESS, $a_conversion);
+    }
+
 }

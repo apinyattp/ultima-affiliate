@@ -67,3 +67,20 @@ ERROR:PERMISSION_DENIED
 ###RESULT
 JSON:document/blank
 ==============================================================
+
+GET:/report/fake_list
+
+###Header
+HEADER:Authorization
+
+###Input
+INPUT:page,int, default : 1
+INPUT:perpage,int, default : 100
+
+##Error
+ERROR:SUCCESS
+ERROR:REQUIRE_PARAMETER
+ERROR:INVALID_FORMAT
+ERROR:PERMISSION_DENIED
+
+==============================================================

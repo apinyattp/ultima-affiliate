@@ -187,7 +187,7 @@ class Report_conversion_model extends CI_Model {
                     $this->db->or_where('company IS NULL', NULL, TRUE);
                 }
             $this->db->group_end();
-        } 
+        }
 
         $this->db->where('status !=', 'INVALID');
         if(empty($status)) {
@@ -195,6 +195,27 @@ class Report_conversion_model extends CI_Model {
         }
 
         return $this->db->get()->row_array();
+    }
+
+    public function fake_list($sort=FALSE, $company=FALSE) {
+        $this->load->library('qs');
+        $this->qs->select('report_conversion.*, user.jelala_id, user.company');
+        $this->qs->from('report_conversion');
+        $this->qs->join('user', 'user.jelala_id = report_conversion.uid', 'left');
+
+        if($sort) $this->qs->order_by($sort);
+        if(!empty($company)) {
+            $this->qs->group_start();
+                $this->qs->where('company', $company);
+                if($company == 'jelala') {
+                    $this->qs->or_where('company IS NULL', NULL, TRUE);
+                }
+            $this->qs->group_end();
+        }
+        $this->qs->where('missing_id !=', '0');
+        $this->qs->where('status !=', 'INVALID');
+
+        return $this->qs->get();
     }
 
     public function get_by_missing_id($id) {
