@@ -92,7 +92,7 @@ class Involve_asia_api {
             'sort_by' => 'relevant',
             'filters[country]' => $country
         ];
-        print_r($params);
+
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
 
         return json_decode($result, TRUE);
