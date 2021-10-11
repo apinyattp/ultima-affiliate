@@ -222,12 +222,11 @@ class Campaign extends MY_Controller {
         $this->load->library('involve_asia_api');
         $this->load->model('campaign_model');
 
-        $perpage = 20;
+        $perpage = 100;
         $page = 1;
         
         $result_data = $this->involve_asia_api->all_offers($page, $perpage);
         print_r($result_data);
-        die();
         if(empty($result_data['data']['count'])) return;
         $total_page = ceil($result_data['data']['count']/ $perpage);
 
