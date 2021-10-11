@@ -78,7 +78,8 @@ class Involve_asia_api {
     }
 
     public function all_offers($page=1, $limit=10, $country='Thailand') {
-
+        print_r($this->_auth());
+        exit();
         $header = [
             'Accept: application/json',
              'Authorization: Bearer ' . $this->_auth()
