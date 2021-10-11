@@ -81,7 +81,7 @@ class Involve_asia_api {
 
         $header = [
             'Accept: application/json',
-             'Authorization: Bearer ' . $this->_auth()
+             'Authorization:' . $this->_auth()
         ];
 
         $url = $this->_endpoint . 'offers/all';
