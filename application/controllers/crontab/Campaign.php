@@ -226,6 +226,8 @@ class Campaign extends MY_Controller {
         $page = 1;
         
         $result_data = $this->involve_asia_api->all_offers($page, $perpage);
+        print_r($result_data);
+        die();
         if(empty($result_data['data']['count'])) return;
         $total_page = ceil($result_data['data']['count']/ $perpage);
 
