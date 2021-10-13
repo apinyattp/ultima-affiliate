@@ -97,7 +97,15 @@ class Report extends MY_Controller {
         $id = $this->missing_conversion_model->update_missing_conversion($a_data);
 
         $check_conversion_exist = $this->report_conversion_model->get_by_order_id($a_data['order_id'], $a_data['uuid']);
-        if(empty($check_conversion_exist)) {
+        $config_max = $this->config->item('amount_maximum');
+        $config_min = $this->config->item('amount_minimum');
+
+        if(empty($config_max)) $config_max = 0;
+        if(empty($config_min)) $config_min = 0;
+
+        if(empty($check_conversion_exist) && !empty($this->config->item('enable_generate')) &&
+           ($a_data['amount'] >= $config_min && $a_data['amount'] <= $config_max)
+        ) {
             $a_conversion_missing = $this->report_conversion_model->get_by_missing_id($id);
         
             $a_campaign = $this->campaign_model->get_by_id($a_data['campaign_id']);

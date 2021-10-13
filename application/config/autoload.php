@@ -9,7 +9,7 @@ $autoload['drivers'] = array();
 
 $autoload['helper'] = array('url', 'common');
 
-$autoload['config'] = array('error_code');
+$autoload['config'] = array('error_code', 'affiliate/missing');
 
 $autoload['language'] = array();
 
