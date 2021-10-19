@@ -106,12 +106,16 @@ class Involve_asia_api {
         ];
 
         $url = $this->_endpoint . 'conversions/range';
-
+        echo $start_date;
+        
+        $start_date = '2021-10-14';
+        $end_date = '2021-10-14';
         $params = [
             'page' => $page,
             'limit' => $limit,
             'start_date' => $start_date,
             'end_date' => $end_date,
+            'page' => 38
         ];
 
         if(!empty($a_offer_id)) {
@@ -120,7 +124,7 @@ class Involve_asia_api {
         }
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
-
+        print_r($result);
         return json_decode($result, TRUE);
     }
 
