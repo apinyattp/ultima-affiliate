@@ -59,7 +59,8 @@ class Involve_asia_api {
         $offer_ids = implode('|', $a_offer_id);
         $offer_names = implode('|', $a_offer_name);
         $categories = implode('|', $a_category);
-
+        echo $this->_auth();
+        die();
         $header = [
             'Accept: application/json',
              'Authorization: Bearer ' . $this->_auth()
