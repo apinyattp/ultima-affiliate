@@ -180,6 +180,7 @@ class Report extends MY_Controller {
             $start_date = '2021-01-01';
         }
         $end_date = date('Y-m-d');
+        echo date('Y-m-d H:i:s');
         $this->_involve_asia_conversion($start_date, $end_date, []);
     }
 
@@ -203,6 +204,7 @@ class Report extends MY_Controller {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
             if(empty($a_conversion['data']['data'])) {
                 print_r($a_conversion);
+                echo date('Y-m-d H:i:s');
                 break;
             }
             echo $page;
