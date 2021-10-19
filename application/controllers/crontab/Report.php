@@ -201,7 +201,11 @@ class Report extends MY_Controller {
 
         while($page >= 1) {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
-            if(empty($a_conversion['data']['data'])) break;
+            if(empty($a_conversion['data']['data'])) {
+                print_r($a_conversion);
+                break;
+            }
+            echo $page;
 
             foreach($a_conversion['data']['data'] as $conversion) {
                 $this->_involve_asia_conversion_process($conversion);
