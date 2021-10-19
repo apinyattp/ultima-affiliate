@@ -163,125 +163,142 @@ class Report extends MY_Controller {
             }
 
             $offset += 1;
-    
         }
-
     }
 
     public function involve_asia_conversion() {
-
-        $a_status = ['Pending' => 'PENDING', 'Approved' => 'APPROVED', 'Rejected' => 'REJECTED', 'Paid' => 'PAID', 'Yet to consumed' => 'PENDING', 'Invalid' => 'INVALID'];
-
         $this->load->library('involve_asia_api');
         $this->load->model('report_conversion_model');
         $this->load->model('campaign_model');
         $this->load->model('logs_missing_model');
+        $this->load->config('affiliate/involve_asia');
 
+        $start_date = $this->report_conversion_model->get_min_conversion_time('involve_asia', ['APPROVED', 'PENDING']);
+        if(!empty($start_date)) {
+            $start_date = date('Y-m-d', strtotime($start_date));
+        }else{
+            $start_date = '2021-01-01';
+        }
+        $end_date = date('Y-m-d');
+        $this->_involve_asia_conversion($start_date, $end_date, []);
+    }
+
+    public function involve_asia_conversion_pending($days=7) {
+        $this->load->library('involve_asia_api');
+        $this->load->model('report_conversion_model');
+        $this->load->model('campaign_model');
+        $this->load->model('logs_missing_model');
+        $this->load->config('affiliate/involve_asia');
+
+        $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -$days days"));
+        $end_date = date('Y-m-d');
+        $this->_involve_asia_conversion($start_date, $end_date, ['pending']);
+    }
+
+    private function _involve_asia_conversion($start_date, $end_date, $a_status) {
         $limit = 1000;
         $page = 1;
-        $source = 'involve_asia';
 
-        $this->load->config('affiliate/involve_asia');
-        $site_id = $this->config->item('tracking_link_id');
-
-
-        $start_date = date('Y-m-d', strtotime(date('Y-m-d').' -8 months'));
-        $end_date = date('Y-m-d');
         while($page >= 1) {
-            $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $page, $limit);
+            $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
             if(empty($a_conversion['data']['data'])) break;
 
             foreach($a_conversion['data']['data'] as $conversion) {
-                $conversion_id = $conversion['conversion_id'];
-                $uid = (empty($conversion['aff_sub1'])) ? 0 : $conversion['aff_sub1'];
-
-                $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub1'], $uid);
-                if(!empty($check_missing_conversion)) {
-                    $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
-                    $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
-                }
-
-                $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
-                $site_name = 'Jelala';
-        
-                $campaign_code = $this->gen_campaign_code('IVA', $conversion['offer_id']);
-                $a_campaign = $this->campaign_model->get_by_code($campaign_code);
-
-                $campaign_id = $a_campaign['id'];
-                $campaign_name = $conversion['offer_name'];
-                
-                if(is_null($campaign_id)) {
-                    $campaign_id = 0;
-                }
-                $customerType = $creative_id = $creative_name = NULL;
-
-                $verification_id = $conversion['adv_sub1'];
-
-                $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['datetime_conversion']));
-
-                $status = isset($a_status[ucfirst($conversion['conversion_status'])]) ? $a_status[ucfirst($conversion['conversion_status'])] : 'PENDING';
-
-                $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
-            
-                $reward = $conversion['payout'];
-                $transaction_amount = $conversion['sale_amount'];
-                $original_reward = NULL;
-                $original_transaction_amount = NULL;
-                $currency = $conversion['currency'];
-
-
-                $session_id = $user_agent = NULL;
-
-                $parameters = $other_parameters = NULL;
-
-                $products = json_encode([
-                    'adv_sub1' => $conversion['adv_sub1'],
-                    'adv_sub2' => $conversion['adv_sub2'],
-                    'adv_sub3' => $conversion['adv_sub3'],
-                    'adv_sub4' => $conversion['adv_sub4'],
-                    'adv_sub5' => $conversion['adv_sub5'],
-                ]);
-
-                if(empty($a_conversion)) {
-                               
-                    $this->report_conversion_model->update_by_conversion_id2(
-                        $conversion_id,
-                        $source,
-                        $uid,
-                        $site_id,
-                        $site_name,
-                        $campaign_id,
-                        $campaign_name,
-                        $customerType,
-                        $creative_id,
-                        $creative_name,
-                        $verification_id,
-                        $click_time,
-                        $conversion_time,
-                        $confirmation_time,
-                        $status,
-                        $reward,
-                        $original_reward,
-                        $transaction_amount,
-                        $original_transaction_amount,
-                        $currency,
-                        $session_id,
-                        $user_agent,
-                        $parameters,
-                        $products,
-                        $other_parameters
-                    );
-                }else {
-
-                    if($status != 'PENDING') {
-                        $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency);
-                    }
-            
-                }
+                $this->_involve_asia_conversion_process($conversion);
             }
 
             sleep(5);
             $page += 1;
+        }
+    }
+
+    private function _involve_asia_conversion_process($conversion) {
+        $source = 'involve_asia';
+        $site_id = $this->config->item('tracking_link_id');
+        $a_status = ['Pending' => 'PENDING', 'Approved' => 'APPROVED', 'Rejected' => 'REJECTED', 'Paid' => 'PAID', 'Yet to consumed' => 'PENDING', 'Invalid' => 'INVALID'];
+
+        $conversion_id = $conversion['conversion_id'];
+        $uid = (empty($conversion['aff_sub1'])) ? 0 : $conversion['aff_sub1'];
+
+        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub1'], $uid);
+        if(!empty($check_missing_conversion)) {
+            $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+            $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
+        }
+
+        $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
+        $site_name = 'Jelala';
+
+        $campaign_code = $this->gen_campaign_code('IVA', $conversion['offer_id']);
+        $a_campaign = $this->campaign_model->get_by_code($campaign_code);
+
+        $campaign_id = $a_campaign['id'];
+        $campaign_name = $conversion['offer_name'];
+
+        if(is_null($campaign_id)) {
+            $campaign_id = 0;
+        }
+        $customerType = $creative_id = $creative_name = NULL;
+
+        $verification_id = $conversion['adv_sub1'];
+
+        $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['datetime_conversion']));
+
+        $status = isset($a_status[ucfirst($conversion['conversion_status'])]) ? $a_status[ucfirst($conversion['conversion_status'])] : 'PENDING';
+
+        $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
+
+        $reward = $conversion['payout'];
+        $transaction_amount = $conversion['sale_amount'];
+        $original_reward = NULL;
+        $original_transaction_amount = NULL;
+        $currency = $conversion['currency'];
+
+
+        $session_id = $user_agent = NULL;
+
+        $parameters = $other_parameters = NULL;
+
+        $products = json_encode([
+            'adv_sub1' => $conversion['adv_sub1'],
+            'adv_sub2' => $conversion['adv_sub2'],
+            'adv_sub3' => $conversion['adv_sub3'],
+            'adv_sub4' => $conversion['adv_sub4'],
+            'adv_sub5' => $conversion['adv_sub5'],
+        ]);
+
+        if(empty($a_conversion)) {
+            $this->report_conversion_model->update_by_conversion_id2(
+                $conversion_id,
+                $source,
+                $uid,
+                $site_id,
+                $site_name,
+                $campaign_id,
+                $campaign_name,
+                $customerType,
+                $creative_id,
+                $creative_name,
+                $verification_id,
+                $click_time,
+                $conversion_time,
+                $confirmation_time,
+                $status,
+                $reward,
+                $original_reward,
+                $transaction_amount,
+                $original_transaction_amount,
+                $currency,
+                $session_id,
+                $user_agent,
+                $parameters,
+                $products,
+                $other_parameters
+            );
+        }else {
+            if($status != 'PENDING') {
+                $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency);
+            }
         }
     }
 }

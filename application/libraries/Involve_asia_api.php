@@ -9,6 +9,9 @@ class Involve_asia_api {
     private $_api_secret;
     private $_api_key;
 
+    private $_token;
+    private $_token_time = 0;
+
     public function __construct () {
         $this->_ci = &get_instance();
 
@@ -22,7 +25,6 @@ class Involve_asia_api {
     }
 
     public function authenticate() {
-        
         $params = [
             'secret' => $this->_api_secret,
             'key' => $this->_api_key
@@ -35,14 +37,21 @@ class Involve_asia_api {
         ];
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
-        
+
         return json_decode($result, TRUE);
     }
 
     public function _auth() {
+        if($this->_token && $this->_token_time < time() - (1.5 * 60 * 60)) {
+            return $this->_token;
+        }
+
         $result = $this->authenticate();
 
-        return $result['data']['token'];
+        $this->_token = $result['data']['token'];
+        $this->_token_time = time();
+
+        return $this->_token;
     }
 
     public function offers($a_offer_id=[], $a_offer_name=[], $offer_type=NULL, $a_category=[], $page=1, $limit=100) {
@@ -98,7 +107,7 @@ class Involve_asia_api {
         return json_decode($result, TRUE);
     }
 
-    public function conversion($start_date, $end_date, $a_offer_id=[], $page=1, $limit=100) {
+    public function conversion($start_date, $end_date, $a_offer_id=[], $a_status=[], $page=1, $limit=100) {
         // https://api.involve.asia/api/conversions/range
         $header = [
             'Accept: application/json',
@@ -115,9 +124,14 @@ class Involve_asia_api {
         ];
 
         if(!empty($a_offer_id)) {
-            $offer_ids = implode('|', $a_offer_id);
-            $params['filters[offer_id]'] = $offer_ids;
+            $params['filters[offer_id]'] = implode('|', $a_offer_id);
         }
+
+        if(!empty($a_status)) {
+            $params['filters[conversion_status]'] = implode('|', $a_status);
+        }
+
+        var_dump($params);
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
 

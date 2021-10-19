@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Migration_Modify_missing_conversion extends CI_Migration
+class Migration_Modify_missing_conversion2 extends CI_Migration
 {
 	public function __construct()
 	{
@@ -34,5 +34,5 @@ class Migration_Modify_missing_conversion extends CI_Migration
 	}
 }
 
-/* End of file 20210801073435_modify_missing_conversion.php */
-/* Location: ./application/migrations/20210801073435_modify_missing_conversion.php */
+/* End of file 20210801073435_modify_missing_conversion2.php */
+/* Location: ./application/migrations/20210801073435_modify_missing_conversion2.php */

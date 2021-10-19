@@ -21,6 +21,16 @@ class Report_conversion_model extends CI_Model {
         return $this->db->get('report_conversion')->row_array();
     }
 
+    public function get_min_conversion_time($source=NULL, $a_status=[]) {
+        $this->db->select_min('conversion_time')
+                ->from('report_conversion');
+        if($source) $this->db->where('source', $source);
+        if($a_status) $this->db->where_in('status', $a_status);
+        $data = $this->db->get()->row_array();
+        if(empty($data)) return NULL;
+        return $data['conversion_time'];
+    }
+
     public function update_by_conversion_id($conversion_id, $source, $uid, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $transaction_amount, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0) {
         $a_data = [
             'conversion_id' => $conversion_id,
