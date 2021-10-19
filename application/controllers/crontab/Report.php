@@ -185,7 +185,8 @@ class Report extends MY_Controller {
         $site_id = $this->config->item('tracking_link_id');
 
 
-        $start_date = date('Y-m-d', strtotime('2020-11-01'));
+        $start_date = date('Y-m-d', strtotime(date('Y-m-d').' -8 months'));
+        echo $start_date;die();
         $end_date = date('Y-m-d');
 
         while($page >= 1) {
