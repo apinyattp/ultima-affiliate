@@ -191,12 +191,13 @@ class Report extends MY_Controller {
         $end_date = date('Y-m-d', strtotime('2021-10-14'));
         while($page >= 1) {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $page, $limit);
-            print_r($a_conversion);
-            die();
             if(empty($a_conversion['data']['data'])) break;
 
             foreach($a_conversion['data']['data'] as $conversion) {
                 $conversion_id = $conversion['conversion_id'];
+                if($conversion_id == 101757692) {
+                    echo 'found';
+                }
                 $uid = (empty($conversion['aff_sub1'])) ? 0 : $conversion['aff_sub1'];
 
                 $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub1'], $uid);
