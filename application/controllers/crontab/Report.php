@@ -178,7 +178,7 @@ class Report extends MY_Controller {
         $this->load->model('logs_missing_model');
 
         $limit = 1000;
-        $page = 1;
+        $page = 39;
         $source = 'involve_asia';
 
         $this->load->config('affiliate/involve_asia');
