@@ -132,8 +132,6 @@ class Involve_asia_api {
             $params['filters[conversion_status]'] = implode('|', $a_status);
         }
 
-        var_dump($params);
-
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
         return json_decode($result, TRUE);
     }
