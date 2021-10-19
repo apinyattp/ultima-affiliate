@@ -178,7 +178,7 @@ class Report extends MY_Controller {
         $this->load->model('logs_missing_model');
 
         $limit = 1000;
-        $page = 39;
+        $page = 1;
         $source = 'involve_asia';
 
         $this->load->config('affiliate/involve_asia');
@@ -189,7 +189,11 @@ class Report extends MY_Controller {
         $end_date = date('Y-m-d');
         while($page >= 1) {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $page, $limit);
-            if(empty($a_conversion['data']['data'])) break;
+            if(empty($a_conversion['data']['data'])) {
+                echo $page;
+                print_r($a_conversion);
+                break;
+            }
 
             foreach($a_conversion['data']['data'] as $conversion) {
                 $conversion_id = $conversion['conversion_id'];
