@@ -199,9 +199,25 @@ class Report extends MY_Controller {
         $limit = 1000;
         $page = 1;
 
+<<<<<<< HEAD
         while($page >= 1) {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
             if(empty($a_conversion['data']['data'])) break;
+=======
+
+           $start_date = date('Y-m-d', strtotime(date('Y-m-d').' -8 months'));
+           $end_date = date('Y-m-d');
+        // $start_date = '2021-10-13';
+        // $end_date = '2021-10-19';
+        while($page >= 1) {
+            $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $page, $limit);
+            if(empty($a_conversion['data']['data'])) {
+                echo $page;
+                print_r($a_conversion);
+                break;
+            }
+            echo $page;
+>>>>>>> c196a41749b0c2e2b51dff46654c2a14498f71e5
 
             foreach($a_conversion['data']['data'] as $conversion) {
                 $this->_involve_asia_conversion_process($conversion);
