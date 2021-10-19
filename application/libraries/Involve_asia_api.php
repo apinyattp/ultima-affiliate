@@ -59,8 +59,7 @@ class Involve_asia_api {
         $offer_ids = implode('|', $a_offer_id);
         $offer_names = implode('|', $a_offer_name);
         $categories = implode('|', $a_category);
-        echo $this->_auth();
-        die();
+
         $header = [
             'Accept: application/json',
              'Authorization: Bearer ' . $this->_auth()
@@ -110,6 +109,8 @@ class Involve_asia_api {
 
     public function conversion($start_date, $end_date, $a_offer_id=[], $a_status=[], $page=1, $limit=100) {
         // https://api.involve.asia/api/conversions/range
+                echo $this->_auth();
+        die();
         $header = [
             'Accept: application/json',
              'Authorization: Bearer ' . $this->_auth()
