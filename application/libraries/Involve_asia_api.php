@@ -100,8 +100,6 @@ class Involve_asia_api {
 
     public function conversion($start_date, $end_date, $a_offer_id=[], $page=1, $limit=100) {
         // https://api.involve.asia/api/conversions/range
-        echo $this->_auth();
-        die();
         $header = [
             'Accept: application/json',
              'Authorization: Bearer ' . $this->_auth()
