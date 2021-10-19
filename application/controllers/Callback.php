@@ -185,7 +185,7 @@ class Callback extends MY_Controller {
         
         $campaign_code = $this->gen_campaign_code('IVA', $conversion['offer_id']);
         $a_campaign = $this->campaign_model->get_by_code($campaign_code);
-
+        if(empty($a_campaign)) return;
         $campaign_id = $a_campaign['id'];
         $campaign_name = $conversion['offer_name'];
 
