@@ -164,6 +164,8 @@ class Callback extends MY_Controller {
         $data = json_encode($_GET);
 
         $this->load->model('callback_model');
+        $this->load->model('report_conversion_model');
+        
         $this->callback_model->create('involve_asia', $data);
 
         $this->load->model('campaign_model');
@@ -178,6 +180,12 @@ class Callback extends MY_Controller {
         $source = 'involve_asia';
         $uid = $conversion['uid'];
 
+        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub'], $uid);
+        if(!empty($check_missing_conversion)) {
+            $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+            $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
+        }
+        
         $this->load->config('affiliate/involve_asia');
         $site_id = $this->config->item('tracking_link_id');
 
@@ -206,7 +214,6 @@ class Callback extends MY_Controller {
         $original_reward = $conversion['usd_payout'];
         $original_transaction_amount = $conversion['usd_sale_amount'];
 
-        $this->load->model('report_conversion_model');
         $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
         if($status != 'PENDING' && !empty($a_conversion)) {
             $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency);
