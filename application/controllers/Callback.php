@@ -53,6 +53,14 @@ class Callback extends MY_Controller {
         $parameters = $products = $other_parameters = NULL;
 
         $this->load->model('report_conversion_model');
+        $this->load->model('logs_missing_model');
+        
+        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['verificationId'], $uid);
+        if(!empty($check_missing_conversion)) {
+            $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+            $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
+        }
+        
         $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
 
         if($status != 'PENDING' && !empty($a_conversion)) {
