@@ -181,7 +181,7 @@ class Callback extends MY_Controller {
         $source = 'involve_asia';
         $uid = $conversion['uid'];
 
-        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['adv_sub'], $uid);
+        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['order_id'], $uid);
         if(!empty($check_missing_conversion)) {
             $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
             $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
