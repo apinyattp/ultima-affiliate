@@ -165,6 +165,7 @@ class Callback extends MY_Controller {
 
         $this->load->model('callback_model');
         $this->load->model('report_conversion_model');
+        $this->load->model('logs_missing_model');
         
         $this->callback_model->create('involve_asia', $data);
 
