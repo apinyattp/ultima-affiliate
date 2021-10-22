@@ -206,7 +206,6 @@ class Report extends MY_Controller {
             if(empty($a_conversion['data']['data'])) break;
 
             foreach($a_conversion['data']['data'] as $conversion) {
-                print_r($conversion);die();
                 $this->_involve_asia_conversion_process($conversion);
             }
 
