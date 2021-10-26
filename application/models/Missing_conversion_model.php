@@ -9,13 +9,11 @@ class Missing_conversion_model extends CI_Model {
     }
 
     public function get_list($start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $sort=FALSE, $company=FALSE, $source=FALSE, $status_filter=FALSE, $status_rejected=FALSE, $start_amount=FALSE, $end_amount=FALSE) {
-
         $this->load->library('qs');
-        $this->qs->select('missing_conversion.*, user.jelala_id, user.company, campaign_data.source');
+        $this->qs->select('missing_conversion.*, campaign_data.source');
         $this->qs->from('missing_conversion');
-        $this->qs->join('user', 'user.jelala_id = missing_conversion.uuid', 'left');
         $this->qs->join('campaign_data', 'missing_conversion.campaign_id = campaign_data.campaign_id', 'left');
-    
+
         if($start_date) $this->qs->where('missing_conversion.datetime_created >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
         if($end_date) $this->qs->where('missing_conversion.datetime_created <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
         if($campaign_id) $this->qs->where('missing_conversion.campaign_id', $campaign_id);

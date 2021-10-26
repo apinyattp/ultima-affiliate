@@ -183,7 +183,7 @@ class Callback extends MY_Controller {
 
         if(empty($conversion)) return TRUE;
 
-        $a_status = ['Pending' => 'PENDING', 'Approved' => 'APPROVED', 'Rejected' => 'REJECTED', 'Paid' => 'PAID', 'Yet to consumed' => 'PENDING', 'Invalid' => 'REJECTED'];
+        $a_status = ['Pending' => 'PENDING', 'Approved' => 'APPROVED', 'Rejected' => 'REJECTED', 'Paid' => 'PAID', 'Yet to consumed' => 'PENDING', 'Invalid' => 'INVALID'];
 
         $conversion_id = $conversion['conversion_id'];
         $source = 'involve_asia';

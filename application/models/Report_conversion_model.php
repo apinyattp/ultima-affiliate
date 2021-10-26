@@ -134,9 +134,8 @@ class Report_conversion_model extends CI_Model {
 
     public function get_list($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $sort=FALSE, $source=FALSE, $company=FALSE) {
         $this->load->library('qs');
-        $this->qs->select('report_conversion.*, user.jelala_id, user.company');
+        $this->qs->select('report_conversion.*');
         $this->qs->from('report_conversion');
-        $this->qs->join('user', 'user.jelala_id = report_conversion.uid', 'left');
 
         if($start_date) $this->qs->where('report_conversion.'. $period_base. ' >=',date('Y-m-d H:i:s',strtotime($start_date)));
         if($end_date) {
@@ -171,11 +170,9 @@ class Report_conversion_model extends CI_Model {
     }
 
     public function get_summary($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $currency='THB', $company=FALSE) {
-
         $this->db->select('COALESCE(SUM(reward), 0) as reward, COALESCE(SUM(transaction_amount), 0) as transaction_amount');
 
         $this->db->from('report_conversion');
-        $this->db->join('user', 'user.jelala_id = report_conversion.uid', 'left');
 
         if($currency == 'THB') {
             $this->db->group_start();
@@ -189,7 +186,7 @@ class Report_conversion_model extends CI_Model {
         if($end_date) $this->db->where('report_conversion.'. $period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
         if($status) $this->db->where('status', $status);
         if($campaign_id) $this->db->where('campaign_id', $campaign_id);
-        
+
         if(!empty($company)) {
             $this->db->group_start();
                 $this->db->where('company', $company);
@@ -211,7 +208,6 @@ class Report_conversion_model extends CI_Model {
         $this->load->library('qs');
         $this->qs->select('report_conversion.*, user.jelala_id, user.company');
         $this->qs->from('report_conversion');
-        $this->qs->join('user', 'user.jelala_id = report_conversion.uid', 'left');
 
         if($sort) $this->qs->order_by($sort);
         if(!empty($company)) {
