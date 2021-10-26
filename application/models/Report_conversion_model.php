@@ -265,7 +265,7 @@ class Report_conversion_model extends CI_Model {
         return TRUE;
     }
 
-    public function count_missing_order($start_date, $end_date) {
+    public function count_missing_order($period_base='datetime_updated', $start_date, $end_date) {
         $this->db->from('report_conversion')
                 ->where('missing_id >', 0);
         if($start_date) $this->db->where('report_conversion.'. $period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
