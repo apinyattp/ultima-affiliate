@@ -70,7 +70,7 @@ class Report extends MY_Controller {
 
             $company = NULL;
             $this->load->model('user_model');
-            $user = $this->user_model->check_by_uuid($uid);
+            $user = $this->user_model->get_by_jelala_id($uid);
             if($user) {
                 $company = $user['company'];
             }
@@ -279,7 +279,7 @@ class Report extends MY_Controller {
         if(empty($a_conversion)) {
             $company = NULL;
             $this->load->model('user_model');
-            $user = $this->user_model->check_by_uuid($uid);
+            $user = $this->user_model->get_by_jelala_id($uid);
             if($user) {
                 $company = $user['company'];
             }

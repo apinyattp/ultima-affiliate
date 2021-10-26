@@ -222,7 +222,7 @@ class Report extends MY_Controller {
                 }
 
                 if(empty($a_error[$row])) {
-                    $uuid_data = $this->user_model->check_by_uuid($data[3]);
+                    $uuid_data = $this->user_model->get_by_jelala_id($data[3]);
                     if(empty($uuid_data)) {
                         $uuid_data = $this->user_model->create_user_relation($data[3], strtolower($data[2]));
                     }else{

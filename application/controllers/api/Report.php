@@ -123,7 +123,7 @@ class Report extends MY_Controller {
 
             $company = NULL;
             $this->load->model('user_model');
-            $user = $this->user_model->check_by_uuid($a_data['uuid']);
+            $user = $this->user_model->get_by_jelala_id($a_data['uuid']);
             if($user) {
                 $company = $user['company'];
             }

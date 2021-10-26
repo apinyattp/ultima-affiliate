@@ -18,7 +18,7 @@ class User extends MY_Controller {
         if(empty($uuid_data)) {
             $uuid_data = $this->user_model->create_user_relation($uuid, $auth);
         }
-        
+
         return $this->_echo_json(E::SUCCESS, $uuid_data);
     }
 
