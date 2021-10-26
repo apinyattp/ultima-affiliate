@@ -65,7 +65,7 @@ class Report extends MY_Controller {
 
         // GET SUMMARY
         $a_summary = $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, $company);
-        $a_summary['missing_total'] = $this->report_conversion_model->count_missing_order();
+        $a_summary['missing_total'] = $this->report_conversion_model->count_missing_order($start_date, $end_date);
 
         $a_header_data = [
             'page' => 'report',
