@@ -120,11 +120,19 @@ class Report extends MY_Controller {
                     $summary_reward = $maximum_commision;
                 }
             }
-            
+
+            $company = NULL;
+            $this->load->model('user_model');
+            $user = $this->user_model->check_by_uuid($a_data['uuid']);
+            if($user) {
+                $company = $user['company'];
+            }
+
             $this->report_conversion_model->update_by_conversion_id2(
                 $id,
                 'involve_asia',
                 $a_data['uuid'],
+                $company,
                 '194802',
                 'Jelala',
                 $a_data['campaign_id'],

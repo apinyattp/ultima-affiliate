@@ -48,19 +48,19 @@ class Callback extends MY_Controller {
         $reward = $conversion['reward'];
         $transaction_amount = $conversion['total_price'];
         $session_id = NULL;
-        $user_agent = $conversion['click_user_agent'];
+        $user_agent = $conversion['user_agent'];
 
         $parameters = $products = $other_parameters = NULL;
 
         $this->load->model('report_conversion_model');
         $this->load->model('logs_missing_model');
-        
-        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['verificationId'], $uid);
+
+        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['conversion_id'], $uid);
         if(!empty($check_missing_conversion)) {
             $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
             $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
         }
-        
+
         $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
 
         if($status != 'PENDING' && !empty($a_conversion)) {
@@ -68,11 +68,19 @@ class Callback extends MY_Controller {
 
             return TRUE;
         }
-    
+
+        $company = NULL;
+        $this->load->model('user_model');
+        $user = $this->user_model->check_by_uuid($uid);
+        if($user) {
+            $company = $user['company'];
+        }
+
         $this->report_conversion_model->update_by_conversion_id(
             $conversion_id,
             $source,
             $uid,
+            $company,
             $site_id,
             $site_name,
             $campaign_id,
@@ -141,11 +149,19 @@ class Callback extends MY_Controller {
 
         $parameters = $products = $other_parameters = NULL;
 
+        $company = NULL;
+        $this->load->model('user_model');
+        $user = $this->user_model->check_by_uuid($uid);
+        if($user) {
+            $company = $user['company'];
+        }
+
         $this->load->model('report_conversion_model');
         $this->report_conversion_model->update_by_conversion_id(
             $conversion_id,
             $source,
             $uid,
+            $company,
             $site_id,
             $site_name,
             $campaign_id,
@@ -242,10 +258,18 @@ class Callback extends MY_Controller {
             'adv_sub5' => $conversion['adv_sub5'],
         ]);
 
+        $company = NULL;
+        $this->load->model('user_model');
+        $user = $this->user_model->check_by_uuid($uid);
+        if($user) {
+            $company = $user['company'];
+        }
+
         $this->report_conversion_model->update_by_conversion_id2(
             $conversion_id,
             $source,
             $uid,
+            $company,
             $site_id,
             $site_name,
             $campaign_id,

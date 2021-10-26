@@ -2,6 +2,7 @@
 
 return [
     'uuid' => $data['uuid'],
+    'company' => $data['company'],
     'campaign_id' => $data['campaign_id'],
     'order_id' => $data['order_id'],
     'amount' => $data['amount'],

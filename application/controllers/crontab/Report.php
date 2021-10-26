@@ -15,7 +15,6 @@ class Report extends MY_Controller {
     }
 
     public function accesstrade_conversion() {
-        
         $fromDate = date('Y-m-d');
         $toDate = date('Y-m-d', strtotime("+1 days"));
 
@@ -51,13 +50,13 @@ class Report extends MY_Controller {
             $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion['conversionId'], 'accesstrade');
             if($conversion['status'] != 'PENDING' && !empty($a_conversion)) {
                 $this->report_conversion_model->update_status(
-                    $a_conversion['id'], 
-                    $conversion['status'], 
+                    $a_conversion['id'],
+                    $conversion['status'],
                     !isset($conversion['confirmationTime']) ? NULL : $conversion['confirmationTime'],
-                    $conversion['reward'], 
+                    $conversion['reward'],
                     $conversion['transactionAmount']
                 );
-    
+
                 continue;
             }
 
@@ -69,10 +68,18 @@ class Report extends MY_Controller {
                 $other_parameters[] = [$field => $value];
             }
 
+            $company = NULL;
+            $this->load->model('user_model');
+            $user = $this->user_model->check_by_uuid($uid);
+            if($user) {
+                $company = $user['company'];
+            }
+
             $this->report_conversion_model->update_by_conversion_id(
                 $conversion['conversionId'],
                 'accesstrade',
                 $uid,
+                $company,
                 $conversion['siteId'],
                 $conversion['siteName'],
                 $conversion['campaignId'],
@@ -270,10 +277,18 @@ class Report extends MY_Controller {
         ]);
 
         if(empty($a_conversion)) {
+            $company = NULL;
+            $this->load->model('user_model');
+            $user = $this->user_model->check_by_uuid($uid);
+            if($user) {
+                $company = $user['company'];
+            }
+
             $this->report_conversion_model->update_by_conversion_id2(
                 $conversion_id,
                 $source,
                 $uid,
+                $company,
                 $site_id,
                 $site_name,
                 $campaign_id,

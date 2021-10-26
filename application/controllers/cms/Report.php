@@ -225,7 +225,7 @@ class Report extends MY_Controller {
                         'บรรทัดที่ '. $row . ' :  Company ไม่ถูกต้อง'
                     ];
                 }
-               
+
                 if(empty($a_error[$row])) {
                     $uuid_data = $this->user_model->check_by_uuid($data[3]);
                     if(empty($uuid_data)) {
@@ -239,7 +239,7 @@ class Report extends MY_Controller {
                     }
                     $a_upload[] = $data;
                 }
-   
+
                 $row++;
             }
             fclose($handle);
@@ -253,6 +253,7 @@ class Report extends MY_Controller {
                         $upload[0],
                         $upload[15],
                         $upload[3],
+                        $upload[2],
                         '194802',
                         'Jelala',
                         $upload[1],

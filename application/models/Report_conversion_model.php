@@ -31,10 +31,11 @@ class Report_conversion_model extends CI_Model {
         return $data['conversion_time'];
     }
 
-    public function update_by_conversion_id($conversion_id, $source, $uid, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $transaction_amount, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0) {
+    public function update_by_conversion_id($conversion_id, $source, $uid, $company, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $transaction_amount, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0) {
         $a_data = [
             'conversion_id' => $conversion_id,
             'uid' => $uid,
+            'company' => $company,
             'site_id' => $site_id,
             'site_name' => $site_name,
             'campaign_id' => $campaign_id,
@@ -67,10 +68,11 @@ class Report_conversion_model extends CI_Model {
         }
     }
 
-    public function update_by_conversion_id2($conversion_id, $source, $uid, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $original_reward=NULL, $transaction_amount, $original_transaction_amount=NULL, $currency=NULL, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0, $paid_time=FALSE) {
+    public function update_by_conversion_id2($conversion_id, $source, $uid, $company, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $original_reward=NULL, $transaction_amount, $original_transaction_amount=NULL, $currency=NULL, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0, $paid_time=FALSE) {
         $a_data = [
             'conversion_id' => $conversion_id,
             'uid' => $uid,
+            'company' => $company,
             'site_id' => $site_id,
             'site_name' => $site_name,
             'campaign_id' => $campaign_id,
