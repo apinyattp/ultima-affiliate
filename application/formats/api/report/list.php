@@ -22,6 +22,7 @@ return [
     'a_campaign' => $this->format->run('api/report/campaign', $a_campaign),
     'uid' => $data['uid'],
     'reward' => $data['reward'],
+    'transaction_amount' => $data['transaction_amount'],
     'currency' => empty($data['currency']) ? 'THB' : $data['currency'],
     'customerType' => $data['customerType'],
     'click_time' => $data['click_time'],
