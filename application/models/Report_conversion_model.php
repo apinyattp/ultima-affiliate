@@ -207,9 +207,6 @@ class Report_conversion_model extends CI_Model {
         }
 
         $this->db->where('status !=', 'INVALID');
-        if(empty($status)) {
-            $this->db->where('status !=', 'REJECTED');
-        }
 
         return $this->db->get()->row_array();
     }
