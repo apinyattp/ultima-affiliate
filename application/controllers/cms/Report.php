@@ -64,13 +64,8 @@ class Report extends MY_Controller {
         $a_campaign = $qs_campaign->result('cms/campaign/list', TRUE);
 
         // GET SUMMARY
-        $a_summary = [
-            'pending' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'PENDING', FALSE, $company),
-            'approved' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'APPROVED', FALSE, $company),
-            'rejected' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, 'REJECTED', FALSE, $company),
-            'total' => $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, FALSE, $company),
-            'missing_total' => count($this->report_conversion_model->get_missing_order())
-        ];
+        $a_summary = $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, $company);
+        $a_summary['missing_total'] = $this->report_conversion_model->count_missing_order();
 
         $a_header_data = [
             'page' => 'report',

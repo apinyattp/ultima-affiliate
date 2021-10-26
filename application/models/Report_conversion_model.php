@@ -171,8 +171,17 @@ class Report_conversion_model extends CI_Model {
         return $this->qs->get();
     }
 
-    public function get_summary($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $status=FALSE, $currency='THB', $company=FALSE) {
-        $this->db->select('COALESCE(SUM(reward), 0) as reward, COALESCE(SUM(transaction_amount), 0) as transaction_amount');
+    public function get_summary($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $currency='THB', $company=FALSE) {
+        $this->db->select([
+            'COALESCE(SUM(reward), 0) as reward',
+            'COALESCE(SUM(transaction_amount), 0) as transaction_amount',
+            'COALESCE(SUM(case when status = "PENDING" then reward else 0 end), 0) as reward_pending',
+            'COALESCE(SUM(case when status = "PENDING" then transaction_amount else 0 end), 0) as transaction_amount_pending',
+            'COALESCE(SUM(case when status = "APPROVED" then reward else 0 end), 0) as reward_approved',
+            'COALESCE(SUM(case when status = "APPROVED" then transaction_amount else 0 end), 0) as transaction_amount_approved',
+            'COALESCE(SUM(case when status = "REJECTED" then reward else 0 end), 0) as reward_rejected',
+            'COALESCE(SUM(case when status = "REJECTED" then transaction_amount else 0 end), 0) as transaction_amount_rejected',
+        ]);
 
         $this->db->from('report_conversion');
 
@@ -186,7 +195,6 @@ class Report_conversion_model extends CI_Model {
         }
         if($start_date) $this->db->where('report_conversion.'. $period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
         if($end_date) $this->db->where('report_conversion.'. $period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
-        if($status) $this->db->where('status', $status);
         if($campaign_id) $this->db->where('campaign_id', $campaign_id);
 
         if(!empty($company)) {
@@ -260,9 +268,12 @@ class Report_conversion_model extends CI_Model {
         return TRUE;
     }
 
-    public function get_missing_order() {
-        $this->db->where('missing_id >', 0);
-        return $this->db->get('report_conversion')->result_array();
+    public function count_missing_order($start_date, $end_date) {
+        $this->db->from('report_conversion')
+                ->where('missing_id >', 0);
+        if($start_date) $this->db->where('report_conversion.'. $period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
+        if($end_date) $this->db->where('report_conversion.'. $period_base.' <=',date('Y-m-d',strtotime($end_date)).' 23:59:59');
+        return $this->db->count_all_results();
     }
 
 }
