@@ -173,8 +173,8 @@ class Report_conversion_model extends CI_Model {
 
     public function get_summary($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $currency='THB', $company=FALSE) {
         $this->db->select([
-            'COALESCE(SUM(reward), 0) as reward',
-            'COALESCE(SUM(transaction_amount), 0) as transaction_amount',
+            'COALESCE(SUM(case when status != "REJECTED" then reward else 0 end), 0) as reward',
+            'COALESCE(SUM(case when status != "REJECTED" then transaction_amount else 0 end), 0) as transaction_amount',
             'COALESCE(SUM(case when status = "PENDING" then reward else 0 end), 0) as reward_pending',
             'COALESCE(SUM(case when status = "PENDING" then transaction_amount else 0 end), 0) as transaction_amount_pending',
             'COALESCE(SUM(case when status = "APPROVED" then reward else 0 end), 0) as reward_approved',
