@@ -38,11 +38,11 @@ class Report extends MY_Controller {
         $perpage = empty($perpage) ? 10 : $perpage;
 
         $a_sort = [
-            'conversion_id_desc' => 'conversion_id DESC',
-            'conversion_time_asc' => 'conversion_time ASC',
-            'conversion_time_desc' => 'conversion_time DESC',
-            'datetime_updated_asc' => 'datetime_updated ASC, conversion_time DESC',
-            'datetime_updated_desc' => 'datetime_updated desc, conversion_time DESC',
+            'conversion_id_desc' => 'conversion_id DESC, id ASC',
+            'conversion_time_asc' => 'conversion_time ASC, id ASC',
+            'conversion_time_desc' => 'conversion_time DESC, id ASC',
+            'datetime_updated_asc' => 'datetime_updated ASC, id ASC',
+            'datetime_updated_desc' => 'datetime_updated desc, id ASC',
         ];
         if(!isset($a_sort[$sort])) $sort = 'datetime_updated_desc';
 
