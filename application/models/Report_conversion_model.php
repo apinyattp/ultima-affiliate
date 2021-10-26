@@ -190,7 +190,7 @@ class Report_conversion_model extends CI_Model {
             $this->db->where('currency', 'THB');
             $this->db->or_where('currency IS NULL', NULL, TRUE);
             $this->db->group_end();
-        }else {
+        }elseif($currency) {
             $this->db->where('currency', $currency);
         }
         if($start_date) $this->db->where('report_conversion.'. $period_base. ' >=',date('Y-m-d',strtotime($start_date)).' 00:00:00');
