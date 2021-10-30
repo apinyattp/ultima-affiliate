@@ -232,10 +232,10 @@ class Callback extends MY_Controller {
 
         $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
 
-        $reward = $conversion['payout_local']; 
+        $reward = $conversion['payout_local'];
         $transaction_amount = $conversion['sale_amount_local'];
         $currency = $conversion['conversion_currency'];
-    
+
         $original_reward = $conversion['usd_payout'];
         $original_transaction_amount = $conversion['usd_sale_amount'];
 
@@ -298,11 +298,12 @@ class Callback extends MY_Controller {
     public function shopgenix() {
         $source = 'shopgenix';
 
-        $data = json_encode($_GET);
-        $this->load->model('callback_model');
-        $this->callback_model->create('shopgenix', $data);
+        $data = $this->input->post();
 
-        $conversion = $_GET;
+        $this->load->model('callback_model');
+        $this->callback_model->create('shopgenix', json_encode($data));
+
+        $conversion = $data;
 
         if(empty($conversion)) return TRUE;
 
@@ -315,12 +316,12 @@ class Callback extends MY_Controller {
         $campaign_id = $conversion['store_id'];
         $campaign_name = $conversion['store_name'];
         $verification_id = $conversion['no'];
-        $click_time = $conversion['timestamp'];
-        $conversion_time = $conversion['timestamp'];
-        $confirmation_time  = $conversion['timestamp'];
+        $click_time = $conversion['datetime_conversion'];
+        $conversion_time = $conversion['datetime_conversion'];
+        $confirmation_time  = $conversion['datetime_conversion'];
         $status = $a_status[$conversion['status']];
         $reward = $conversion['reward'];
-        $transaction_amount = $conversion['total_price'];
+        $transaction_amount = $conversion['price'];
 
         $session_id = $user_agent = NULL;
         $parameters = $products = $other_parameters = NULL;
