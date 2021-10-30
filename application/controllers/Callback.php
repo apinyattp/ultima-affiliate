@@ -102,7 +102,7 @@ class Callback extends MY_Controller {
             $other_parameters
         );
     }
-    
+
     public function admitad() {
 
         $data = json_encode($_GET);
@@ -127,7 +127,7 @@ class Callback extends MY_Controller {
         $conversion_time = date('Y-m-d H:i:s', $conversion['action_time']);
         $confirmation_time = ($conversion['payment_status'] == 'approved') ? date('Y-m-d H:i:s') : NULL;
         $status = $a_status[$conversion['payment_status']];
-        
+
         $this->load->library('admitad_api');
         $rate = $this->admitad_api->rate($conversion['currency'], 'THB', $conversion_time);
 
@@ -190,7 +190,7 @@ class Callback extends MY_Controller {
         $this->load->model('callback_model');
         $this->load->model('report_conversion_model');
         $this->load->model('logs_missing_model');
-        
+
         $this->callback_model->create('involve_asia', $data);
 
         $this->load->model('campaign_model');
@@ -210,12 +210,12 @@ class Callback extends MY_Controller {
             $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
             $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
         }
-        
+
         $this->load->config('affiliate/involve_asia');
         $site_id = $this->config->item('tracking_link_id');
 
         $site_name = 'Jelala';
-        
+
         $campaign_code = $this->gen_campaign_code('IVA', $conversion['offer_id']);
         $a_campaign = $this->campaign_model->get_by_code($campaign_code);
         if(empty($a_campaign)) return;
@@ -231,7 +231,7 @@ class Callback extends MY_Controller {
         $status = isset($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : 'PENDING';
 
         $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
-        
+
         $reward = $conversion['payout_local']; 
         $transaction_amount = $conversion['sale_amount_local'];
         $currency = $conversion['conversion_currency'];
@@ -292,9 +292,86 @@ class Callback extends MY_Controller {
             $parameters,
             $products,
             $other_parameters
-        );        
+        );
     }
-    
+
+    public function shopgenix() {
+        $source = 'shopgenix';
+
+        $data = json_encode($_GET);
+        $this->load->model('callback_model');
+        $this->callback_model->create('shopgenix', $data);
+
+        $conversion = $_GET;
+
+        if(empty($conversion)) return TRUE;
+
+        $a_status = ['pending' => 'PENDING', 'approved' => 'APPROVED', 'rejected' => 'REJECTED'];
+
+        $conversion_id = $conversion['id'];
+        $uid = $conversion['affiliate_uuid'];
+        $site_id = '0';
+        $site_name = 'shopgenix';
+        $campaign_id = $conversion['store_id'];
+        $campaign_name = $conversion['store_name'];
+        $verification_id = $conversion['no'];
+        $click_time = $conversion['timestamp'];
+        $conversion_time = $conversion['timestamp'];
+        $confirmation_time  = $conversion['timestamp'];
+        $status = $a_status[$conversion['status']];
+        $reward = $conversion['reward'];
+        $transaction_amount = $conversion['total_price'];
+
+        $session_id = $user_agent = NULL;
+        $parameters = $products = $other_parameters = NULL;
+        $customerType = $creative_id = $creative_name = $session_id = NULL;
+
+        $this->load->model('report_conversion_model');
+        $this->load->model('logs_missing_model');
+
+        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['no'], $uid);
+        if(!empty($check_missing_conversion)) {
+            $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+            $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
+        }
+
+        $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
+
+        if($status != 'PENDING' && !empty($a_conversion)) {
+            $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount);
+
+            return TRUE;
+        }
+
+        $company = 'shopgenix';
+
+        $this->report_conversion_model->update_by_conversion_id(
+            $conversion_id,
+            $source,
+            $uid,
+            $company,
+            $site_id,
+            $site_name,
+            $campaign_id,
+            $campaign_name,
+            $customerType,
+            $creative_id,
+            $creative_name,
+            $verification_id,
+            $click_time,
+            $conversion_time,
+            $confirmation_time,
+            $status,
+            $reward,
+            $transaction_amount,
+            $session_id,
+            $user_agent,
+            $parameters,
+            $products,
+            $other_parameters
+        );
+    }
+
     public function nsq() {
         $data = json_encode($_GET);
 
