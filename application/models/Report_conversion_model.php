@@ -58,7 +58,7 @@ class Report_conversion_model extends CI_Model {
             'source' => $source,
             'missing_id' => $missing_id
         ];
-        $conversion = $this->get_by_conversion_id($conversion_id);
+        $conversion = $this->get_by_conversion_id($conversion_id, $source);
         if(empty($conversion)) {
             $this->db->insert('report_conversion', $a_data);
         }else {
@@ -101,7 +101,7 @@ class Report_conversion_model extends CI_Model {
         if(!empty($paid_time)) {
             $a_data['paid_time'] = date('Y-m-d H:i:s', strtotime($paid_time));
         }
-        $conversion = $this->get_by_conversion_id($conversion_id);
+        $conversion = $this->get_by_conversion_id($conversion_id, $source);
         if(empty($conversion)) {
             $this->db->insert('report_conversion', $a_data);
         }else {
