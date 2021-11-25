@@ -74,7 +74,7 @@ class Report extends MY_Controller {
         $this->load->model('missing_conversion_model');
 
         $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date);
-        
+
         $this->load->library('qs');
         $qs_conversion->page($page, $perpage);
 
@@ -91,7 +91,7 @@ class Report extends MY_Controller {
 
         $a_data = $this->input->post();
         $a_data['company'] = $auth;
-        
+
         $a_data = $this->format->run('api/missing_conversion/create', $a_data);
 
         $id = $this->missing_conversion_model->update_missing_conversion($a_data);
@@ -107,10 +107,10 @@ class Report extends MY_Controller {
            ($a_data['amount'] >= $config_min && $a_data['amount'] <= $config_max)
         ) {
             $a_conversion_missing = $this->report_conversion_model->get_by_missing_id($id);
-        
+
             $a_campaign = $this->campaign_model->get_by_id($a_data['campaign_id']);
             $a_set_reward = $this->campaign_model->get_set_reward($a_data['campaign_id']);
-    
+
             $reward = !empty($a_set_reward) ? $a_set_reward['existing'] : 0.1;
             $summary_reward = (float)$a_data['amount'] * ((float)$reward/100);
 
@@ -128,35 +128,37 @@ class Report extends MY_Controller {
                 $company = $user['company'];
             }
 
-            $this->report_conversion_model->update_by_conversion_id2(
-                $id,
-                'involve_asia',
-                $a_data['uuid'],
-                $company,
-                '194802',
-                'Jelala',
-                $a_data['campaign_id'],
-                !empty( $a_campaign) ? $a_campaign['display_name'] : '',
-                NULL,
-                NULL,
-                NULL,
-                $a_data['order_id'],
-                $a_data['order_date'],
-                $a_data['order_date'],
-                NULL,
-                'PENDING',
-                $summary_reward,
-                $summary_reward,
-                $a_data['amount'],
-                $a_data['amount'],
-                'THB',
-                NULL,
-                NULL,
-                NULL,
-                NULL,
-                NULL,
-                $id
-            );
+            if($summary_reward > 0) {
+                $this->report_conversion_model->update_by_conversion_id2(
+                    $id,
+                    'involve_asia',
+                    $a_data['uuid'],
+                    $company,
+                    '194802',
+                    'Jelala',
+                    $a_data['campaign_id'],
+                    !empty( $a_campaign) ? $a_campaign['display_name'] : '',
+                    NULL,
+                    NULL,
+                    NULL,
+                    $a_data['order_id'],
+                    $a_data['order_date'],
+                    $a_data['order_date'],
+                    NULL,
+                    'PENDING',
+                    $summary_reward,
+                    $summary_reward,
+                    $a_data['amount'],
+                    $a_data['amount'],
+                    'THB',
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    NULL,
+                    $id
+                );
+            }
         }
 
         return $this->_echo_json(E::SUCCESS, ['id' => (int)$id]);
