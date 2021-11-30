@@ -180,17 +180,15 @@ class Report extends MY_Controller {
         $this->load->model('logs_missing_model');
         $this->load->config('affiliate/involve_asia');
 
-        $start_date = $this->report_conversion_model->get_min_conversion_time('involve_asia', ['APPROVED', 'PENDING']);
-        if(!empty($start_date)) {
-            $start_date = date('Y-m-d', strtotime($start_date));
-        }else{
-            $start_date = '2021-01-01';
-        }
+        $start_date1 = $this->report_conversion_model->get_min_conversion_time('involve_asia', ['PENDING']);
+        $start_date2 = $this->report_conversion_model->get_min_conversion_time('involve_asia', ['APPROVED', 'PENDING']);
+
+        $start_date1 = !empty($start_date1) ? date('Y-m-d', strtotime($start_date1)) : '2021-01-01';
+        $start_date2 = !empty($start_date2) ? date('Y-m-d', strtotime($start_date2)) : '2021-01-01';
         $end_date = date('Y-m-d');
 
-        foreach(['approved', 'rejected', 'invalid', 'paid', 'yet to consumed'] as $status){
-            $this->_involve_asia_conversion($start_date, $end_date, [$status]);
-        }
+        $this->_involve_asia_conversion($start_date1, $end_date, ['approved']);
+        $this->_involve_asia_conversion($start_date2, $end_date, ['rejected', 'invalid', 'paid', 'yet to consumed']);
     }
 
     public function involve_asia_conversion_pending($days=7) {
