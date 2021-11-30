@@ -141,7 +141,7 @@ class Report extends MY_Controller {
                 $reward = $conversion['payment'] * $rate;
 
                 $transaction_amount = $conversion['cart'] * $rate;
-                
+
                 $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['order_id'], $conversion['subid4']);
                 if(!empty($check_missing_conversion)) {
                     $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
@@ -200,7 +200,7 @@ class Report extends MY_Controller {
 
         $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -$days days"));
         $end_date = date('Y-m-d');
-        
+
         $this->_involve_asia_conversion($start_date, $end_date, ['pending']);
     }
 
@@ -208,15 +208,21 @@ class Report extends MY_Controller {
         $limit = 1000;
         $page = 1;
 
+        $start = time();
         while($page >= 1) {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
             if(empty($a_conversion['data']['data'])) break;
 
+
             foreach($a_conversion['data']['data'] as $conversion) {
                 $this->_involve_asia_conversion_process($conversion);
+                $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['datetime_conversion']));
             }
+            $time = time() - $start;
 
-            sleep(5);
+            echo "PAGE $page : $conversion_time\n";
+
+            sleep(4);
             $page += 1;
         }
     }
