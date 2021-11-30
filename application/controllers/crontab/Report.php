@@ -188,7 +188,9 @@ class Report extends MY_Controller {
         }
         $end_date = date('Y-m-d');
 
-        $this->_involve_asia_conversion($start_date, $end_date, []);
+        foreach(['approved', 'rejected', 'invalid', 'paid', 'yet to consumed'] as $status){
+            $this->_involve_asia_conversion($start_date, $end_date, [$status]);
+        }
     }
 
     public function involve_asia_conversion_pending($days=7) {
@@ -213,14 +215,13 @@ class Report extends MY_Controller {
             $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
             if(empty($a_conversion['data']['data'])) break;
 
-
             foreach($a_conversion['data']['data'] as $conversion) {
                 $this->_involve_asia_conversion_process($conversion);
                 $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['datetime_conversion']));
             }
             $time = time() - $start;
 
-            echo "PAGE $page : $conversion_time\n";
+            echo "PAGE $page : $conversion_time : $time\n";
 
             sleep(4);
             $page += 1;
