@@ -61,7 +61,7 @@
                   <td><?php echo $conversion['a_campaign']['name'] ?></td>
                   <td><?php echo $conversion['uid'] ?></td>
                   <td class="text-right">
-                    <?php echo ($conversion['original_reward']) ? $conversion['original_reward'] : $conversion['reward']; ?>
+                    <?php echo $conversion['reward']; ?>
                   </td>
                   <td class="text-right">
                     <?php 
