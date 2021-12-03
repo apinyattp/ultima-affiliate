@@ -6,7 +6,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn' => '',
-    'hostname' => 'localhost',
+    'hostname' => 'mariadb',
     'username' => 'affjelala',
     'password' => 'pZXmiBDw5m',
     'database' => 'affjelala_db',
