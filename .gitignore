@@ -12,6 +12,7 @@ application/logs/*
 !application/modules/index.html
 
 application/config/database_local.php
+application/config/config_custom.php
 application/config/jwt.b64
 composer.lock
 
