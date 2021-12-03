@@ -218,3 +218,7 @@ $config['proxy_ips'] = '';
 |--------------------------------------------------------------------------
 */
 $config['modules_locations'] = array(APPPATH . 'modules/');
+
+if(file_exists(APPPATH.'config/config_custom.php')){
+    Include(APPPATH.'config/config_custom.php');
+}
