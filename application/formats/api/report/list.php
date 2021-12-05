@@ -6,14 +6,12 @@ $a_campaign = $this->campaign_model->get_by_id($data['campaign_id']);
 
 $products = json_decode($data['products'], TRUE);
 
-if($data['source'] == 'accesstrade') {
-    foreach((array) $products as $key => $product) {
-        $category_reward = $this->campaign_model->get_category_reward_by_id($product['categoryId']);
-
-        $products[$key]['category'] = $this->format->run('api/report/campaign_category_reward', $category_reward);
-    }
-
-}
+// if($data['source'] == 'accesstrade') {
+//     foreach((array) $products as $key => $product) {
+//         $category_reward = $this->campaign_model->get_category_reward_by_id($product['categoryId']);
+//         $products[$key]['category'] = $this->format->run('api/report/campaign_category_reward', $category_reward);
+//     }
+// }
 
 return [
     'id' => $data['id'],
