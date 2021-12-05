@@ -1,4 +1,10 @@
 <?php
+if (empty($data)) {
+    return [
+        'id' => 0,
+        'display_name' => '',
+    ];
+}
 
 return [
     'id' => $data['id'],
