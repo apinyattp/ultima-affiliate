@@ -32,7 +32,7 @@
             </button>
           </a>
         </div>
-        
+
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -64,7 +64,7 @@
                     <?php echo $conversion['reward']; ?>
                   </td>
                   <td class="text-right">
-                    <?php 
+                    <?php
                       $vat = ($conversion['reward'] / 100) * 7;
                       echo $conversion['reward'] + $vat;
                     ?>
@@ -76,7 +76,7 @@
                   <td class="text-center"><?php echo $conversion['datetime_updated'] ?></td>
                   <td class="text-center">
                     <?php
-                      $a_badge_color = ['APPROVED' => 'badge-success', 'PENDING' => 'badge-warning', 'REJECTED' => 'badge-danger', 'INVALID' => 'badge-danger'];
+                      $a_badge_color = ['APPROVED' => 'badge-success', 'PAID' => 'badge-success', 'PENDING' => 'badge-warning', 'REJECTED' => 'badge-danger', 'INVALID' => 'badge-danger'];
                       $badge_color = $a_badge_color[$conversion['status']];
                     ?>
                     <h5 class="mb-0"><span class="badge <?php echo $badge_color ?>"><?php echo $conversion['status'] ?></span></h5>
@@ -99,7 +99,7 @@
 
         <?php
           $a_conversion['pagination']['path'] = 'cms/report/list';
-          $this->load->view('cms/template/pagination', $a_conversion['pagination']) 
+          $this->load->view('cms/template/pagination', $a_conversion['pagination'])
         ?>
 
       </div>
