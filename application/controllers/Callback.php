@@ -379,5 +379,12 @@ class Callback extends MY_Controller {
         $this->load->model('callback_model');
         $this->callback_model->create('nsq', $data);
     }
+    
+    public function cfmanager() {
+        $data = json_encode($_GET);
+
+        $this->load->model('callback_model');
+        $this->callback_model->create('cfmanager', $data);
+    }
 
 }
