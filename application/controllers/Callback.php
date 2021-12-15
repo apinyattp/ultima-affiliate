@@ -392,6 +392,8 @@ class Callback extends MY_Controller {
         }
 
         $this->callback_model->create('cfmanager', json_encode($conversion));
+
+        $this->_echo_json(E::SUCCESS);
     }
 
 }
