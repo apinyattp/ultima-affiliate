@@ -385,6 +385,8 @@ class Callback extends MY_Controller {
 
         $this->load->model('callback_model');
         $this->callback_model->create('cfmanager', $data);
+        
+        $this->_echo_json(E::SUCCESS);
     }
 
 }
