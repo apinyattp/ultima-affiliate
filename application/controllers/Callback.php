@@ -381,10 +381,17 @@ class Callback extends MY_Controller {
     }
     
     public function cfmanager() {
-        $data = json_encode($_GET);
+        $conversion = $_GET;
 
         $this->load->model('callback_model');
-        $this->callback_model->create('cfmanager', $data);
+
+        $this->load->library('safari_api');
+
+        if(!empty($conversion)) {
+            $this->safari_api->_safari_process($conversion);
+        }
+
+        $this->callback_model->create('cfmanager', json_encode($conversion));
     }
 
 }

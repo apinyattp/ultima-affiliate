@@ -330,101 +330,13 @@ class Report extends MY_Controller {
         $this->load->model('campaign_model');
         $this->load->model('logs_missing_model');
 
-        $start_date = date('Y-m-d 00:00:00', strtotime('-2 day'));
-        $end_date = date('Y-m-d 23:59:59', time());
+        $start_date = date('Y-m-d', strtotime('-1 day'));
+        $end_date = date('Y-m-d', time());
         $a_conversion = $this->safari_api->conversion($start_date, $end_date);
-        print_r($a_conversion['order']);die();
+
         if(!empty($a_conversion['order'])) {
             foreach($a_conversion['order'] as $conversion) {
-                $this->_safari_process($conversion);
-            }
-        }
-    }
-
-    private function _safari_process($conversion) {
-        $source = 'cfmanager';
-        $a_status = ['Pending' => 'PENDING', 'Approved' => 'APPROVED', 'Rejected' => 'REJECTED', 'Paid' => 'PAID', 'Yet to consumed' => 'PENDING', 'Invalid' => 'INVALID'];
-
-        $conversion_id = $conversion['ref_code'];
-        $uid = $conversion['ref_code2'];
-        // if(empty($uid)) continue;
-        // $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['order_id'], $uid);
-        // if(!empty($check_missing_conversion)) {
-        //     $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
-        //     $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
-        // }
-
-        $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
-        $site_name = 'Jelala';
-
-        // $campaign_id = empty($conversion['ref_code']) ? '21098': $conversion['ref_code'];
-        $campaign_id = '21098';
-        $a_campaign = $this->campaign_model->get_by_id($campaign_id);
-        $campaign_name = $a_campaign['display_name'];
-
-        $customerType = $creative_id = $creative_name = NULL;
-
-        $verification_id = $conversion['order_id'];
-
-        $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['created']));
-
-        $status = 'PENDING';
-
-        $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
-
-        $reward = '';
-        $transaction_amount = '';
-        $original_reward = NULL;
-        $original_transaction_amount = NULL;
-        $currency = 'th';
-
-
-        $session_id = $user_agent = NULL;
-
-        $parameters =  NULL;
-
-        $products = [];
-        $other_parameters = json_encode($conversion);
-
-        if(empty($a_conversion)) {
-            $company = NULL;
-            $this->load->model('user_model');
-            $user = $this->user_model->get_by_jelala_id($uid);
-            if($user) {
-                $company = $user['company'];
-            }
-
-            $this->report_conversion_model->update_by_conversion_id2(
-                $conversion_id,
-                $source,
-                $uid,
-                $company,
-                $site_id,
-                $site_name,
-                $campaign_id,
-                $campaign_name,
-                $customerType,
-                $creative_id,
-                $creative_name,
-                $verification_id,
-                $click_time,
-                $conversion_time,
-                $confirmation_time,
-                $status,
-                $reward,
-                $original_reward,
-                $transaction_amount,
-                $original_transaction_amount,
-                $currency,
-                $session_id,
-                $user_agent,
-                $parameters,
-                $products,
-                $other_parameters
-            );
-        }else {
-            if($status != 'PENDING') {
-                $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency);
+                $this->safari_api->_safari_process($conversion);
             }
         }
     }
