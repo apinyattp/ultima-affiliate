@@ -51,6 +51,7 @@ class Safari_api {
 
         $conversion_id = $conversion['order_id'];
         $uid = $conversion['ref_code2'];
+
         if(empty($uid)) return;
         
         $this->_ci->load->model('report_conversion_model');
@@ -83,7 +84,8 @@ class Safari_api {
 
         $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
 
-        $reward = '';
+        $reward = (float)$conversion['cashback'];
+
         $transaction_amount = $conversion['order_sum'];
         $original_reward = NULL;
         $original_transaction_amount = NULL;
