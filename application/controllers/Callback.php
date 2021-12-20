@@ -381,7 +381,7 @@ class Callback extends MY_Controller {
     }
     
     public function cfmanager() {
-        $conversion = $_POST;
+        $conversion = $_GET;
 
         $this->load->model('callback_model');
 
