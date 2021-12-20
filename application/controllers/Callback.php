@@ -383,7 +383,7 @@ class Callback extends MY_Controller {
     public function cfmanager() {
         $conversion = $this->input->post();
         
-        if(empty($conversion)) $this->_echo_json(E::INVALID_FORMAT, ['error' => 'no data']);
+        if(empty($conversion)) return $this->_echo_json(E::INVALID_FORMAT, ['error' => 'no data']);
 
         $this->load->model('callback_model');
 
