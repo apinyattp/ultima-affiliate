@@ -100,13 +100,7 @@ class Safari_api {
         $other_parameters = json_encode($conversion);
 
         if(empty($a_conversion)) {
-            $company = NULL;
-            $this->_ci->load->model('user_model');
-            $user = $this->_ci->user_model->get_by_jelala_id($uid);
-            if($user) {
-                $company = $user['company'];
-            }
-
+            $company = 'shopgenix';
             $this->_ci->report_conversion_model->update_by_conversion_id2(
                 $conversion_id,
                 $source,
