@@ -69,7 +69,7 @@ class Safari_api {
         $site_id = $conversion['main_agent_id'];
         $site_name = 'Jelala';
 
-        // $campaign_id = empty($conversion['ref_code']) ? '21098': $conversion['ref_code'];
+        // $campaign_id_uat = empty($conversion['ref_code']) ? '21095': $conversion['ref_code'];
         $campaign_id = '21098';
         $a_campaign = $this->_ci->campaign_model->get_by_id($campaign_id);
         $campaign_name = $a_campaign['display_name'];
