@@ -52,7 +52,7 @@ class Safari_api {
         $conversion_id = $conversion['order_id'];
         $uid = $conversion['ref_code2'];
 
-        if(empty($uid)) return;
+        // if(empty($uid)) return;
         
         $this->_ci->load->model('report_conversion_model');
         $this->_ci->load->model('logs_missing_model');
