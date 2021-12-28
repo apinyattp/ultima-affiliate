@@ -11,6 +11,7 @@ class Report extends MY_Controller {
         $this->accesstrade_conversion();
         //$this->admitad_conversion();
         $this->involve_asia_conversion();
+        $this->safari_conversion();
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
     }
 
