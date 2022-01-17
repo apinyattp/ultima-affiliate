@@ -23,7 +23,8 @@ class Report_conversion_model extends CI_Model {
 
     public function get_min_conversion_time($source=NULL, $a_status=[]) {
         $this->db->select_min('conversion_time')
-                ->from('report_conversion');
+                ->from('report_conversion')
+                ->where('missing_id', 0);
         if($source) $this->db->where('source', $source);
         if($a_status) $this->db->where_in('status', $a_status);
         $data = $this->db->get()->row_array();
