@@ -167,7 +167,7 @@ class Report_conversion_model extends CI_Model {
                 }
             $this->qs->group_end();
         }
-        $this->qs->where('status !=', 'INVALID');
+        // $this->qs->where('status !=', 'INVALID');
 
         return $this->qs->get();
     }
