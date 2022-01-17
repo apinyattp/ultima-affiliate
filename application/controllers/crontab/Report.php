@@ -261,7 +261,11 @@ class Report extends MY_Controller {
 
         $status = isset($a_status[ucfirst($conversion['conversion_status'])]) ? $a_status[ucfirst($conversion['conversion_status'])] : 'PENDING';
 
-        $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
+        if ($status == 'PENDING') {
+            $confirmation_time = NULL;
+        }else{
+            $confirmation_time = empty($a_conversion['confirmation_time']) ? date('Y-m-d H:i:s') : $a_conversion['confirmation_time'];
+        }
 
         $reward = $conversion['payout'];
         $transaction_amount = $conversion['sale_amount'];

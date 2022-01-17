@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set("Asia/Bangkok");
+
 if(file_exists(dirname(__FILE__).DIRECTORY_SEPARATOR.'environment.php')){
     require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'environment.php');
 }else{
