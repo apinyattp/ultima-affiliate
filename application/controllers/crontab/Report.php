@@ -210,11 +210,20 @@ class Report extends MY_Controller {
         $page = 1;
 
         $start = time();
-        while($page >= 1) {
-            $a_conversion = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
-            if(empty($a_conversion['data']['data'])) break;
+        for(;$page <= 10000;) {
+            $result = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
 
-            foreach($a_conversion['data']['data'] as $conversion) {
+            if(!empty($result['status_code'])) {
+                switch($result['status_code']) {
+                    case 429:
+                        sleep(20);
+                        continue 2;
+                }
+            }
+
+            if(empty($result['data']['data'])) break;
+
+            foreach($result['data']['data'] as $conversion) {
                 $this->_involve_asia_conversion_process($conversion);
                 $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['datetime_conversion']));
             }
