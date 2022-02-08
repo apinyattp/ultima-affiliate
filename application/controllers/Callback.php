@@ -398,4 +398,16 @@ class Callback extends MY_Controller {
         $this->_echo_json(E::SUCCESS);
     }
 
+    public function goship() {
+        $conversion = $this->input->post();
+        
+        if(empty($conversion)) return $this->_echo_json(E::INVALID_FORMAT, ['error' => 'no data']);
+
+        $this->load->model('callback_model');
+
+        $this->callback_model->create('goship', json_encode($conversion));
+
+        $this->_echo_json(E::SUCCESS);
+    }
+
 }
