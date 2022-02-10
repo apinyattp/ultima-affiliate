@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Safari_api {
+class Goship_api {
 
     private $_ci;
 
@@ -14,48 +14,56 @@ class Safari_api {
 
         $this->_ci->load->library('gateway');
 
-        $this->_ci->load->config('affiliate/safari');
+        $this->_ci->load->config('affiliate/goship');
 
         $this->_endpoint = $this->_ci->config->item('endpoint');
-        $this->_main_id = $this->_ci->config->item('main_id');
-        $this->_api_secret = $this->_ci->config->item('api_secret');
         $this->_api_key = $this->_ci->config->item('api_key');
+        $this->_main_id = $this->_ci->config->item('main_id');
+        $this->_carrier = $this->_ci->config->item('carrier');
     }
 
-    public function conversion($start_date, $end_date) {
+    public function conversion($start_date, $end_date, $page=1, $limit=10) {
 
         $header = [
             'Accept: application/json',
-            'apikey: ' . $this->_api_key,
-            'apisecret: ' . $this->_api_secret,
+            'Authorization: Bearer ' . $this->_api_key,
         ];
 
-        $url = $this->_endpoint . 'get_order_main';
+        $url = $this->_endpoint . 'whitelabel/getshipment';
 
         $params = [
-            'main_id' => $this->_main_id,
-            'start_date' => $start_date,
-            'end_date' => $end_date
+            'page' => $page,
+            'per_page' => $limit,
+            // 'start_date' => $start_date,
+            // 'end_date' => $end_date
         ];
 
-        $result = $this->_ci->gateway->curl_post($url, $params, $header);
+        $result = $this->_ci->gateway->curl_get($url, $params, $header);
+        print_r($result);die();
         return json_decode($result, TRUE);
     }
 
-    public function _safari_process($conversion) {
-        $source = 'cfmanager';
-        $a_status = ['0' => 'PENDING', '1' => 'PENDING', '2' => 'APPROVED', '9' => 'REJECTED'];
+    public function _goship_process($conversion) {
+        if ($conversion['status'] == 'waiting') return;
 
-        $conversion_id = $conversion['order_id'];
-        $uid = $conversion['ref_code2'];
+        $source = 'goship';
+        $a_status = [
+            'on_delivery' => 'PENDING',
+            'on_return' => 'PENDING',
+            'returned' => 'APPROVED',
+            'claimed' => 'APPROVED',
+            'delivered' => 'APPROVED',
+            'canceled' => 'REJECTED'
+        ];
 
-        // if(empty($uid)) return;
+        $conversion_id = $conversion['tracking_number'];
+        $uid = $conversion['uuid'];
         
         $this->_ci->load->model('report_conversion_model');
         $this->_ci->load->model('logs_missing_model');
         $this->_ci->load->model('campaign_model');
 
-        $check_missing_conversion = $this->_ci->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['order_id'], $uid);
+        $check_missing_conversion = $this->_ci->report_conversion_model->get_by_order_id_with_missing_conversion($conversion_id, $uid);
         if(!empty($check_missing_conversion)) {
             $this->_ci->report_conversion_model->delete_conversion($check_missing_conversion['id']);
             $this->_ci->logs_missing_model->insert_logs($check_missing_conversion['id']);
@@ -63,27 +71,32 @@ class Safari_api {
 
         $a_conversion = $this->_ci->report_conversion_model->get_by_conversion_id($conversion_id, $source);
 
-        $site_id = $conversion['main_agent_id'];
+        $site_id = $this->_main_id;
         $site_name = 'Jelala';
 
-        // $campaign_id_uat = empty($conversion['ref_code']) ? '21095': $conversion['ref_code'];
-        $campaign_id = '21098';
+        $campaign_id = '21104';
         $a_campaign = $this->_ci->campaign_model->get_by_id($campaign_id);
         $campaign_name = $a_campaign['display_name'];
 
         $customerType = $creative_id = $creative_name = NULL;
 
-        $verification_id = $conversion['order_id'];
+        $verification_id = $conversion['tracking_number'];
 
-        $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['created']));
+        $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['shipment_date']));
 
-        $status = !empty($a_status[$conversion['order_status']]) ? $a_status[$conversion['order_status']] : 'PENDING';
+        $status = !empty($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : 'PENDING';
 
         $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
 
-        $reward = (float)$conversion['cashback'];
+        $percent = !empty($this->_carrier[$conversion['carrier']]['reward']) ? $this->_carrier[$conversion['carrier']]['reward'] : 0;
+        
+        $cod_price = empty($conversion['cod_price']) ? 0 : $conversion['cod_price'];
+        $actual_price = empty($conversion['actual_price']) ? 0 : $conversion['actual_price'];
+        
+        $price = $cod_price >= 1 ? $cod_price :  $actual_price;
+        $reward = (float)($price * ($percent/100));
 
-        $transaction_amount = $conversion['order_sum'];
+        $transaction_amount = $actual_price + $cod_price;
         $original_reward = NULL;
         $original_transaction_amount = NULL;
         $currency = 'th';
