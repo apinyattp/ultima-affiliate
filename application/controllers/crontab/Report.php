@@ -363,9 +363,9 @@ class Report extends MY_Controller {
 
         $start_date = date('Y-m-d', strtotime('-1 day'));
         $end_date = date('Y-m-d', time());
-        echo 11;
+
         $a_conversion = $this->goship_api->conversion($start_date, $end_date);
-        print_r($a_conversion);die();
+
         if(!empty($a_conversion['order'])) {
             foreach($a_conversion['order'] as $conversion) {
                 $this->goship_api->_goship_process($conversion);

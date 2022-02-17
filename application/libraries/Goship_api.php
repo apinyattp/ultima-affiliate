@@ -20,6 +20,7 @@ class Goship_api {
         $this->_api_key = $this->_ci->config->item('api_key');
         $this->_main_id = $this->_ci->config->item('main_id');
         $this->_carrier = $this->_ci->config->item('carrier');
+        $this->_campaign_id = $this->_ci->config->item('campaign_id');
     }
 
     public function conversion($start_date, $end_date, $page=1, $limit=10) {
@@ -30,7 +31,6 @@ class Goship_api {
         ];
 
         $url = $this->_endpoint . 'whitelabel/getshipment';
-
         $params = [
             'page' => $page,
             'per_page' => $limit,
@@ -39,7 +39,6 @@ class Goship_api {
         ];
 
         $result = $this->_ci->gateway->curl_get($url, $params, $header);
-        print_r($result);die();
         return json_decode($result, TRUE);
     }
 
@@ -74,7 +73,7 @@ class Goship_api {
         $site_id = $this->_main_id;
         $site_name = 'Jelala';
 
-        $campaign_id = '21104';
+        $campaign_id = $this->_campaign_id;
         $a_campaign = $this->_ci->campaign_model->get_by_id($campaign_id);
         $campaign_name = $a_campaign['display_name'];
 
@@ -90,8 +89,8 @@ class Goship_api {
 
         $percent = !empty($this->_carrier[$conversion['carrier']]['reward']) ? $this->_carrier[$conversion['carrier']]['reward'] : 0;
         
-        $cod_price = empty($conversion['cod_price']) ? 0 : $conversion['cod_price'];
-        $actual_price = empty($conversion['actual_price']) ? 0 : $conversion['actual_price'];
+        $cod_price = empty($conversion['cod_price']) ? 0 : (int)$conversion['cod_price'];
+        $actual_price = empty($conversion['actual_price']) ? 0 : (int)$conversion['actual_price'];
         
         $price = $cod_price >= 1 ? $cod_price :  $actual_price;
         $reward = (float)($price * ($percent/100));
