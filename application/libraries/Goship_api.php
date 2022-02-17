@@ -35,8 +35,8 @@ class Goship_api {
         $params = [
             'page' => $page,
             'per_page' => $limit,
-            // 'date_start' => $start_date,
-            // 'date_end' => $end_date
+            'date_start' => $start_date,
+            'date_end' => $end_date
         ];
         $result = $this->_ci->gateway->curl_get($url, $params, $header);
         return json_decode($result, TRUE);
