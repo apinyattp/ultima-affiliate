@@ -35,10 +35,9 @@ class Goship_api {
         $params = [
             'page' => $page,
             'per_page' => $limit,
-            // 'start_date' => $start_date,
-            // 'end_date' => $end_date
+            // 'date_start' => $start_date,
+            // 'date_end' => $end_date
         ];
-
         $result = $this->_ci->gateway->curl_get($url, $params, $header);
         return json_decode($result, TRUE);
     }
@@ -76,6 +75,7 @@ class Goship_api {
 
         $campaign_id = $this->_campaign_id;
         $a_campaign = $this->_ci->campaign_model->get_by_id($campaign_id);
+
         $campaign_name = $a_campaign['display_name'];
 
         $customerType = $creative_id = $creative_name = NULL;

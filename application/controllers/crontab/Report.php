@@ -366,9 +366,17 @@ class Report extends MY_Controller {
 
         $a_conversion = $this->goship_api->conversion($start_date, $end_date);
 
-        if(!empty($a_conversion['order'])) {
-            foreach($a_conversion['order'] as $conversion) {
-                $this->goship_api->_goship_process($conversion);
+        $last_page = $a_conversion['last_page'];
+
+        for ($page = 1; $page <= $last_page; $page++) {
+            if ($page > 1) {
+                $a_conversion = $this->goship_api->conversion($start_date, $end_date, $page);
+            }
+
+            if(!empty($a_conversion['data'])) {
+                foreach($a_conversion['data'] as $conversion) {
+                    $this->goship_api->_goship_process($conversion);
+                }
             }
         }
     }
