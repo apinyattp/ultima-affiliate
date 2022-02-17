@@ -27,6 +27,7 @@ class Goship_api {
         $header = [
             'Accept: application/json',
             'Authorization: Bearer ' . $this->_api_key,
+            'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)',
         ];
 
         $url = $this->_endpoint . 'whitelabel/getshipment';
@@ -58,7 +59,7 @@ class Goship_api {
 
         $conversion_id = $conversion['tracking_number'];
         $uid = $conversion['uuid'];
-        
+
         $this->_ci->load->model('report_conversion_model');
         $this->_ci->load->model('logs_missing_model');
         $this->_ci->load->model('campaign_model');
@@ -89,10 +90,10 @@ class Goship_api {
         $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
 
         $percent = !empty($this->_carrier[$conversion['carrier']]['reward']) ? $this->_carrier[$conversion['carrier']]['reward'] : 0;
-        
+
         $cod_price = empty($conversion['cod_price']) ? 0 : $conversion['cod_price'];
         $actual_price = empty($conversion['actual_price']) ? 0 : $conversion['actual_price'];
-        
+
         $price = $cod_price >= 1 ? $cod_price :  $actual_price;
         $reward = (float)($price * ($percent/100));
 
