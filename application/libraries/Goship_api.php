@@ -90,6 +90,8 @@ class Goship_api {
 
         $percent = !empty($this->_carrier[$conversion['carrier']]['reward']) ? $this->_carrier[$conversion['carrier']]['reward'] : 0;
         
+        if (empty($percent)) return;
+
         $cod_price = empty($conversion['cod_price']) ? 0 : (int)$conversion['cod_price'];
         $actual_price = empty($conversion['actual_price']) ? 0 : (int)$conversion['actual_price'];
         
