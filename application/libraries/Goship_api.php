@@ -28,6 +28,7 @@ class Goship_api {
         $header = [
             'Accept: application/json',
             'Authorization: Bearer ' . $this->_api_key,
+            'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)',
         ];
 
         $url = $this->_endpoint . 'whitelabel/getshipment';
@@ -57,7 +58,7 @@ class Goship_api {
 
         $conversion_id = $conversion['tracking_number'];
         $uid = $conversion['uuid'];
-        
+
         $this->_ci->load->model('report_conversion_model');
         $this->_ci->load->model('logs_missing_model');
         $this->_ci->load->model('campaign_model');
