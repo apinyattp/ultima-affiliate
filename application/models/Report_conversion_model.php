@@ -21,6 +21,13 @@ class Report_conversion_model extends CI_Model {
         return $this->db->get('report_conversion')->row_array();
     }
 
+    public function get_by_verification_id($verification_id, $source=FALSE) {
+        $this->db->where('verification_id', $verification_id);
+        if($source) $this->db->where('source', $source);
+        $this->db->limit(1);
+        return $this->db->get('report_conversion')->row_array();
+    }
+
     public function get_min_conversion_time($source=NULL, $a_status=[]) {
         $this->db->select_min('conversion_time')
                 ->from('report_conversion')
@@ -63,8 +70,7 @@ class Report_conversion_model extends CI_Model {
         if(empty($conversion)) {
             $this->db->insert('report_conversion', $a_data);
         }else {
-            $this->db->where('source', $source);
-            $this->db->where('conversion_id', $conversion_id);
+            $this->db->where('id', $conversion['id']);
             $this->db->update('report_conversion', $a_data);
         }
     }
@@ -106,8 +112,49 @@ class Report_conversion_model extends CI_Model {
         if(empty($conversion)) {
             $this->db->insert('report_conversion', $a_data);
         }else {
-            $this->db->where('source', $source);
-            $this->db->where('conversion_id', $conversion_id);
+            $this->db->where('id', $conversion['id']);
+            $this->db->update('report_conversion', $a_data);
+        }
+    }
+
+    public function update_by_verification_id($conversion_id, $source, $uid, $company, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $original_reward=NULL, $transaction_amount, $original_transaction_amount=NULL, $currency=NULL, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0, $paid_time=FALSE) {
+        $a_data = [
+            'conversion_id' => $conversion_id,
+            'uid' => $uid,
+            'company' => $company,
+            'site_id' => $site_id,
+            'site_name' => $site_name,
+            'campaign_id' => $campaign_id,
+            'campaign_name' => $campaign_name,
+            'creative_id' => $creative_id,
+            'creative_name' => $creative_name,
+            'customerType' => $customerType,
+            'verification_id' => $verification_id,
+            'click_time' => $click_time,
+            'conversion_time' => $conversion_time,
+            'confirmation_time' => $confirmation_time,
+            'status' => $status,
+            'reward' => $reward,
+            'original_reward' => $original_reward,
+            'transaction_amount' => $transaction_amount,
+            'original_transaction_amount' => $original_transaction_amount,
+            'currency' => $currency,
+            'session_id' => $session_id,
+            'user_agent' => $user_agent,
+            'parameters' => empty($parameters) ? NULL : $parameters,
+            'products' => empty($products) ? NULL : $products,
+            'other_parameters' => empty($other_parameters) ? NULL : $other_parameters,
+            'source' => $source,
+            'missing_id' => $missing_id
+        ];
+        if(!empty($paid_time)) {
+            $a_data['paid_time'] = date('Y-m-d H:i:s', strtotime($paid_time));
+        }
+        $conversion = $this->get_by_verification_id($verification_id, $source);
+        if(empty($conversion)) {
+            $this->db->insert('report_conversion', $a_data);
+        }else {
+            $this->db->where('id', $conversion['id']);
             $this->db->update('report_conversion', $a_data);
         }
     }

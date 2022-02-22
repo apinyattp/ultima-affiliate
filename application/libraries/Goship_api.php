@@ -55,20 +55,21 @@ class Goship_api {
             'canceled' => 'REJECTED'
         ];
 
-        $conversion_id = $conversion['tracking_number'];
+        $verification_id = $conversion['tracking_number'];
         $uid = $conversion['uuid'];
 
         $this->_ci->load->model('report_conversion_model');
         $this->_ci->load->model('logs_missing_model');
         $this->_ci->load->model('campaign_model');
 
-        $check_missing_conversion = $this->_ci->report_conversion_model->get_by_order_id_with_missing_conversion($conversion_id, $uid);
+        $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($verification_id);
+        $conversion_id = -1;
+
+        $check_missing_conversion = $this->_ci->report_conversion_model->get_by_order_id_with_missing_conversion($verification_id, $uid);
         if(!empty($check_missing_conversion)) {
             $this->_ci->report_conversion_model->delete_conversion($check_missing_conversion['id']);
             $this->_ci->logs_missing_model->insert_logs($check_missing_conversion['id']);
         }
-
-        $a_conversion = $this->_ci->report_conversion_model->get_by_conversion_id($conversion_id, $source);
 
         $site_id = $this->_main_id;
         $site_name = 'Jelala';
@@ -121,7 +122,7 @@ class Goship_api {
 
         if(empty($a_conversion)) {
             $company = 'shopgenix';
-            $this->_ci->report_conversion_model->update_by_conversion_id2(
+            $this->_ci->report_conversion_model->update_by_verification_id(
                 $conversion_id,
                 $source,
                 $uid,
