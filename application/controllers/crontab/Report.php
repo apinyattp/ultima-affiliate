@@ -361,8 +361,8 @@ class Report extends MY_Controller {
         $this->load->model('campaign_model');
         $this->load->model('logs_missing_model');
 
-        $start_date = date('Y-m-d', strtotime('-1 day'));
-        $end_date = date('Y-m-d', time());
+        $end_date = date('Y-m-d', strtotime('-1 day'));
+        $start_date = date('Y-m-d', time());
 
         $a_conversion = $this->goship_api->conversion($start_date, $end_date);
 
