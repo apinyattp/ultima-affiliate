@@ -88,15 +88,23 @@ class Goship_api {
 
         $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
 
-        $percent = !empty($this->_carrier[$conversion['carrier']]['reward']) ? $this->_carrier[$conversion['carrier']]['reward'] : 0;
-        
-        if (empty($percent)) return;
+        $price_min = !empty($this->_carrier[$conversion['carrier']]['price_min']) ? $this->_carrier[$conversion['carrier']]['price_min'] : NULL;
+        $percent = !empty($this->_carrier[$conversion['carrier']]['percent']) ? $this->_carrier[$conversion['carrier']]['percent'] : 0;
+        $percent_cod = !empty($this->_carrier[$conversion['carrier']]['percent_cod']) ? $this->_carrier[$conversion['carrier']]['percent_cod'] : 0;
+
+        if (empty($percent) || empty($percent_cod)) return;
 
         $cod_price = empty($conversion['cod_price']) ? 0 : (int)$conversion['cod_price'];
         $actual_price = empty($conversion['actual_price']) ? 0 : (int)$conversion['actual_price'];
-        
-        $price = $cod_price >= 1 ? $cod_price :  $actual_price;
-        $reward = (float)($price * ($percent/100));
+
+        $reward_actual = (float)($actual_price * ($percent/100));
+        $reward_cod = (float)($cod_price * ($percent_cod/100));
+
+        if ($reward_actual <= $price_min) {
+            $reward_actual = 0;
+        }
+
+        $reward = $reward_actual + $reward_cod;
 
         $transaction_amount = $actual_price + $cod_price;
         $original_reward = NULL;

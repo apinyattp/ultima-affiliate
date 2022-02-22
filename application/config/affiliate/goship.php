@@ -7,25 +7,33 @@ $config = array(
     'campaign_id' => '21106',
     'carrier' => [
         'Kerry Express' => [
-            'reward' => 2
+            'reward' => 2,
+            'reward_cod' => 2,
         ],
         'Kerry' => [
-            'reward' => 2
+            'reward' => 2,
+            'reward_cod' => 2,
         ],
         'Flash Express' => [
-            'reward' => 2
+            'reward_min' => 20,
+            'reward' => 2,
+            'reward_cod' => 2,
         ],
         'Thailand Post' => [
-            'reward' => 2
+            'reward' => 2,
+            'reward_cod' => 2,
         ],
         'DHL Express Thailand' => [
-            'reward' => 2
+            'reward' => 2,
+            'reward_cod' => 2,
         ],
         'J&T Express Thailand' => [
-            'reward' => 2
+            'reward' => 2,
+            'reward_cod' => 2,
         ],
         'Best Express' => [
-            'reward' => 2
+            'reward' => 2,
+            'reward_cod' => 2,
         ],
     ],
 );
