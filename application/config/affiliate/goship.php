@@ -1,8 +1,8 @@
 <?php
 
 $config = array(
-    'endpoint' => 'https://uatgosaasapi.co/api/v1/',
-    'api_key' => 'WaPsrhvA1gBPg6xqPMNpb65sQASnqjbn1GApFUNI',
+    'endpoint' => 'https://gosaasapi.co/api/v1/',
+    'api_key' => 'EZYCoBZaftUPaC7slCqGaMnUgr5Wn3HM53jo06f6',
     'main_id' => '99',
     'campaign_id' => '21106',
     'carrier' => [
