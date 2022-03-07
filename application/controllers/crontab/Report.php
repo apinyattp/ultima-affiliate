@@ -188,9 +188,9 @@ class Report extends MY_Controller {
         $start_date2 = !empty($start_date2) ? date('Y-m-d', strtotime($start_date2)) : '2021-01-01';
         $end_date = date('Y-m-d');
 
-        $this->_involve_asia_conversion($start_date1, $end_date, ['invalid']);
         $this->_involve_asia_conversion($start_date1, $end_date, ['approved']);
-        $this->_involve_asia_conversion($start_date2, $end_date, ['rejected', 'invalid', 'paid', 'yet to consumed']);
+        $this->_involve_asia_conversion($start_date2, $end_date, ['rejected', 'invalid']);
+        $this->_involve_asia_conversion($start_date2, $end_date, ['paid']);
     }
 
     public function involve_asia_conversion_pending($days=7) {
@@ -203,7 +203,7 @@ class Report extends MY_Controller {
         $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -$days days"));
         $end_date = date('Y-m-d');
 
-        $this->_involve_asia_conversion($start_date, $end_date, ['pending']);
+        $this->_involve_asia_conversion($start_date, $end_date, ['pending', 'yet to consumed']);
     }
 
     private function _involve_asia_conversion($start_date, $end_date, $a_status) {
