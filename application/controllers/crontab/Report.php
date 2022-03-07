@@ -188,6 +188,7 @@ class Report extends MY_Controller {
         $start_date2 = !empty($start_date2) ? date('Y-m-d', strtotime($start_date2)) : '2021-01-01';
         $end_date = date('Y-m-d');
 
+        $this->_involve_asia_conversion($start_date1, $end_date, ['invalid']);
         $this->_involve_asia_conversion($start_date1, $end_date, ['approved']);
         $this->_involve_asia_conversion($start_date2, $end_date, ['rejected', 'invalid', 'paid', 'yet to consumed']);
     }
@@ -281,7 +282,7 @@ class Report extends MY_Controller {
         $original_reward = NULL;
         $original_transaction_amount = NULL;
         $currency = $conversion['currency'];
-
+        $remark = $conversion['affiliate_remarks'];
 
         $session_id = $user_agent = NULL;
 
@@ -329,11 +330,12 @@ class Report extends MY_Controller {
                 $user_agent,
                 $parameters,
                 $products,
-                $other_parameters
+                $other_parameters,
+                $remark
             );
         }else {
             if($status != 'PENDING') {
-                $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency);
+                $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency, $remark);
             }
         }
     }

@@ -75,7 +75,7 @@ class Report_conversion_model extends CI_Model {
         }
     }
 
-    public function update_by_conversion_id2($conversion_id, $source, $uid, $company, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $original_reward=NULL, $transaction_amount, $original_transaction_amount=NULL, $currency=NULL, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $missing_id = 0, $paid_time=FALSE) {
+    public function update_by_conversion_id2($conversion_id, $source, $uid, $company, $site_id, $site_name, $campaign_id, $campaign_name, $customerType=NULL, $creative_id, $creative_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $original_reward=NULL, $transaction_amount, $original_transaction_amount=NULL, $currency=NULL, $session_id, $user_agent=NULL, $parameters=NULL, $products=NULL, $other_parameters=NULL, $remark=NULL) {
         $a_data = [
             'conversion_id' => $conversion_id,
             'uid' => $uid,
@@ -103,7 +103,68 @@ class Report_conversion_model extends CI_Model {
             'products' => empty($products) ? NULL : $products,
             'other_parameters' => empty($other_parameters) ? NULL : $other_parameters,
             'source' => $source,
-            'missing_id' => $missing_id
+            'remark' => $remark,
+        ];
+        $conversion = $this->get_by_conversion_id($conversion_id, $source);
+        if(empty($conversion)) {
+            $this->db->insert('report_conversion', $a_data);
+        }else {
+            $this->db->where('id', $conversion['id']);
+            $this->db->update('report_conversion', $a_data);
+        }
+    }
+
+    public function update_by_missing($conversion_id, $source, $uid, $company, $site_id, $site_name, $campaign_id, $campaign_name, $verification_id, $click_time, $conversion_time, $status, $reward, $transaction_amount, $currency=NULL) {
+        $a_data = [
+            'conversion_id' => $conversion_id,
+            'uid' => $uid,
+            'company' => $company,
+            'site_id' => $site_id,
+            'site_name' => $site_name,
+            'campaign_id' => $campaign_id,
+            'campaign_name' => $campaign_name,
+            'verification_id' => $verification_id,
+            'click_time' => $click_time,
+            'conversion_time' => $conversion_time,
+            'status' => $status,
+            'reward' => $reward,
+            'original_reward' => $reward,
+            'transaction_amount' => $transaction_amount,
+            'original_transaction_amount' => $transaction_amount,
+            'currency' => $currency,
+            'source' => $source,
+            'missing_id' => $conversion_id
+        ];
+        $conversion = $this->get_by_conversion_id($conversion_id, $source);
+        if(empty($conversion)) {
+            $this->db->insert('report_conversion', $a_data);
+        }else {
+            $this->db->where('id', $conversion['id']);
+            $this->db->update('report_conversion', $a_data);
+        }
+    }
+
+    public function update_by_upload($conversion_id, $source, $uid, $company, $site_id, $site_name, $campaign_id, $campaign_name, $verification_id, $click_time, $conversion_time, $confirmation_time=NULL, $status, $reward, $original_reward=NULL, $transaction_amount, $original_transaction_amount=NULL, $currency=NULL, $products=NULL, $paid_time=FALSE) {
+        $a_data = [
+            'conversion_id' => $conversion_id,
+            'uid' => $uid,
+            'company' => $company,
+            'site_id' => $site_id,
+            'site_name' => $site_name,
+            'campaign_id' => $campaign_id,
+            'campaign_name' => $campaign_name,
+            'verification_id' => $verification_id,
+            'click_time' => $click_time,
+            'conversion_time' => $conversion_time,
+            'confirmation_time' => $confirmation_time,
+            'status' => $status,
+            'reward' => $reward,
+            'original_reward' => $original_reward,
+            'transaction_amount' => $transaction_amount,
+            'original_transaction_amount' => $original_transaction_amount,
+            'currency' => $currency,
+            'products' => empty($products) ? NULL : $products,
+            'source' => $source,
         ];
         if(!empty($paid_time)) {
             $a_data['paid_time'] = date('Y-m-d H:i:s', strtotime($paid_time));
@@ -165,7 +226,7 @@ class Report_conversion_model extends CI_Model {
         $this->db->update('report_conversion', $a_data);
     }
 
-    public function update_status($id, $status, $time, $reward, $transaction_amount, $original_reward=NULL, $original_transaction_amount=NULL, $currency=NULL) {
+    public function update_status($id, $status, $time, $reward, $transaction_amount, $original_reward=NULL, $original_transaction_amount=NULL, $currency=NULL, $remark=NULL) {
 
         $time_column = ($status == 'PAID') ? 'paid_time' : 'confirmation_time';
 
@@ -176,7 +237,8 @@ class Report_conversion_model extends CI_Model {
             'original_reward' => $original_reward,
             'transaction_amount' => $transaction_amount,
             'original_transaction_amount' => $original_transaction_amount,
-            'currency' => $currency
+            'currency' => $currency,
+            'remark' => $remark,
         ];
         $this->db->where('id', $id);
         $this->db->update('report_conversion', $a_data);

@@ -33,4 +33,5 @@ return [
     'products' => $products,
     'company' => empty($data['company']) ? 'jelala' : $data['company'],
     'is_fake' => !empty($data['missing_id']),
+    'remark' => $data['remark'],
 ];

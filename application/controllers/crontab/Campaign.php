@@ -50,9 +50,9 @@ class Campaign extends MY_Controller {
 
             // UPDATE REWARD DATA
             $this->campaign_model->update_data(
-                $campaign_id, 
-                $campaign_detail['name'], 
-                'accesstrade', 
+                $campaign_id,
+                $campaign_detail['name'],
+                'accesstrade',
                 $campaign_detail['url'],
                 $campaign_detail['type'],
                 !isset($campaign_detail['startDate']) ? NULL : $campaign_detail['startDate'],
@@ -81,9 +81,9 @@ class Campaign extends MY_Controller {
             // UPDATE CATEGORY REWARD
             foreach($campaign_detail['categoryRewards'] as $category_reward) {
                 $this->campaign_model->update_category_reward(
-                    $campaign_id, 
-                    $category_reward['id'], 
-                    $category_reward['type'], 
+                    $campaign_id,
+                    $category_reward['id'],
+                    $category_reward['type'],
                     $category_reward['reward'],
                     (isset($category_reward['name'])) ? $category_reward['name'] : NULL
                 );
@@ -104,16 +104,16 @@ class Campaign extends MY_Controller {
                 $this->campaign_model->insert_custom_reward($campaign_id, 'default');
                 $this->campaign_model->insert_custom_reward($campaign_id, 'category');
                 $this->campaign_model->insert_custom_reward($campaign_id, 'customer_type');
-            }  
+            }
 
             if(empty($this->campaign_model->get_set_reward($campaign_id))) {
                 $this->campaign_model->insert_set_reward($campaign_id);
-            }  
+            }
 
         }
 
         $this->_update_jelala($updated_ids);
-        
+
     }
 
     public function admitad_campaign() {
@@ -131,7 +131,7 @@ class Campaign extends MY_Controller {
         foreach($advcampaigns['results'] as $campaign) {
 
             $id = sprintf("%05d", $campaign['id']);
-                
+
             $campaign_code = "AMA{$id}";
 
             $a_campaign = $this->campaign_model->get_by_code($campaign_code);
@@ -163,7 +163,7 @@ class Campaign extends MY_Controller {
                 NULL, // customCreativesAvailable
                 NULL, // seoContentAvailable
                 $campaign['show_products_links'],
-                $campaign['allow_deeplink'], 
+                $campaign['allow_deeplink'],
                 $campaign['gotolink'], // quicklink
                 $status[$campaign['connection_status']], // affiliateStatus
                 NULL, // affiliatedDate
@@ -203,7 +203,7 @@ class Campaign extends MY_Controller {
 
             if(empty($this->campaign_model->get_set_reward($campaign_id))) {
                 $this->campaign_model->insert_set_reward($campaign_id);
-            }  
+            }
 
         }
 
@@ -224,7 +224,7 @@ class Campaign extends MY_Controller {
 
         $perpage = 20;
         $page = 1;
-        
+
         $result_data = $this->involve_asia_api->all_offers($page, $perpage);
 
         if(empty($result_data['data']['count'])) return;
@@ -238,26 +238,26 @@ class Campaign extends MY_Controller {
             if(empty($result_data['data']['data'])) continue;
 
             foreach($result_data['data']['data'] as $result) {
-                
+
                 $offer_id = $result['offer_id'];
                 $campaign = $result;
-    
+
                 $offer_id = sprintf("%05d", $campaign['offer_id']);
-                
+
                 $campaign_code = "IVA{$offer_id}";
-    
+
                 $a_campaign = $this->campaign_model->get_by_code($campaign_code);
-    
+
                 if(empty($a_campaign)) {
                     $campaign_id = $this->campaign_model->insert_by_code($campaign_code);
                 }else {
                     $campaign_id = $a_campaign['id'];
                 }
-    
+
                 if($a_campaign['deleted']) continue;
-    
+
                 $updated_ids[] = $campaign_id;
-    
+
                 $name = $campaign['offer_name'];
                 $source = 'involve_asia';
                 $url = $campaign['preview_url'];
@@ -271,7 +271,7 @@ class Campaign extends MY_Controller {
                 $affiliationStatus = 'APPROVED';
                 $affiliatedDate = NULL;
                 $currency = $campaign['currency'];
-    
+
                 $this->campaign_model->update_data(
                     $campaign_id,
                     $name,
@@ -294,8 +294,8 @@ class Campaign extends MY_Controller {
                     $affiliatedDate,
                     $currency
                 );
-        
-    
+
+
                 // UPDATE CATEGORY REWARD
                 foreach($campaign['commissions'] as $index => $commission) {
                     $category_id = $index;
@@ -303,10 +303,10 @@ class Campaign extends MY_Controller {
                     $text = $commission[key($commission)];
                     $reward = $commission[key($commission)];
                     $name = key($commission);
-    
+
                     $this->campaign_model->update_category_reward($campaign_id, $category_id, $type, $reward, $name, $text);
                 }
-    
+
             }
         }
 

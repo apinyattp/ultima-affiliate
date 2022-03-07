@@ -50,7 +50,7 @@ class Missing_conversion extends MY_Controller {
             'amount_desc' => 'amount DESC',
         ];
         if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
-        
+
         $this->load->model('missing_conversion_model');
         $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source, $status_filter, $status_reject, $start_amount, $end_amount);
 
@@ -98,7 +98,7 @@ class Missing_conversion extends MY_Controller {
         $a_admin = $this->_auth_admin();
 
         if($a_admin['role'] != 'admin')  redirect('cms/admin');
-        
+
         $keyword = $this->input->get('keyword');
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
@@ -115,7 +115,7 @@ class Missing_conversion extends MY_Controller {
 
         if($start_amount <= 0) $start_amount = 0;
         if($end_amount <= 0) $end_amount = 0;
-        
+
         $a_sort = [
             'order_date_asc' => 'order_date ASC',
             'order_date_desc' => 'order_date DESC',
@@ -128,7 +128,7 @@ class Missing_conversion extends MY_Controller {
         ];
 
         if(!isset($a_sort[$sort])) $sort = 'datetime_created_asc';
-        
+
         $this->load->model('missing_conversion_model');
         $qs_conversion = $this->missing_conversion_model->get_list($start_date, $end_date, $keyword, $campaign_id, $a_sort[$sort], $company, $source, $status_filter, $status_reject, $start_amount, $end_amount);
 
@@ -137,7 +137,7 @@ class Missing_conversion extends MY_Controller {
         $a_header = [
             'Company',
             'Campaign',
-            'Uid',
+            'uid',
             'Amount',
             'Order ID',
             'Order Date',
@@ -165,7 +165,7 @@ class Missing_conversion extends MY_Controller {
 
         $this->load->model('report_conversion_model');
         $this->report_conversion_model->update_status_rejected($missing_id);
-        
+
         return $this->_echo_json(E::SUCCESS);
     }
 
@@ -178,16 +178,16 @@ class Missing_conversion extends MY_Controller {
         $missing_id = $this->input->post('id');
 
         $this->load->model('missing_conversion_model');
-        
+
         $a_missing_data = $this->missing_conversion_model->get_by_missing_id($missing_id);
-        
+
         $status = 'new';
         if($a_missing_data['status'] == 'new') {
             $status = 'send_to_affiliate';
         }
 
         $this->missing_conversion_model->update_status($missing_id, $status);
-        
+
         return $this->_echo_json(E::SUCCESS, ['status' => $status]);
     }
 

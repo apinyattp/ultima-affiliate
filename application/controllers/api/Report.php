@@ -129,7 +129,7 @@ class Report extends MY_Controller {
             }
 
             if($summary_reward > 0) {
-                $this->report_conversion_model->update_by_conversion_id2(
+                $this->report_conversion_model->update_by_missing(
                     $id,
                     'involve_asia',
                     $a_data['uuid'],
@@ -138,25 +138,13 @@ class Report extends MY_Controller {
                     'Jelala',
                     $a_data['campaign_id'],
                     !empty( $a_campaign) ? $a_campaign['display_name'] : '',
-                    NULL,
-                    NULL,
-                    NULL,
                     $a_data['order_id'],
                     $a_data['order_date'],
                     $a_data['order_date'],
-                    NULL,
                     'PENDING',
                     $summary_reward,
-                    $summary_reward,
                     $a_data['amount'],
-                    $a_data['amount'],
-                    'THB',
-                    NULL,
-                    NULL,
-                    NULL,
-                    NULL,
-                    NULL,
-                    $id
+                    'THB'
                 );
             }
         }

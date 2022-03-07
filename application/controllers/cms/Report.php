@@ -15,7 +15,7 @@ class Report extends MY_Controller {
     public function list() {
         if(($auth = $this->_admin_authorization()) !== TRUE) redirect('cms/admin');
         $a_admin = $this->_auth_admin();
-        
+
         $this->head->js_add('js/report/list.js');
 
         $company = $a_admin['role'] == 'admin' ? $this->input->get('company') : $a_admin['role'];
@@ -161,8 +161,8 @@ class Report extends MY_Controller {
     public function import_conversion() {
         $a_upload = [];
         $a_error = [];
-        $filename= $_FILES["file"]["tmp_name"]; 
-        
+        $filename= $_FILES["file"]["tmp_name"];
+
         $this->load->model('campaign_model');
         $this->load->model('user_model');
         $this->load->model('report_conversion_model');
@@ -179,7 +179,7 @@ class Report extends MY_Controller {
                         ];
                     }
                     $row++;
-                    continue; 
+                    continue;
                 }
 
                 for($index = 0; $index < count($data); $index++) {
@@ -199,7 +199,7 @@ class Report extends MY_Controller {
                     $data[] = $campaign['source'];
                     $data[] = $campaign['display_name'];
                 }
-                
+
                 if(!in_array(strtoupper($data[9]), ['PENDING', 'APPROVED','REJECTED', 'NEW', 'PAID', 'INVALID'])) {
                     $a_error[$row] = [
                         'บรรทัดที่ '. $row . ' :  status : ' . $data[9] . ' ไม่ถูกต้อง'
@@ -244,7 +244,7 @@ class Report extends MY_Controller {
                 $status = 'fail';
             }else{
                 foreach($a_upload as $upload) {
-                    $this->report_conversion_model->update_by_conversion_id2(
+                    $this->report_conversion_model->update_by_upload(
                         $upload[0],
                         $upload[15],
                         $upload[3],
@@ -253,9 +253,6 @@ class Report extends MY_Controller {
                         'Jelala',
                         $upload[1],
                         $upload[16],
-                        NULL,
-                        NULL,
-                        NULL,
                         $upload[4],
                         date('Y-m-d H:i:s', strtotime($upload[5])),
                         date('Y-m-d H:i:s', strtotime($upload[6])),
@@ -266,19 +263,14 @@ class Report extends MY_Controller {
                         $upload[11],
                         $upload[11],
                         'THB',
-                        NULL,
-                        NULL,
-                        NULL,
                         empty($upload[12]) ? '' : json_encode($upload[12]),
-                        NULL,
-                        0,
                         empty($upload[8] || strtoupper($upload[8]) == 'NULL' ) ? NULL : $upload[8]
                     );
                 }
             }
 
-            $this->_echo_json(E::SUCCESS, ['status' => $status, 'error' => array_values($a_error)]); 
-        }  
+            $this->_echo_json(E::SUCCESS, ['status' => $status, 'error' => array_values($a_error)]);
+        }
 
     }
 
