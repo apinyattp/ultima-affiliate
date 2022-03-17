@@ -327,10 +327,10 @@ class Campaign extends MY_Controller {
 
                     $this->campaign_model->update_category_reward($campaign_id, $category_id, $type, $reward, $name, $text);
                 }
-
-                sleep(4);
-                $page += 1;
             }
+
+            sleep(4);
+            $page += 1;
         }
 
         $this->_update_jelala($updated_ids);
