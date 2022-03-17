@@ -224,19 +224,13 @@ class Campaign extends MY_Controller {
 
         $perpage = 20;
         $page = 1;
-
-        $result_data = $this->involve_asia_api->all_offers($page, $perpage);
-
-        if(empty($result_data['data']['count'])) return;
-        $total_page = ceil($result_data['data']['count']/ $perpage);
+        $total_page = 1;
 
         $retry = 0;
         $start = time();
         $updated_ids = [];
         for(; $page <= $total_page;){
-            if($page > 1) {
-                $result_data = $this->involve_asia_api->all_offers($page, $perpage);
-            }
+            $result_data = $this->involve_asia_api->all_offers($page, $perpage);
 
             $time = time() - $start;
             echo "PAGE $page / $total_page : ${time}s ";
@@ -260,6 +254,9 @@ class Campaign extends MY_Controller {
             }
             echo "============================================= SUCCESS\n";
             $retry = 0;
+            if($page == 1) {
+                $total_page = ceil($result_data['data']['count']/ $perpage);
+            }
 
             foreach($result_data['data']['data'] as $result) {
 
