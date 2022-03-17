@@ -239,7 +239,7 @@ class Campaign extends MY_Controller {
             }
 
             $time = time() - $start;
-            echo "PAGE $page : $time";
+            echo "PAGE $page / $total_page : ${time}s ";
 
             if(!empty($result['status_code'])) {
                 switch($result['status_code']) {
