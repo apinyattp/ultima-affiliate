@@ -235,9 +235,9 @@ class Campaign extends MY_Controller {
             $time = time() - $start;
             echo "PAGE $page / $total_page : ${time}s ";
 
-            if(!empty($result['status_code'])) {
-                echo "============================================= ERROR ${result['status_code']}\n";
-                switch($result['status_code']) {
+            if(!empty($result_data['status_code'])) {
+                echo "============================================= ERROR ${result_data['status_code']}\n";
+                switch($result_data['status_code']) {
                     case 429:
                         sleep(20);
                         continue 2;
