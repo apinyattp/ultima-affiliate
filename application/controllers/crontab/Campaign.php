@@ -248,6 +248,7 @@ class Campaign extends MY_Controller {
                         continue 2;
                     default:
                         var_dump($result_data);
+                        if($retry++ > 10) break;
                         sleep(20);
                         continue 2;
                 }
