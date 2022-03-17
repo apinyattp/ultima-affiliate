@@ -21,7 +21,7 @@ class Campaign extends MY_Controller {
 
     public function update_campaign() {
         $this->_accesstrade_campaign();
-        $this->admitad_campaign();
+        // $this->admitad_campaign();
         $this->involve_asia_campaign();
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
     }
@@ -230,12 +230,32 @@ class Campaign extends MY_Controller {
         if(empty($result_data['data']['count'])) return;
         $total_page = ceil($result_data['data']['count']/ $perpage);
 
+        $retry = 0;
+        $start = time();
         $updated_ids = [];
-        for($page = 1; $page <= $total_page; $page++){
+        for(; $page <= $total_page;){
             if($page > 1) {
                 $result_data = $this->involve_asia_api->all_offers($page, $perpage);
             }
-            if(empty($result_data['data']['data'])) continue;
+
+            $time = time() - $start;
+            echo "PAGE $page : $time";
+
+            if(!empty($result['status_code'])) {
+                switch($result['status_code']) {
+                    case 429:
+                        sleep(20);
+                        echo "============================================= 429\n";
+                        continue 2;
+                }
+            }elseif(empty($result_data['data']['data'])) {
+                echo "============================================= NO DATA($retry)\n";
+                if($retry++ > 10) break;
+                sleep(20);
+                continue;
+            }
+            echo "============================================= SUCCESS\n";
+            $retry = 0;
 
             foreach($result_data['data']['data'] as $result) {
 
@@ -307,6 +327,8 @@ class Campaign extends MY_Controller {
                     $this->campaign_model->update_category_reward($campaign_id, $category_id, $type, $reward, $name, $text);
                 }
 
+                sleep(4);
+                $page += 1;
             }
         }
 
