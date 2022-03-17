@@ -248,6 +248,7 @@ class Campaign extends MY_Controller {
                 }
             }elseif(empty($result_data['data']['data'])) {
                 echo "============================================= NO DATA($retry)\n";
+                var_dump($result);
                 if($retry++ > 10) break;
                 sleep(20);
                 continue;
@@ -292,6 +293,7 @@ class Campaign extends MY_Controller {
                 $affiliationStatus = 'APPROVED';
                 $affiliatedDate = NULL;
                 $currency = $campaign['currency'];
+                var_dump($name);
 
                 $this->campaign_model->update_data(
                     $campaign_id,
