@@ -235,7 +235,12 @@ class Campaign extends MY_Controller {
             $time = time() - $start;
             echo "PAGE $page / $total_page : ${time}s ";
 
-            if(!empty($result_data['status_code'])) {
+            if(empty($result_data)) {
+                echo "============================================= NULL\n";
+                if($retry++ > 10) break;
+                sleep(10);
+                continue;
+            }elseif(!empty($result_data['status_code'])) {
                 echo "============================================= ERROR ${result_data['status_code']}\n";
                 switch($result_data['status_code']) {
                     case 429:
@@ -246,14 +251,11 @@ class Campaign extends MY_Controller {
                         sleep(20);
                         continue 2;
                 }
-            }elseif(empty($result_data['data']['data'])) {
-                echo "============================================= NO DATA($retry)\n";
-                var_dump($result_data);
-                if($retry++ > 10) break;
-                sleep(20);
-                continue;
             }
+
             echo "============================================= SUCCESS\n";
+            if(empty($result_data['data']['data'])) break;
+
             $retry = 0;
             if($page == 1) {
                 $total_page = ceil($result_data['data']['count']/ $perpage);
