@@ -242,13 +242,14 @@ class Campaign extends MY_Controller {
             echo "PAGE $page / $total_page : ${time}s ";
 
             if(!empty($result['status_code'])) {
-                sleep(20);
                 echo "============================================= ERROR ${result['status_code']}\n";
                 switch($result['status_code']) {
                     case 429:
+                        sleep(20);
                         continue 2;
                     default:
                         var_dump($result);
+                        sleep(20);
                         continue 2;
                 }
             }elseif(empty($result_data['data']['data'])) {
