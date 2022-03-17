@@ -242,13 +242,13 @@ class Campaign extends MY_Controller {
                         sleep(20);
                         continue 2;
                     default:
-                        var_dump($result);
+                        var_dump($result_data);
                         sleep(20);
                         continue 2;
                 }
             }elseif(empty($result_data['data']['data'])) {
                 echo "============================================= NO DATA($retry)\n";
-                var_dump($result);
+                var_dump($result_data);
                 if($retry++ > 10) break;
                 sleep(20);
                 continue;
