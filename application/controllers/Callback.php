@@ -128,7 +128,7 @@ class Callback extends MY_Controller {
         $confirmation_time = ($conversion['payment_status'] == 'approved') ? date('Y-m-d H:i:s') : NULL;
         $status = $a_status[$conversion['payment_status']];
 
-        $this->load->library('admitad_api');
+        $this->load->library('provider/admitad_api');
         $rate = $this->admitad_api->rate($conversion['currency'], 'THB', $conversion_time);
 
         $reward = $conversion['commission'] * $rate;
@@ -379,15 +379,15 @@ class Callback extends MY_Controller {
         $this->load->model('callback_model');
         $this->callback_model->create('nsq', $data);
     }
-    
+
     public function cfmanager() {
         $conversion = $this->input->post();
-        
+
         if(empty($conversion)) return $this->_echo_json(E::INVALID_FORMAT, ['error' => 'no data']);
 
         $this->load->model('callback_model');
 
-        $this->load->library('safari_api');
+        $this->load->library('provider/safari_api');
 
         if(!empty($conversion)) {
             $this->safari_api->_safari_process($conversion);
@@ -400,12 +400,46 @@ class Callback extends MY_Controller {
 
     public function goship() {
         $conversion = $this->input->post();
-        
+
         if(empty($conversion)) return $this->_echo_json(E::INVALID_FORMAT, ['error' => 'no data']);
 
         $this->load->model('callback_model');
 
         $this->callback_model->create('goship', json_encode($conversion));
+
+        $this->_echo_json(E::SUCCESS);
+    }
+
+    public function iship() {
+        $source = 'iship';
+        $conversion = $this->input->post();
+
+        if(empty($conversion)) return $this->_echo_json(E::INVALID_FORMAT, ['error' => 'no data']);
+
+        $this->load->model('callback_model');
+        $this->callback_model->create('iship', json_encode($conversion));
+
+        $a_validator = [
+            'ref_code' => 'required|string',
+            'courier_code' => 'required|string',
+            'tracking' => 'required|string',
+            'status' => 'required|enum(1;2;3;6;9;10;12)',
+            'timestamp' => 'required|int',
+            'price' => 'required|float',
+            'reward' => 'required|float',
+            'ref_id' => 'required|string',
+        ];
+
+        foreach($a_validator as $var_name => $validate) {
+            $input = new \Builder\Input\Input($var_name, $validate);
+
+            if(($result = $input->validate()) !== TRUE) {
+                return $this->_echo_json($result->error_code, $result->data);
+            }
+        }
+
+        $this->load->model('report_shipping_model');
+        $conversion_id = $this->report_shipping_model->save($source, $conversion['courier_code'], $conversion['tracking']);
 
         $this->_echo_json(E::SUCCESS);
     }

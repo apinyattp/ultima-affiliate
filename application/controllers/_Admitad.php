@@ -7,7 +7,7 @@ class Admitad extends MY_Controller {
         parent::__construct();
 
         $this->load->library('gateway');
-        $this->load->library('admitad_api');
+        $this->load->library('provider/admitad_api');
     }
 
     public function me() {

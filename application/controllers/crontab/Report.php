@@ -19,7 +19,7 @@ class Report extends MY_Controller {
         $fromDate = date('Y-m-d');
         $toDate = date('Y-m-d', strtotime("+1 days"));
 
-        $this->load->library('accesstrade');
+        $this->load->library('provider/accesstrade');
         $conversions = $this->accesstrade->conversion($fromDate, $toDate);
 
         if(empty($conversions)) return TRUE;
@@ -109,7 +109,7 @@ class Report extends MY_Controller {
 
         $a_status = ['new' => 'PENDING', 'pending' => 'PENDING', 'approved' => 'APPROVED', 'declined' => 'REJECTED'];
 
-        $this->load->library('admitad_api');
+        $this->load->library('provider/admitad_api');
 
         $date_start = date('d.m.Y');
         $date_end = date('d.m.Y', strtotime("+1 days"));
@@ -117,7 +117,7 @@ class Report extends MY_Controller {
         $limit = 100;
         $offset = 0;
 
-        $this->load->library('admitad_api');
+        $this->load->library('provider/admitad_api');
         $this->load->model('report_conversion_model');
         while($offset >= 0) {
 
@@ -175,7 +175,7 @@ class Report extends MY_Controller {
     }
 
     public function involve_asia_conversion() {
-        $this->load->library('involve_asia_api');
+        $this->load->library('provider/involve_asia_api');
         $this->load->model('report_conversion_model');
         $this->load->model('campaign_model');
         $this->load->model('logs_missing_model');
@@ -194,7 +194,7 @@ class Report extends MY_Controller {
     }
 
     public function involve_asia_conversion_pending($days=7) {
-        $this->load->library('involve_asia_api');
+        $this->load->library('provider/involve_asia_api');
         $this->load->model('report_conversion_model');
         $this->load->model('campaign_model');
         $this->load->model('logs_missing_model');
@@ -341,7 +341,7 @@ class Report extends MY_Controller {
     }
 
     public function safari_conversion() {
-        $this->load->library('safari_api');
+        $this->load->library('provider/safari_api');
         $this->load->model('report_conversion_model');
         $this->load->model('campaign_model');
         $this->load->model('logs_missing_model');
@@ -358,7 +358,7 @@ class Report extends MY_Controller {
     }
 
     public function goship_conversion() {
-        $this->load->library('goship_api');
+        $this->load->library('provider/goship_api');
         $this->load->model('report_conversion_model');
         $this->load->model('campaign_model');
         $this->load->model('logs_missing_model');

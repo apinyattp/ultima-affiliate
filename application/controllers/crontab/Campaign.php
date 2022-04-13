@@ -27,7 +27,7 @@ class Campaign extends MY_Controller {
     }
 
     public function _accesstrade_campaign() {
-        $this->load->library('accesstrade');
+        $this->load->library('provider/accesstrade');
         $campaigns = $this->accesstrade->campaigns();
 
         $updated_ids = [];
@@ -51,6 +51,7 @@ class Campaign extends MY_Controller {
             // UPDATE REWARD DATA
             $this->campaign_model->update_data(
                 $campaign_id,
+                NULL,
                 $campaign_detail['name'],
                 'accesstrade',
                 $campaign_detail['url'],
@@ -120,7 +121,7 @@ class Campaign extends MY_Controller {
 
         $status = ['active' => 'APPROVED', 'pending' => 'APPLYING', 'declined' => 'REJECTED'];
 
-        $this->load->library('admitad_api');
+        $this->load->library('provider/admitad_api');
         $advcampaigns = $this->admitad_api->advcampaigns();
 
         if(!isset($advcampaigns['results'])) return TRUE;
@@ -149,6 +150,7 @@ class Campaign extends MY_Controller {
             // UPDATE REWARD DATA
             $this->campaign_model->update_data(
                 $campaign_id,
+                NULL,
                 $campaign['name'],
                 'admitad',
                 $campaign['site_url'],
@@ -219,7 +221,7 @@ class Campaign extends MY_Controller {
         $a_offer_id = $this->config->item('a_offer_id');
         $a_offer_name = $this->config->item('a_offer_name');
 
-        $this->load->library('involve_asia_api');
+        $this->load->library('provider/involve_asia_api');
         $this->load->model('campaign_model');
 
         $perpage = 20;
@@ -265,6 +267,7 @@ class Campaign extends MY_Controller {
             foreach($result_data['data']['data'] as $result) {
 
                 $offer_id = $result['offer_id'];
+                $merchant_id = $result['merchant_id'];
                 $campaign = $result;
 
                 $offer_id = sprintf("%05d", $campaign['offer_id']);
@@ -277,9 +280,8 @@ class Campaign extends MY_Controller {
                     $campaign_id = $this->campaign_model->insert_by_code($campaign_code);
                 }else {
                     $campaign_id = $a_campaign['id'];
+                    if($a_campaign['deleted']) continue;
                 }
-
-                if($a_campaign['deleted']) continue;
 
                 $updated_ids[] = $campaign_id;
 
@@ -300,6 +302,7 @@ class Campaign extends MY_Controller {
 
                 $this->campaign_model->update_data(
                     $campaign_id,
+                    $merchant_id,
                     $name,
                     $source,
                     $url,

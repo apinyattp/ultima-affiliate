@@ -12,7 +12,7 @@ class Payment extends MY_Controller {
     }
 
     public function accesstrade() {
-        $this->load->library('accesstrade');
+        $this->load->library('provider/accesstrade');
         $this->load->model('report_conversion_model');
 
         $fromMonth = date('Y-m');

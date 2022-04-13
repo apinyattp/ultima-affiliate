@@ -10,7 +10,7 @@ class Involve_asia extends MY_Controller {
     public function __construct() {
         parent::__construct();
 
-        $this->load->library('involve_asia_api');
+        $this->load->library('provider/involve_asia_api');
 
         header('Content-Type: application/json');
     }

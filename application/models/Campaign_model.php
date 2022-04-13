@@ -81,7 +81,7 @@ class campaign_model extends CI_Model {
             'condition_do' => $condition_do,
             'condition_dont' => $condition_dont,
             'note' => $note,
-            'maximum_commission' => empty($maximum_commission) ? 0 : $maximum_commission, 
+            'maximum_commission' => empty($maximum_commission) ? 0 : $maximum_commission,
             'datetime_updated' => date('Y-m-d H:i:s')
         ];
 
@@ -89,9 +89,10 @@ class campaign_model extends CI_Model {
         $this->db->update('campaign', $a_set);
     }
 
-    public function update_data($campaign_id, $name, $source, $url, $type, $startDate=NULL, $endDate=NULL, $selfConversion, $pointBack, $imageUrl, $description, $englishDescription, $customCreativesAvailable, $seoContentAvailable, $productFeedAvailable, $quickLinkAvailable, $quicklink=NULL, $affiliationStatus, $affiliatedDate, $currency) {
+    public function update_data($campaign_id, $merchant_id, $name, $source, $url, $type, $startDate=NULL, $endDate=NULL, $selfConversion, $pointBack, $imageUrl, $description, $englishDescription, $customCreativesAvailable, $seoContentAvailable, $productFeedAvailable, $quickLinkAvailable, $quicklink=NULL, $affiliationStatus, $affiliatedDate, $currency) {
         $a_set = [
             'campaign_id' => $campaign_id,
+            'merchant_id' => $merchant_id,
             'name' => $name,
             'source' => $source,
             'url' => $url,
