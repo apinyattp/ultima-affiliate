@@ -1,7 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['jwt_key'] = '';
+$config['jwt_key'] = 'G%c@yRgG3K$"EQfv';
 $config['token_timeout'] = 1;
 
 if(empty($config['jwt_key'])) {

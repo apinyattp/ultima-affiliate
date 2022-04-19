@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Goship_api {
+class Iship {
 
     private $_ci;
 

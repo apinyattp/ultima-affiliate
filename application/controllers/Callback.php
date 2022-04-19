@@ -419,6 +419,8 @@ class Callback extends MY_Controller {
 
     public function iship() {
         $source = 'iship';
+        if(($auth = $this->_authorization_src([$source])) !== TRUE) return;
+
         $conversion = $this->input->post();
 
         if(empty($conversion)) return $this->_echo_json(E::INVALID_FORMAT, ['error' => 'no data']);
@@ -445,8 +447,8 @@ class Callback extends MY_Controller {
             }
         }
 
-        $this->load->model('report_shipping_model');
-        $conversion_id = $this->report_shipping_model->save($source, $conversion['courier_code'], $conversion['tracking']);
+        $this->load->library('provider/iship');
+        $this->iship->_iship_process($conversion);
 
         $this->_echo_json(E::SUCCESS);
     }

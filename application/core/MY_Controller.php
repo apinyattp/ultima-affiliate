@@ -67,7 +67,7 @@ class MY_Controller extends Builder\Core\Controller {
         $token = $this->admin_authorization->http_authorization_token();
 
         $validate = FALSE;
-        
+
         $a_company = $this->config->item('companies');
 
         foreach($a_company as $company) {
@@ -100,6 +100,27 @@ class MY_Controller extends Builder\Core\Controller {
         return $this->admin_authorization->get_login_admin();
     }
 
+    protected function _authorization_src($a_src=[]) {
+        $this->load->library('module/admin/authorization');
+        $this->load->helper('jwt');
+        $token = $this->admin_authorization->http_authorization_token();
+        if(empty($token)) return E::REQUIRE_PARAMETER_TOKEN;
+        if(!is_string($token)) return E::INVALID_FORMAT_TOKEN;
+
+        if(!empty($token)) {
+            if(!is_string($token)) return $this->_echo_json(E::INVALID_FORMAT, ['field' => 'token']);
+
+            $payload = jwt_decode($token);
+        }else{
+            $payload = jwt_payload();
+        }
+
+        if(empty($payload)) return $this->_echo_json(E::INVALID_FORMAT, ['field' => 'token']);
+        if(empty($payload['src']) || !in_array($payload['src'], $a_src)) return $this->_echo_json(E::INVALID_FORMAT, ['field' => 'token']);
+
+        return TRUE;
+    }
+
     protected function _sendmail($subject, $to, $view, $data) {
         $msg = $this->load->view($view, $data, TRUE);
 
@@ -127,7 +148,7 @@ class MY_Controller extends Builder\Core\Controller {
 
     protected function gen_campaign_code($str, $id) {
         $strid = sprintf("%05d", $id);
-                
+
         $code = "{$str}{$strid}";
 
         return $code;
