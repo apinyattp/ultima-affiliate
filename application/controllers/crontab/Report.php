@@ -277,12 +277,17 @@ class Report extends MY_Controller {
             $confirmation_time = empty($a_conversion['confirmation_time']) ? date('Y-m-d H:i:s') : $a_conversion['confirmation_time'];
         }
 
-        $reward = $conversion['payout'];
-        $transaction_amount = $conversion['sale_amount'];
-        $original_reward = NULL;
-        $original_transaction_amount = NULL;
+        $reward = $original_reward = $conversion['payout'];
+        $transaction_amount = $original_transaction_amount = $conversion['sale_amount'];
         $currency = $conversion['currency'];
         $remark = $conversion['affiliate_remarks'];
+
+        switch ($currency) {
+            case 'USD':
+                $reward = $reward * 33;
+                $transaction_amount = $transaction_amount * 33;
+                break;
+        }
 
         $session_id = $user_agent = NULL;
 

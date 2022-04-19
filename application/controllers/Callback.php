@@ -239,6 +239,13 @@ class Callback extends MY_Controller {
         $original_reward = $conversion['usd_payout'];
         $original_transaction_amount = $conversion['usd_sale_amount'];
 
+        switch ($currency) {
+            case 'USD':
+                $reward = $reward * 33;
+                $transaction_amount = $transaction_amount * 33;
+                break;
+        }
+
         $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
         if($status != 'PENDING' && !empty($a_conversion)) {
             $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency);
