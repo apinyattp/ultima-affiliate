@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Iship {
+class Iship_api {
 
     private $_ci;
 
@@ -22,29 +22,25 @@ class Iship {
         $this->_campaign_id = $this->_ci->config->item('campaign_id');
     }
 
-    public function conversion($start_date, $end_date, $page=1, $limit=10) {
-
+    public function conversion($start_time, $end_time) {
         $header = [
             'Accept: application/json',
             'Authorization: Bearer ' . $this->_api_key,
-            'User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)',
         ];
 
-        $url = $this->_endpoint . 'whitelabel/getshipment';
+        $url = $this->_endpoint . 'partner_query_orders';
         $params = [
-            'page' => $page,
-            'per_page' => $limit,
-            'date_start' => $start_date,
-            'date_end' => $end_date
+            'start_date' => $start_time,
+            'end_date' => $end_time
         ];
         $result = $this->_ci->gateway->curl_get($url, $params, $header);
         return json_decode($result, TRUE);
     }
 
-    public function _iship_process($conversion) {
+    public function process($conversion) {
         $source = 'iship';
         $a_status = [
-            1 => 'PENDING',
+            1 => NULL,
             2 => 'PENDING',
             3 => 'APPROVED',
             6 => 'PENDING',
@@ -52,6 +48,11 @@ class Iship {
             10 => 'APPROVED',
             12 => 'APPROVED',
         ];
+
+        $status = !empty($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : NULL;
+        $reward = $conversion['reward'];
+
+        if (empty($reward) || $status === NULL) return;
 
         $verification_id = $conversion['tracking'];
         $uid = $conversion['ref_id'];
@@ -84,11 +85,8 @@ class Iship {
 
         $click_time = $conversion_time = date('Y-m-d H:i:s', $conversion['timestamp']);
 
-        $status = !empty($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : 'PENDING';
-
         $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
 
-        $reward = $conversion['reward'];
 
         $transaction_amount = $conversion['price'];
         $original_reward = NULL;

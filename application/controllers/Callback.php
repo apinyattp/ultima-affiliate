@@ -448,7 +448,7 @@ class Callback extends MY_Controller {
         }
 
         $this->load->library('provider/iship');
-        $this->iship->_iship_process($conversion);
+        $this->iship->process($conversion);
 
         $this->_echo_json(E::SUCCESS);
     }

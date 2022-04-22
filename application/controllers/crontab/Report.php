@@ -387,4 +387,20 @@ class Report extends MY_Controller {
             }
         }
     }
+
+    public function iship_conversion() {
+        $this->load->library('provider/iship_api');
+        $this->load->model('report_conversion_model');
+
+        $end_date = time();
+        $start_date = strtotime('-1 day');
+
+        $result = $this->iship_api->conversion($start_date, $end_date);
+
+        if(!empty($result['data'])) {
+            foreach($result['data'] as $conversion) {
+                $this->iship_api->process($conversion);
+            }
+        }
+    }
 }
