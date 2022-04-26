@@ -419,7 +419,7 @@ class Callback extends MY_Controller {
 
     public function iship() {
         $source = 'iship';
-        if(($auth = $this->_authorization_src([$source])) !== TRUE) return;
+        if(($auth = $this->_authorization_src([$source])) !== TRUE) return $this->_echo_json($auth);
 
         $conversion = $this->input->post();
 
