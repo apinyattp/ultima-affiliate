@@ -47,6 +47,8 @@ class Iship_api {
             9 => 'APPROVED',
             10 => 'APPROVED',
             12 => 'APPROVED',
+            13 => 'PENDING',
+            5 => 'REJECTED',
         ];
 
         $status = !empty($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : NULL;
