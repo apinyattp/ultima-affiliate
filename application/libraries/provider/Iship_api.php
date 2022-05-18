@@ -58,6 +58,7 @@ class Iship_api {
 
         $verification_id = $conversion['tracking'];
         $uid = $conversion['ref_id'];
+        if (empty($uid)) $uid = '';
 
         $this->_ci->load->model('report_conversion_model');
         $this->_ci->load->model('report_shipping_model');
