@@ -227,7 +227,6 @@ class Report_conversion_model extends CI_Model {
     }
 
     public function update_status($id, $status, $time, $reward, $transaction_amount, $original_reward=NULL, $original_transaction_amount=NULL, $currency=NULL, $remark=NULL) {
-
         $time_column = ($status == 'PAID') ? 'paid_time' : 'confirmation_time';
 
         $a_data = [
@@ -279,6 +278,17 @@ class Report_conversion_model extends CI_Model {
         // $this->qs->where('status !=', 'INVALID');
 
         return $this->qs->get();
+    }
+
+    public function get_conversion_id_by_last_id($last_id, $a_status=NULL, $source=NULL, $limit=100) {
+        $this->db->select('id, conversion_id')
+                ->from('report_conversion')
+                ->where('id >', $last_id)
+                ->order_by('id ASC')
+                ->limit($limit);
+        if(!empty($a_status)) $this->db->where_in('status', $a_status);
+        if(!empty($source)) $this->db->where('source', $source);
+        return $this->db->get()->result_array();
     }
 
     public function get_summary($period_base='datetime_updated', $start_date=FALSE, $end_date=FALSE, $keyword=FALSE, $campaign_id=FALSE, $currency='THB', $company=FALSE) {

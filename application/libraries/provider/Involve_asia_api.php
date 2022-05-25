@@ -137,4 +137,24 @@ class Involve_asia_api {
         return json_decode($result, TRUE);
     }
 
+    public function conversion_by_id($a_conversion_id=[]) {
+        // https://api.involve.asia/api/conversions/all
+
+        $header = [
+            'Accept: application/json',
+             'Authorization: Bearer ' . $this->_auth()
+        ];
+
+        $url = $this->_endpoint . 'conversions/all';
+
+        $params = [
+            'page' => 1,
+            'limit' => 100,
+            'filters[conversion_id]' => implode('|', $a_conversion_id),
+        ];
+
+        $result = $this->_ci->gateway->curl_post($url, $params, $header);
+        return json_decode($result, TRUE);
+    }
+
 }

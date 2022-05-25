@@ -8,10 +8,15 @@ class Report extends MY_Controller {
     }
 
     public function import() {
-        $this->accesstrade_conversion();
-        //$this->admitad_conversion();
         $this->involve_asia_conversion();
-        $this->safari_conversion();
+
+        echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
+    }
+
+    public function import3hr() {
+        $this->accesstrade_conversion();
+        $this->involve_asia_conversion_pending();
+
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
     }
 
@@ -106,7 +111,6 @@ class Report extends MY_Controller {
     }
 
     public function admitad_conversion() {
-
         $a_status = ['new' => 'PENDING', 'pending' => 'PENDING', 'approved' => 'APPROVED', 'declined' => 'REJECTED'];
 
         $this->load->library('provider/admitad_api');
@@ -177,28 +181,55 @@ class Report extends MY_Controller {
     public function involve_asia_conversion() {
         $this->load->library('provider/involve_asia_api');
         $this->load->model('report_conversion_model');
-        $this->load->model('campaign_model');
-        $this->load->model('logs_missing_model');
-        $this->load->config('affiliate/involve_asia');
 
-        $start_date1 = $this->report_conversion_model->get_min_conversion_time('involve_asia', ['PENDING']);
-        $start_date2 = $this->report_conversion_model->get_min_conversion_time('involve_asia', ['APPROVED', 'PENDING']);
+        $start = time();
 
-        $start_date1 = !empty($start_date1) ? date('Y-m-d', strtotime($start_date1)) : '2021-01-01';
-        $start_date2 = !empty($start_date2) ? date('Y-m-d', strtotime($start_date2)) : '2021-01-01';
+        $page = 1;
+        $last_id = 0;
+        do {
+            $a_data = $this->report_conversion_model->get_conversion_id_by_last_id($last_id, ['APPROVED', 'PENDING'], 'involve_asia', 90);
+            if(empty($a_data)) break;
+
+            $last_id = $a_data[count($a_data)-1]['id'];
+            $a_conversion_id = array_column($a_data, 'conversion_id');
+
+            for ($retry=0; $retry <= 10; $retry++) {
+                $result = $this->involve_asia_api->conversion_by_id($a_conversion_id);
+
+                if(!empty($result['status_code'])) {
+                    switch($result['status_code']) {
+                        case 429:
+                            sleep(20);
+                            continue 2;
+                    }
+                }
+
+                break;
+            }
+
+
+            if(!empty($result['data']['data'])) {
+                foreach($result['data']['data'] as $conversion) {
+                    $this->_involve_asia_conversion_process($conversion);
+                }
+            }
+
+            $time = time() - $start;
+            echo "PAGE $page : $last_id : $time\n";
+
+            sleep(4);
+            $page += 1;
+        }while(!empty($a_data));
+
+        $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -60 days"));
         $end_date = date('Y-m-d');
 
-        $this->_involve_asia_conversion($start_date1, $end_date, ['approved']);
-        $this->_involve_asia_conversion($start_date2, $end_date, ['rejected', 'invalid']);
-        $this->_involve_asia_conversion($start_date2, $end_date, ['paid']);
+        $this->_involve_asia_conversion($start_date, $end_date, ['pending', 'yet to consumed', 'approved']);
     }
 
     public function involve_asia_conversion_pending($days=7) {
         $this->load->library('provider/involve_asia_api');
         $this->load->model('report_conversion_model');
-        $this->load->model('campaign_model');
-        $this->load->model('logs_missing_model');
-        $this->load->config('affiliate/involve_asia');
 
         $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -$days days"));
         $end_date = date('Y-m-d');
@@ -238,6 +269,10 @@ class Report extends MY_Controller {
     }
 
     private function _involve_asia_conversion_process($conversion) {
+        $this->load->model('logs_missing_model');
+        $this->load->model('campaign_model');
+        $this->load->config('affiliate/involve_asia');
+
         $source = 'involve_asia';
         $site_id = $this->config->item('tracking_link_id');
         $a_status = ['Pending' => 'PENDING', 'Approved' => 'APPROVED', 'Rejected' => 'REJECTED', 'Paid' => 'PAID', 'Yet to consumed' => 'PENDING', 'Invalid' => 'INVALID'];
