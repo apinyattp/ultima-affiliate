@@ -8,14 +8,14 @@ class Report extends MY_Controller {
     }
 
     public function import() {
-        $this->involve_asia_conversion();
-
+        $this->accesstrade_conversion();
+        $this->goship_conversion();
+        $this->involve_asia_conversion_pending();
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
     }
 
-    public function import3hr() {
-        $this->accesstrade_conversion();
-        $this->involve_asia_conversion_pending();
+    public function import_midnight() {
+        $this->involve_asia_conversion();
 
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
     }
@@ -234,7 +234,7 @@ class Report extends MY_Controller {
         $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -$days days"));
         $end_date = date('Y-m-d');
 
-        $this->_involve_asia_conversion($start_date, $end_date, ['pending', 'yet to consumed']);
+        $this->_involve_asia_conversion($start_date, $end_date, ['pending', 'yet to consumed', 'approved']);
     }
 
     private function _involve_asia_conversion($start_date, $end_date, $a_status) {
