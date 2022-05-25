@@ -284,6 +284,7 @@ class Report_conversion_model extends CI_Model {
         $this->db->select('id, conversion_id')
                 ->from('report_conversion')
                 ->where('id >', $last_id)
+                ->where('missing_id', 0)
                 ->order_by('id ASC')
                 ->limit($limit);
         if(!empty($a_status)) $this->db->where_in('status', $a_status);
