@@ -423,12 +423,17 @@ class Report extends MY_Controller {
         }
     }
 
-    public function iship_conversion() {
+    public function iship_conversion($start_date=NULL) {
         $this->load->library('provider/iship_api');
         $this->load->model('report_conversion_model');
 
-        $end_date = time();
-        $start_date = strtotime('-1 day');
+        if ($start_date) {
+            $start_date = strtotime($start_date);
+            $end_date = strtotime('+1 day', $start_date);
+        } else {
+            $end_date = time();
+            $start_date = strtotime('-1 day', $end_date);
+        }
 
         $result = $this->iship_api->conversion($start_date, $end_date);
 
