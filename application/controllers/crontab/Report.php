@@ -249,6 +249,7 @@ class Report extends MY_Controller {
                 switch($result['status_code']) {
                     case 429:
                         sleep(20);
+                        echo "PAGE $page : $conversion_time : $time -- 429 sleep 20\n";
                         continue 2;
                 }
             }
@@ -263,7 +264,7 @@ class Report extends MY_Controller {
 
             echo "PAGE $page : $conversion_time : $time\n";
 
-            sleep(4);
+            sleep(3);
             $page += 1;
         }
     }
