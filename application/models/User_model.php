@@ -25,8 +25,9 @@ class User_model extends CI_Model {
     }
 
     public function get_by_jelala_id($jelala_id) {
-        $this->db->select('uuid,jelala_id,company');
-        $this->db->where('jelala_id', $jelala_id);
+        $this->db->select('uuid,jelala_id,company')
+                ->where('jelala_id', $jelala_id)
+                ->limit(1);
         return $this->db->get('user')->row_array();
     }
 
