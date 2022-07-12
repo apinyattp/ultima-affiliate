@@ -53,6 +53,7 @@ class Iship_api {
 
         $status = !empty($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : NULL;
         $reward = $conversion['reward'];
+        $conversion_id = $this->_ci->report_shipping_model->save($source, $conversion['courier_code'], $conversion['tracking']);
 
         if (empty($reward) || $status === NULL) return;
 
@@ -65,8 +66,6 @@ class Iship_api {
         $this->_ci->load->model('logs_missing_model');
         $this->_ci->load->model('campaign_model');
         $this->_ci->load->model('user_model');
-
-        $conversion_id = $this->_ci->report_shipping_model->save($source, $conversion['courier_code'], $conversion['tracking']);
 
         $a_conversion = $this->_ci->report_conversion_model->get_by_conversion_id($conversion_id, $source);
 
