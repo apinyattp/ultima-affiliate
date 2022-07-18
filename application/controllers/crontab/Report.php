@@ -231,10 +231,14 @@ class Report extends MY_Controller {
         $this->load->library('provider/involve_asia_api');
         $this->load->model('report_conversion_model');
 
-        $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -$days days"));
-        $end_date = date('Y-m-d');
+        for ($i=$days; $i > 0; $i++) {
+            $day1=$i;
+            $day2=$i-1;
+            $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -$day1 days"));
+            $end_date = date('Y-m-d', strtotime(date('Y-m-d')." -$day2 days"));
 
-        $this->_involve_asia_conversion($start_date, $end_date, ['pending', 'yet to consumed', 'approved']);
+            $this->_involve_asia_conversion($start_date, $end_date, ['pending', 'yet to consumed', 'approved']);
+        }
     }
 
     private function _involve_asia_conversion($start_date, $end_date, $a_status) {
