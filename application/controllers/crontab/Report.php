@@ -313,6 +313,8 @@ class Report extends MY_Controller {
 
         if ($status == 'PENDING') {
             $confirmation_time = NULL;
+        }elseif ($status == 'PAID') {
+            $confirmation_time = empty($a_conversion['paid_time']) ? date('Y-m-d H:i:s') : $a_conversion['paid_time'];
         }else{
             $confirmation_time = empty($a_conversion['confirmation_time']) ? date('Y-m-d H:i:s') : $a_conversion['confirmation_time'];
         }
@@ -324,8 +326,8 @@ class Report extends MY_Controller {
 
         switch ($currency) {
             case 'USD':
-                $reward = $reward * 33;
-                $transaction_amount = $transaction_amount * 33;
+                $reward = $reward * 30;
+                $transaction_amount = $transaction_amount * 30;
                 break;
         }
 
