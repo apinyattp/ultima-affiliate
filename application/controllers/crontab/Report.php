@@ -268,7 +268,7 @@ class Report extends MY_Controller {
 
             echo "PAGE $page : $conversion_time : $time\n";
 
-            sleep(4);
+            sleep(3);
             $page += 1;
         }
     }
