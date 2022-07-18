@@ -232,12 +232,9 @@ class Report extends MY_Controller {
         $this->load->model('report_conversion_model');
 
         for ($i=$days; $i > 0; $i++) {
-            $day1=$i;
-            $day2=$i-1;
-            $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -$day1 days"));
-            $end_date = date('Y-m-d', strtotime(date('Y-m-d')." -$day2 days"));
-
-            $this->_involve_asia_conversion($start_date, $end_date, ['pending', 'yet to consumed', 'approved']);
+            $date = date('Y-m-d', strtotime(date('Y-m-d')." -$i days"));
+            echo "$date\n";
+            $this->_involve_asia_conversion($date, $date, ['pending', 'yet to consumed', 'approved']);
         }
     }
 
@@ -246,6 +243,7 @@ class Report extends MY_Controller {
         $page = 1;
 
         $start = time();
+        $conversion_time = '';
         for(;$page <= 10000;) {
             $result = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
 
@@ -253,6 +251,7 @@ class Report extends MY_Controller {
                 switch($result['status_code']) {
                     case 429:
                         sleep(20);
+                        $time = time() - $start;
                         echo "PAGE $page : $conversion_time : $time -- 429 sleep 20\n";
                         continue 2;
                 }
@@ -268,7 +267,7 @@ class Report extends MY_Controller {
 
             echo "PAGE $page : $conversion_time : $time\n";
 
-            sleep(3);
+            sleep(4);
             $page += 1;
         }
     }
