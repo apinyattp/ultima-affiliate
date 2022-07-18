@@ -231,7 +231,7 @@ class Report extends MY_Controller {
         $this->load->library('provider/involve_asia_api');
         $this->load->model('report_conversion_model');
 
-        for ($i=$days; $i > 0; $i++) {
+        for ($i=$days; $i >= 0; $i++) {
             $date = date('Y-m-d', strtotime(date('Y-m-d')." -$i days"));
             echo "$date\n";
             $this->_involve_asia_conversion($date, $date, ['pending', 'yet to consumed', 'approved']);
