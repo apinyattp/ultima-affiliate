@@ -235,6 +235,7 @@ class Report extends MY_Controller {
             $date = date('Y-m-d', strtotime(date('Y-m-d')." -$i days"));
             echo "$date\n";
             $this->_involve_asia_conversion($date, $date, ['pending', 'yet to consumed', 'approved']);
+            sleep(4);
         }
     }
 
