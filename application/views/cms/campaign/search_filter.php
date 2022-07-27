@@ -15,7 +15,7 @@
           </select>
         </div>
         <div class="col-md-2 align-self-end">
-          <button id="searchBtn" class="btn btn-primary">Search</button>        
+          <button id="searchBtn" class="btn btn-primary">Search</button>
         </div>
       </div>
     </form>
@@ -26,13 +26,13 @@
         <button id="exportCampaignButton" class="btn btn-info">
             Export Campaign
             <i class="pl-2 fas fa-download"></i>
-        </button>  
+        </button>
       </a>
       <button id="syncCampaignButton" class="btn btn-info" onclick="syncCampaign()">
         Sync Campaign
         <i class="pl-2 fas fa-sync"></i>
         <i class="fas fa-circle-notch fa-spin d-none"></i>
-      </button>        
+      </button>
     </div>
   </div>
 </div>

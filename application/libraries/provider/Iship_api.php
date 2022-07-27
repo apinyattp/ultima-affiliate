@@ -94,7 +94,7 @@ class Iship_api {
         $transaction_amount = $conversion['price'];
         $original_reward = NULL;
         $original_transaction_amount = NULL;
-        $currency = 'th';
+        $currency = 'THB';
 
 
         $session_id = $user_agent = NULL;

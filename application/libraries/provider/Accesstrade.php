@@ -116,7 +116,7 @@ class Accesstrade extends MY_Controller {
         $header = $this->_header();
         $response = json_decode($this->_ci->gateway->curl_get($url, $data, $header), TRUE);
 
-        return $response;       
+        return $response;
     }
 
     public function payment($fromMonth, $toMonth) {
@@ -134,7 +134,7 @@ class Accesstrade extends MY_Controller {
         $header = $this->_header();
         $response = json_decode($this->_ci->gateway->curl_get($url, $data, $header), TRUE);
 
-        return $response;   
+        return $response;
     }
 
 }

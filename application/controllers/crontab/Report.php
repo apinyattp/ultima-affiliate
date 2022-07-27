@@ -450,4 +450,28 @@ class Report extends MY_Controller {
             }
         }
     }
+
+    public function tqm_conversion($date=NULL) {
+        $this->load->library('provider/tqm_api');
+        $this->load->model('report_conversion_model');
+
+        if (empty($date)) {
+            $date = date('Y-m-d');
+        }
+
+        $result = $this->tqm_api->conversion($date);
+        if($result['countResult'] > 0 && !empty($result['result']) && is_array($result['result'])) {
+            foreach($result['result'] as $conversion) {
+                $this->tqm_api->process($conversion);
+            }
+        }
+
+        $date_m = date('Y-m', strtotime($date));
+        $result = $this->tqm_api->conversion_reject($date_m);
+        if($result['countResult'] > 0 && !empty($result['result']) && is_array($result['result'])) {
+            foreach($result['result'] as $conversion) {
+                $this->tqm_api->process_reject($conversion);
+            }
+        }
+    }
 }
