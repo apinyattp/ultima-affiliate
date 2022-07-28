@@ -184,47 +184,44 @@ class Report extends MY_Controller {
 
         $start = time();
 
-        $page = 1;
-        $last_id = 0;
-        do {
-            $a_data = $this->report_conversion_model->get_conversion_id_by_last_id($last_id, ['APPROVED', 'PENDING'], 'involve_asia', 90);
-            if(empty($a_data)) break;
+        // $page = 1;
+        // $last_id = 0;
+        // do {
+        //     $a_data = $this->report_conversion_model->get_conversion_id_by_last_id($last_id, ['APPROVED', 'PENDING'], 'involve_asia', 90);
+        //     if(empty($a_data)) break;
 
-            $last_id = $a_data[count($a_data)-1]['id'];
-            $a_conversion_id = array_column($a_data, 'conversion_id');
+        //     $last_id = $a_data[count($a_data)-1]['id'];
+        //     $a_conversion_id = array_column($a_data, 'conversion_id');
 
-            for ($retry=0; $retry <= 10; $retry++) {
-                $result = $this->involve_asia_api->conversion_by_id($a_conversion_id);
+        //     for ($retry=0; $retry <= 10; $retry++) {
+        //         $result = $this->involve_asia_api->conversion_by_id($a_conversion_id);
 
-                if(!empty($result['status_code'])) {
-                    switch($result['status_code']) {
-                        case 429:
-                            sleep(20);
-                            continue 2;
-                    }
-                }
+        //         if(!empty($result['status_code'])) {
+        //             switch($result['status_code']) {
+        //                 case 429:
+        //                     sleep(20);
+        //                     continue 2;
+        //             }
+        //         }
 
-                break;
-            }
+        //         break;
+        //     }
 
 
-            if(!empty($result['data']['data'])) {
-                foreach($result['data']['data'] as $conversion) {
-                    $this->_involve_asia_conversion_process($conversion);
-                }
-            }
+        //     if(!empty($result['data']['data'])) {
+        //         foreach($result['data']['data'] as $conversion) {
+        //             $this->_involve_asia_conversion_process($conversion);
+        //         }
+        //     }
 
-            $time = time() - $start;
-            echo "PAGE $page : $last_id : $time\n";
+        //     $time = time() - $start;
+        //     echo "PAGE $page : $last_id : $time\n";
 
-            sleep(4);
-            $page += 1;
-        }while(!empty($a_data));
+        //     sleep(4);
+        //     $page += 1;
+        // }while(!empty($a_data));
 
-        $start_date = date('Y-m-d', strtotime(date('Y-m-d')." -60 days"));
-        $end_date = date('Y-m-d');
-
-        $this->_involve_asia_conversion($start_date, $end_date, ['pending', 'yet to consumed', 'approved']);
+        $this->involve_asia_conversion_pending(210);
     }
 
     public function involve_asia_conversion_pending($days=7) {
@@ -234,7 +231,8 @@ class Report extends MY_Controller {
         for ($i=$days; $i >= 0; $i--) {
             $date = date('Y-m-d', strtotime(date('Y-m-d')." -$i days"));
             echo "$date\n";
-            $this->_involve_asia_conversion($date, $date, ['pending', 'yet to consumed', 'approved']);
+            // $this->_involve_asia_conversion($date, $date, ['pending', 'yet to consumed', 'approved']);
+            $this->_involve_asia_conversion($date, $date, []);
             sleep(4);
         }
     }
