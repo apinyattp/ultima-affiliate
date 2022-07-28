@@ -324,6 +324,18 @@ class Report extends MY_Controller {
         $currency = $conversion['currency'];
         $remark = $conversion['affiliate_remarks'];
 
+        // missing conversion
+        if (empty($conversion['adv_sub2'])
+            && empty($conversion['adv_sub3'])
+            && empty($conversion['adv_sub4'])
+            && empty($conversion['adv_sub5'])) {
+                if(in_array($status, ['PENDING'])){
+                    $reward = 0;
+                }elseif(!emprt($a_conversion) && in_array($status, ['REJECTED', 'INVALID'])){
+                    $reward = $a_conversion['reward'];
+                }
+            }
+
         switch ($currency) {
             case 'USD':
                 $reward = $reward * 30;
@@ -341,6 +353,7 @@ class Report extends MY_Controller {
             'adv_sub3' => $conversion['adv_sub3'],
             'adv_sub4' => $conversion['adv_sub4'],
             'adv_sub5' => $conversion['adv_sub5'],
+            'payout_local' => $original_reward,
         ]);
 
         if(empty($a_conversion)) {

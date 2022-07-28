@@ -239,10 +239,23 @@ class Callback extends MY_Controller {
         $original_reward = $conversion['usd_payout'];
         $original_transaction_amount = $conversion['usd_sale_amount'];
 
+        // missing conversion
+        if ($conversion['adv_sub'] == $verification_id
+            && empty($conversion['adv_sub2'])
+            && empty($conversion['adv_sub3'])
+            && empty($conversion['adv_sub4'])
+            && empty($conversion['adv_sub5'])) {
+                if(in_array($status, ['PENDING'])){
+                    $reward = 0;
+                }elseif(!emprt($a_conversion) && in_array($status, ['REJECTED', 'INVALID'])){
+                    $reward = $a_conversion['reward'];
+                }
+            }
+
         switch ($currency) {
             case 'USD':
-                $reward = $reward * 33;
-                $transaction_amount = $transaction_amount * 33;
+                $reward = $reward * 30;
+                $transaction_amount = $transaction_amount * 30;
                 break;
         }
 
@@ -263,6 +276,7 @@ class Callback extends MY_Controller {
             'adv_sub3' => $conversion['adv_sub3'],
             'adv_sub4' => $conversion['adv_sub4'],
             'adv_sub5' => $conversion['adv_sub5'],
+            'payout_local' => $conversion['payout_local'],
         ]);
 
         $company = NULL;
