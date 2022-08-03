@@ -329,7 +329,7 @@ class Report extends MY_Controller {
             && empty($conversion['adv_sub5'])) {
                 if(in_array($status, ['PENDING'])){
                     $reward = 0;
-                }elseif(!emprt($a_conversion) && in_array($status, ['REJECTED', 'INVALID'])){
+                }elseif(!empty($a_conversion) && in_array($status, ['REJECTED', 'INVALID'])){
                     $reward = $a_conversion['reward'];
                 }
             }

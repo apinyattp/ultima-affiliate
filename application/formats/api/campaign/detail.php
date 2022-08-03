@@ -17,7 +17,10 @@ $set_rewards = $this->campaign_model->get_set_reward($data['id']);
 $this->load->model('module/file/file_model', 'file_model');
 $logo_file = $this->file_model->get_by_id($data['image_file_id']);
 
-$logo_file_path = upload_base_url() . $logo_file['file_path'];
+$logo_file_path = '';
+if(!empty($logo_file)){
+    $logo_file_path = upload_base_url() . $logo_file['file_path'];
+}
 
 return [
     'id' => $data['id'],
@@ -31,8 +34,8 @@ return [
     'note' => $data['note'],
     // 'a_custom_reward' => $a_custom_rewards,
     'a_set_reward' => [
-        'new' => $set_rewards['new'],
-        'existing' => $set_rewards['existing']
+        'new' => !isset($set_rewards['new']) ? NULL : $set_rewards['new'],
+        'existing' => !isset($set_rewards['existing']) ? NULL : $set_rewards['existing'],
     ],
     'coming_soon' => empty($data['coming_soon']) ? FALSE : TRUE,
     'is_pin' => empty($data['sort']) ? FALSE : TRUE,
