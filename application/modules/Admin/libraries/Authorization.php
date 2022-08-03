@@ -149,6 +149,18 @@ class Authorization {
         return FALSE;
     }
 
+    public function bearer_authorization_token() {
+        $token = $this->http_authorization_token();
+
+        $a_token = explode(' ', $token);
+        if(count($a_token) < 2) return FALSE;
+
+        if(strtolower($a_token[0]) !== 'bearer') return FALSE;
+
+        array_shift($a_token);
+        return implode(' ', $a_token);
+    }
+
     public function http_authorization_token() {
         if(isset($_SERVER['HTTP_Authorization'])) return $_SERVER['HTTP_Authorization'];
         if(isset($_SERVER['HTTP_AUTHORIZATION'])) return $_SERVER['HTTP_AUTHORIZATION'];

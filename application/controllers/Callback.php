@@ -230,8 +230,6 @@ class Callback extends MY_Controller {
 
         $status = isset($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : 'PENDING';
 
-        $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
-
         $reward = $conversion['payout_local'];
         $transaction_amount = $conversion['sale_amount_local'];
         $currency = $conversion['conversion_currency'];
@@ -260,6 +258,14 @@ class Callback extends MY_Controller {
         }
 
         $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
+        if ($status == 'PENDING') {
+            $confirmation_time = NULL;
+        }elseif ($status == 'PAID') {
+            $confirmation_time = empty($a_conversion['paid_time']) ? date('Y-m-d H:i:s') : $a_conversion['paid_time'];
+        }else{
+            $confirmation_time = empty($a_conversion['confirmation_time']) ? date('Y-m-d H:i:s') : $a_conversion['confirmation_time'];
+        }
+
         if($status != 'PENDING' && !empty($a_conversion)) {
             $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency);
 
@@ -463,6 +469,121 @@ class Callback extends MY_Controller {
 
         $this->load->library('provider/iship_api');
         $this->iship_api->process($conversion);
+
+        $this->_echo_json(E::SUCCESS);
+    }
+
+    public function shopgenix_manager() {
+        $this->load->library('module/admin/authorization');
+        $token = $this->admin_authorization->bearer_authorization_token();
+        if (empty($token)) return $this->_echo_json(E::PERMISSION_DENIED);
+
+        $this->load->model('merchant_model');
+        $merchant = $this->merchant_model->get_by_token($token);
+        if (empty($merchant)) return $this->_echo_json(E::PERMISSION_DENIED);
+
+        $source = 'merchant';
+        $conversion = $this->input->post();
+
+        if(empty($conversion)) return $this->_echo_json(E::INVALID_FORMAT, ['error' => 'no data']);
+
+        $this->load->model('callback_model');
+        $this->callback_model->create('merchant-'.$merchant['id'], json_encode($conversion));
+
+        $a_validator = [
+            'conversion_id' => 'required|int',
+            'uid' => 'required|string',
+            'order_id' => 'required|string',
+            'click_time' => 'required|datetime',
+            'conversion_time' => 'required|datetime',
+            'confirmation_time' => 'datetime',
+            'status' => 'required|enum(PENDING;APPROVED;REJECTED;INVALID;PAID)',
+            'reward' => 'required|float',
+            'transaction_amount' => 'required|float',
+        ];
+
+        foreach($a_validator as $var_name => $validate) {
+            $input = new \Builder\Input\Input($var_name, $validate);
+
+            if(($result = $input->validate()) !== TRUE) {
+                return $this->_echo_json($result->error_code, $result->data);
+            }
+        }
+
+        $site_id = $merchant['id'];
+        $site_name = 'merchant';
+
+        $campaign_id = $merchant['campaign_id'];
+        $campaign_name = $merchant['name'];
+
+        $conversion_id = $conversion['conversion_id'];
+        $uid = $conversion['uid'];
+        $verification_id = $conversion['order_id'];
+        $click_time = $conversion['click_time'];
+        $conversion_time = $conversion['conversion_time'];
+        $confirmation_time  = $conversion['confirmation_time'];
+        $status = $conversion['status'];
+        $reward = $conversion['reward'];
+        $transaction_amount = $conversion['transaction_amount'];
+        $other_parameters = $conversion['other_parameters'];
+
+        $session_id = $user_agent = NULL;
+        $parameters = $products = NULL;
+        $customerType = $creative_id = $creative_name = $session_id = NULL;
+
+        $this->load->model('report_conversion_model');
+        $this->load->model('logs_missing_model');
+
+        $check_missing_conversion = $this->report_conversion_model->get_by_order_id_with_missing_conversion($conversion['no'], $uid);
+        if(!empty($check_missing_conversion)) {
+            $this->report_conversion_model->delete_conversion($check_missing_conversion['id']);
+            $this->logs_missing_model->insert_logs($check_missing_conversion['id']);
+        }
+
+        $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
+        $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
+
+        if($status != 'PENDING' && !empty($a_conversion)) {
+            if ($status == 'PAID') {
+                $confirmation_time = empty($a_conversion['paid_time']) ? date('Y-m-d H:i:s') : $a_conversion['paid_time'];
+            }
+            $this->report_conversion_model->update_status($a_conversion['id'], $status, $confirmation_time, $reward, $transaction_amount);
+
+            return TRUE;
+        }
+
+        $company = NULL;
+        $this->load->model('user_model');
+        $user = $this->user_model->get_by_jelala_id($uid);
+        if($user) {
+            $company = $user['company'];
+        }
+
+        $this->report_conversion_model->update_by_conversion_id(
+            $conversion_id,
+            $source,
+            $uid,
+            $company,
+            $site_id,
+            $site_name,
+            $campaign_id,
+            $campaign_name,
+            $customerType,
+            $creative_id,
+            $creative_name,
+            $verification_id,
+            $click_time,
+            $conversion_time,
+            $confirmation_time,
+            $status,
+            $reward,
+            $transaction_amount,
+            $session_id,
+            $user_agent,
+            $parameters,
+            $products,
+            $other_parameters
+        );
 
         $this->_echo_json(E::SUCCESS);
     }

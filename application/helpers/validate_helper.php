@@ -54,6 +54,12 @@ function valid_date($date){
     return (bool) strtotime($date);
 }
 
+function valid_datetime($date){
+    $pattern = "/^\d{4}-\d{2}-\d{2} ([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/";
+    if(!preg_match($pattern, $date)) return FALSE;
+    return (bool) strtotime($date);
+}
+
 function valid_birthdate($date, $time_age=0){
     return valid_date($date) && strtotime($date) < (time() - $time_age);
 }
