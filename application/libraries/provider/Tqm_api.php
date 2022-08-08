@@ -246,7 +246,7 @@ class Tqm_api {
 
         $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['cancelDate']));
 
-        $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
+        $confirmation_time = empty($a_conversion['confirmation_time']) ? date('Y-m-d H:i:s') : $a_conversion['confirmation_time'];
 
 
         $transaction_amount = $conversion['amount'];
