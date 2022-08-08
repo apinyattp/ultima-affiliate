@@ -114,6 +114,7 @@ class Tqm_api {
         $this->_ci->load->model('user_model');
 
         $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($verification_id, $source);
+        if ($a_conversion['status'] === 'REJECTED') return;
 
         $site_id = $this->_main_id;
         $site_name = 'Jelala';
@@ -127,7 +128,11 @@ class Tqm_api {
 
         $click_time = $conversion_time = date('Y-m-d H:i:s', strtotime($conversion['createdDate']));
 
-        $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
+        if ($status == 'PENDING') {
+            $confirmation_time = NULL;
+        }else{
+            $confirmation_time = empty($a_conversion['confirmation_time']) ? date('Y-m-d H:i:s') : $a_conversion['confirmation_time'];
+        }
 
         $transaction_amount = $conversion['amount'];
         $original_reward = NULL;
@@ -202,12 +207,14 @@ class Tqm_api {
         $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($verification_id, $source);
         if(empty($a_conversion)) return;
 
-        if (empty($reward) && $status == 'APPROVED') {
+        if ($reward <= 0 && $status == 'APPROVED') {
             $_reward = $a_conversion['reward'];
             $transaction_amount = $a_conversion['transaction_amount'];
             $original_reward = $a_conversion['original_reward'];
             $original_transaction_amount = $a_conversion['original_transaction_amount'];
             $currency = $a_conversion['currency'];
+
+            $confirmation_time = $a_conversion['status'] != 'REJECTED' ? date('Y-m-d H:i:s') : $a_conversion['confirmation_time'];
 
             $this->_ci->report_conversion_model->update_status($a_conversion['id'], 'REJECTED', $confirmation_time, $_reward, $transaction_amount, $original_reward, $original_transaction_amount, $currency);
             return;
