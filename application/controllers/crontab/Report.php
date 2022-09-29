@@ -15,6 +15,12 @@ class Report extends MY_Controller {
     }
 
     public function import_midnight() {
+        for($i=0;$i<7;$i++){
+            $this->tqm_conversion(date('Y-m-d', strtotime("-$i days")));
+        }
+        for($i=0;$i<2;$i++){
+            $this->tqm_conversion_reject(date('Y-m-d', strtotime("-$i months")));
+        }
         $this->involve_asia_conversion();
 
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
@@ -475,6 +481,14 @@ class Report extends MY_Controller {
             foreach($result['result'] as $conversion) {
                 $this->tqm_api->process($conversion);
             }
+        }
+    }
+    public function tqm_conversion_reject($date=NULL) {
+        $this->load->library('provider/tqm_api');
+        $this->load->model('report_conversion_model');
+
+        if (empty($date)) {
+            $date = date('Y-m-d');
         }
 
         $date_m = date('Y-m', strtotime($date));
