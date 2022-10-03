@@ -114,7 +114,7 @@ class Tqm_api {
         $this->_ci->load->model('user_model');
 
         $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($verification_id, $source);
-        if ($a_conversion['status'] === 'REJECTED') return;
+        if (!empty($a_conversion) && $a_conversion['status'] === 'REJECTED') return;
 
         $site_id = $this->_main_id;
         $site_name = 'Jelala';
