@@ -64,8 +64,8 @@ class Report extends MY_Controller {
         $a_campaign = $qs_campaign->result('cms/campaign/list', TRUE);
 
         // GET SUMMARY
-        $a_summary = $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, $company);
-        $a_summary['missing_total'] = $this->report_conversion_model->count_missing_order($period_base, $start_date, $end_date);
+        // $a_summary = $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, $company);
+        // $a_summary['missing_total'] = $this->report_conversion_model->count_missing_order($period_base, $start_date, $end_date);
 
         $a_header_data = [
             'page' => 'report',
@@ -73,7 +73,7 @@ class Report extends MY_Controller {
         ];
 
         $a_data = [
-            'a_summary' => $a_summary,
+            // 'a_summary' => $a_summary,
             'a_conversion' => $a_conversion,
             'a_campaign' => $a_campaign['lists'],
             'keyword' => $keyword,

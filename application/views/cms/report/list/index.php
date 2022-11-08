@@ -7,7 +7,7 @@
       </div>
       <div class="card-body">
         <?php $this->load->view('cms/report/list/search_filter'); ?></div>
-        <?php $this->load->view('cms/report/list/summary'); ?>
+        <?php /*$this->load->view('cms/report/list/summary');*/ ?>
         <div class="text-right">
         <a href="javascript:void(0)">
             <button onclick="window.open('<?php echo base_url()?>/template/report_conversion.csv')" class="btn btn-secondary">
