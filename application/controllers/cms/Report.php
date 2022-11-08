@@ -61,7 +61,7 @@ class Report extends MY_Controller {
         $this->load->model('campaign_model');
         $qs_campaign = $this->campaign_model->get_list(FALSE, FALSE, FALSE, 'name ASC');
 
-        $a_campaign = $qs_campaign->result('cms/campaign/list', TRUE);
+        $a_campaign = $qs_campaign->result('cms/campaign/list_no_reward', TRUE);
 
         // GET SUMMARY
         // $a_summary = $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, $company);

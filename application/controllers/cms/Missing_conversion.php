@@ -62,7 +62,7 @@ class Missing_conversion extends MY_Controller {
         $this->load->model('campaign_model');
         $qs_campaign = $this->campaign_model->get_list(FALSE, FALSE, FALSE, 'name ASC');
 
-        $a_campaign = $qs_campaign->result('cms/campaign/list', TRUE);
+        $a_campaign = $qs_campaign->result('cms/campaign/list_no_reward', TRUE);
 
         $a_header_data = [
             'page' => 'missing_conversion',
