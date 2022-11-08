@@ -260,6 +260,7 @@ class Report_conversion_model extends CI_Model {
         if($campaign_id) $this->qs->where('campaign_id', $campaign_id);
         if($keyword) {
             $this->qs->like('verification_id', $keyword);
+            $sort = '';
             // $this->qs->group_start();
             //     $this->qs->where('uid', $keyword);
             //     $this->qs->or_where('conversion_id', $keyword);
