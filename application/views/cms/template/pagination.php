@@ -1,9 +1,8 @@
-<?php 
-
-    $get = $_GET;
+<?php
+    if(!isset($query)) $query = $_GET;
     $remove = ['page', 'perpage'];
-    array_diff_key($get, array_flip($remove));
-    $http_build_query = http_build_query($get);
+    array_diff_key($query, array_flip($remove));
+    $http_build_query = http_build_query($query);
 
     $page = $page;
     $perpage = $perpage;
@@ -27,11 +26,11 @@
         </a>
     </li>
     <?php for($i=1; $i<=$total_page; $i++) { ?>
-        <?php if(abs($page - $i) > 3) { 
-            if(abs($page - $i) == 4) echo '<button class="btn btn-primary btn-link" disabled> ... </button>';  
+        <?php if(abs($page - $i) > 3) {
+            if(abs($page - $i) == 4) echo '<button class="btn btn-primary btn-link" disabled> ... </button>';
             continue;
         } ?>
-        <li class="page-item">  
+        <li class="page-item">
             <a href="<?php echo $url . 'page=' . $i; ?>">
                 <button class="btn btn-primary btn-link" <?php echo ($page == $i) ? 'disabled' : ''; ?>>
                 <?php echo $i; ?>

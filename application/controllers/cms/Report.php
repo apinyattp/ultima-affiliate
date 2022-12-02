@@ -29,6 +29,7 @@ class Report extends MY_Controller {
         $perpage = $this->input->get('perpage');
         $sort = $this->input->get('sort');
         $source = $this->input->get('source');
+        $show_summary = $this->input->get('show_summary');
 
         $period_base = empty($period_base) ? 'datetime_updated' : $period_base;
         // $start_date = empty($start_date) ? date('Y-m-d') : $start_date;
@@ -64,8 +65,25 @@ class Report extends MY_Controller {
         $a_campaign = $qs_campaign->result('cms/campaign/list_no_reward', TRUE);
 
         // GET SUMMARY
-        // $a_summary = $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, $company);
-        // $a_summary['missing_total'] = $this->report_conversion_model->count_missing_order($period_base, $start_date, $end_date);
+        $a_summary = NULL;
+        if ($show_summary) {
+            $a_summary = $this->report_conversion_model->get_summary($period_base, $start_date, $end_date, $keyword, $campaign_id, FALSE, $company);
+            $a_summary['missing_total'] = $this->report_conversion_model->count_missing_order($period_base, $start_date, $end_date);
+        }
+
+        $query = [
+            'keyword' => $keyword,
+            'status' => $status,
+            'period_base' => $period_base,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'campaign_id' => $campaign_id,
+            'page' => $page,
+            'perpage' => $perpage,
+            'sort' => $sort,
+            'source' => $source,
+        ];
+        if ($a_admin['role'] == 'admin') $query['company'] = $company;
 
         $a_header_data = [
             'page' => 'report',
@@ -73,7 +91,7 @@ class Report extends MY_Controller {
         ];
 
         $a_data = [
-            // 'a_summary' => $a_summary,
+            'a_summary' => $a_summary,
             'a_conversion' => $a_conversion,
             'a_campaign' => $a_campaign['lists'],
             'keyword' => $keyword,
@@ -84,7 +102,8 @@ class Report extends MY_Controller {
             'campaign_id' => $campaign_id,
             'company' => $company,
             'companies' => $this->config->item('companies'),
-            'role' => $a_admin['role']
+            'role' => $a_admin['role'],
+            'query' => $query,
         ];
 
         $this->load->view('cms/template/header', $a_header_data);

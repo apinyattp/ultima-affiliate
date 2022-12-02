@@ -7,9 +7,15 @@
       </div>
       <div class="card-body">
         <?php $this->load->view('cms/report/list/search_filter'); ?></div>
-        <?php /*$this->load->view('cms/report/list/summary');*/ ?>
+        <?php if($a_summary) $this->load->view('cms/report/list/summary'); ?>
         <div class="text-right">
-        <a href="javascript:void(0)">
+          <a href="javascript:void(0)">
+            <button onclick="window.open('<?php echo base_url()?>/template/report_conversion.csv')" class="btn btn-secondary">
+              DOWNLOAD TEMPLATE
+              <i class="pl-2 fas fa-download"></i>
+            </button>
+          </a>
+          <?php/* <a href="javascript:void(0)">
             <button onclick="window.open('<?php echo base_url()?>/template/report_conversion.csv')" class="btn btn-secondary">
               DOWNLOAD TEMPLATE
               <i class="pl-2 fas fa-download"></i>
@@ -24,11 +30,17 @@
               </div>
             </button>
             <input type="file" id="file_import" style="display:none;">
-          </a>
-          <a href="<?php echo base_url().'cms/report/export?'.http_build_query($_GET) ?>">
+          </a> */ ?>
+          <a href="<?php echo base_url().'cms/report/export?'.http_build_query($query) ?>">
             <button id="exportConversionReportButton" class="btn btn-info">
               Export
               <i class="pl-2 fas fa-download"></i>
+            </button>
+          </a>
+          <a href="<?php echo base_url().'cms/report/list?show_summary=1&'.http_build_query($query) ?>">
+            <button class="btn btn-secondary">
+              Summary
+              <i class="pl-2 fas fa-file"></i>
             </button>
           </a>
         </div>
