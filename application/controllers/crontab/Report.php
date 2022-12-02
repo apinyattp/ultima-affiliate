@@ -468,7 +468,7 @@ class Report extends MY_Controller {
                 }
             }
 
-            $start_date = strtotime($end_date);
+            $start_date = $end_date;
         }
 
     }
