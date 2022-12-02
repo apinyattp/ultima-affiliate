@@ -78,8 +78,6 @@ class Report extends MY_Controller {
             'start_date' => $start_date,
             'end_date' => $end_date,
             'campaign_id' => $campaign_id,
-            'page' => $page,
-            'perpage' => $perpage,
             'sort' => $sort,
             'source' => $source,
         ];

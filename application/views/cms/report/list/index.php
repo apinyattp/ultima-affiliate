@@ -9,13 +9,13 @@
         <?php $this->load->view('cms/report/list/search_filter'); ?></div>
         <?php if($a_summary) $this->load->view('cms/report/list/summary'); ?>
         <div class="text-right">
-          <a href="javascript:void(0)">
+        <?php /* <a href="javascript:void(0)">
             <button onclick="window.open('<?php echo base_url()?>/template/report_conversion.csv')" class="btn btn-secondary">
               DOWNLOAD TEMPLATE
               <i class="pl-2 fas fa-download"></i>
             </button>
           </a>
-          <?php /* <a href="javascript:void(0)">
+          <a href="javascript:void(0)">
             <button onclick="window.open('<?php echo base_url()?>/template/report_conversion.csv')" class="btn btn-secondary">
               DOWNLOAD TEMPLATE
               <i class="pl-2 fas fa-download"></i>
