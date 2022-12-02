@@ -9,7 +9,7 @@ class Report extends MY_Controller {
 
     public function import() {
         $this->accesstrade_conversion();
-        $this->goship_conversion();
+        $this->iship_conversion();
         $this->involve_asia_conversion_pending();
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
     }
@@ -447,25 +447,30 @@ class Report extends MY_Controller {
         }
     }
 
-    public function iship_conversion($start_date=NULL) {
+    public function iship_conversion($start_date=NULL, $days=1) {
         $this->load->library('provider/iship_api');
         $this->load->model('report_conversion_model');
 
         if ($start_date) {
             $start_date = strtotime($start_date);
-            $end_date = strtotime('+1 day', $start_date);
         } else {
-            $end_date = time();
-            $start_date = strtotime('-1 day', $end_date);
+            $start_date = strtotime('-1 day', time());
         }
 
-        $result = $this->iship_api->conversion($start_date, $end_date);
+        for($day=1; $day <= $days; $day++) {
+            $end_date = strtotime('+1 day', $start_date);
 
-        if(!empty($result['data'])) {
-            foreach($result['data'] as $conversion) {
-                $this->iship_api->process($conversion);
+            $result = $this->iship_api->conversion($start_date, $end_date);
+
+            if(!empty($result['data'])) {
+                foreach($result['data'] as $conversion) {
+                    $this->iship_api->process($conversion);
+                }
             }
+
+            $start_date = strtotime($end_date);
         }
+
     }
 
     public function tqm_conversion($date=NULL) {
