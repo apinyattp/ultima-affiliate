@@ -15,7 +15,7 @@ class Report extends MY_Controller {
     }
 
     public function import_midnight() {
-        for($i=0;$i<7;$i++){
+        for($i=0;$i<30;$i++){
             $this->tqm_conversion(date('Y-m-d', strtotime("-$i days")));
         }
         for($i=0;$i<2;$i++){
