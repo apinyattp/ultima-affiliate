@@ -27,6 +27,7 @@ class Payment extends MY_Controller {
         if(empty($a_payment)) return;
 
         foreach($a_payment as $payment) {
+            var_dump($payment);
             if($payment['status'] == 'UNPAID') break;
 
             $fromDate = date('Y-m-01', strtotime($payment['rewardApprovedMonth']));
@@ -35,8 +36,9 @@ class Payment extends MY_Controller {
             $status = 'APPROVED';
 
             $a_conversion = $this->accesstrade->conversion($fromDate, $toDate, NULL, $status, $periodBase);
-
-            foreach($a_conversion as $conversion) {
+var_dump($a_conversion);
+            foreach($a_conversion["conversionReportItems"] as $conversion) {
+                var_dump($conversion);
 
                 $conversion_id = $conversion['conversionId'];
                 $reward = $conversion['reward'];
