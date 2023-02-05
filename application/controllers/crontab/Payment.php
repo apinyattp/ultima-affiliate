@@ -33,10 +33,11 @@ class Payment extends MY_Controller {
             $fromDate = $payment['rewardApprovedMonthPeriod']['from'].'-01';
             $_to = $payment['rewardApprovedMonthPeriod']['to'].'-01';
             $toDate = date('Y-m-t', strtotime($_to));
-            $periodBase = 'CONVERSION_DATE ';
+            $periodBase = 'CONVERSION_DATE';
             $status = 'APPROVED';
 
             $a_conversion = $this->accesstrade->conversion($fromDate, $toDate, NULL, $status, $periodBase);
+
             foreach($a_conversion['conversionReportItems'] as $conversion) {
                 $_conversion = $this->report_conversion_model->get_by_conversion_id($conversion['conversionId'], 'accesstrade');
                 if(empty($_conversion)) continue;
