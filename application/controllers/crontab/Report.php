@@ -61,6 +61,8 @@ class Report extends MY_Controller {
 
             $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion['conversionId'], 'accesstrade');
             if($conversion['status'] != 'PENDING' && !empty($a_conversion)) {
+                if ($a_conversion['status'] === 'PAID') continue;
+
                 $this->report_conversion_model->update_status(
                     $a_conversion['id'],
                     $conversion['status'],

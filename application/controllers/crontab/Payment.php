@@ -36,13 +36,11 @@ class Payment extends MY_Controller {
             $status = 'APPROVED';
 
             $a_conversion = $this->accesstrade->conversion($fromDate, $toDate, NULL, $status, $periodBase);
-var_dump($a_conversion);
             foreach($a_conversion["conversionReportItems"] as $conversion) {
-                var_dump($conversion);
-
                 $conversion_id = $conversion['conversionId'];
                 $reward = $conversion['reward'];
                 $transaction_amount = $conversion['transactionAmount'];
+                var_dump($conversion_id);
 
                 $status = 'PAID';
                 $time = date('Y-m-d H:i:s');
