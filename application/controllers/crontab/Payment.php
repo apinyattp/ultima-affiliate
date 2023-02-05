@@ -40,7 +40,7 @@ class Payment extends MY_Controller {
                 $conversion_id = $conversion['conversionId'];
                 $reward = $conversion['reward'];
                 $transaction_amount = $conversion['transactionAmount'];
-                var_dump($conversion_id);
+                // var_dump($conversion_id);
 
                 $status = 'PAID';
                 $time = date('Y-m-d H:i:s');
