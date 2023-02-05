@@ -37,14 +37,16 @@ class Payment extends MY_Controller {
 
             $a_conversion = $this->accesstrade->conversion($fromDate, $toDate, NULL, $status, $periodBase);
             foreach($a_conversion["conversionReportItems"] as $conversion) {
+                $_conversion = $this->report_conversion_model->get_by_conversion_id($conversion['conversionId'], 'accesstrade');
+                if(empty($_conversion)) continue;
+
                 $conversion_id = $conversion['conversionId'];
                 $reward = $conversion['reward'];
                 $transaction_amount = $conversion['transactionAmount'];
                 // var_dump($conversion_id);
 
                 $status = 'PAID';
-
-                $this->report_conversion_model->update_status($conversion_id, $status, $payment["paymentDate"], $reward, $transaction_amount);
+                $this->report_conversion_model->update_status($_conversion['id'], $status, $payment["paymentDate"], $reward, $transaction_amount);
 
             }
         }
