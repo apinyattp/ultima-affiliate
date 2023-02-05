@@ -30,8 +30,8 @@ class Payment extends MY_Controller {
             var_dump($payment);
             if($payment['status'] == 'UNPAID') break;
 
-            $fromDate = date('Y-m-01', strtotime($payment['rewardApprovedMonth']));
-            $toDate = date('Y-m-t', strtotime($payment['rewardApprovedMonth']));
+            $fromDate = date('Y-m-01', strtotime($payment["paymentDate"]));
+            $toDate = date('Y-m-t', strtotime($payment["paymentDate"]));
             $periodBase = 'PAID_MONTH';
             $status = 'APPROVED';
 
