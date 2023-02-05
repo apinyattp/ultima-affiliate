@@ -26,9 +26,9 @@ class Report extends MY_Controller {
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
     }
 
-    public function accesstrade_conversion() {
-        $fromDate = date('Y-m-d');
-        $toDate = date('Y-m-d', strtotime("+1 days"));
+    public function accesstrade_conversion($fromDate=NULL, $toDate=NULL) {
+        if(!$fromDate) $fromDate = date('Y-m-d');
+        if(!$toDate) $toDate = date('Y-m-d', strtotime("+1 days"));
 
         $this->load->library('provider/accesstrade');
         $conversions = $this->accesstrade->conversion($fromDate, $toDate);
