@@ -43,9 +43,8 @@ class Payment extends MY_Controller {
                 // var_dump($conversion_id);
 
                 $status = 'PAID';
-                $time = date('Y-m-d H:i:s');
 
-                $this->report_conversion_model->update_status($conversion_id, $status, $time, $reward, $transaction_amount);
+                $this->report_conversion_model->update_status($conversion_id, $status, $payment["paymentDate"], $reward, $transaction_amount);
 
             }
         }
