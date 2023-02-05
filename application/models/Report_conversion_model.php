@@ -28,6 +28,14 @@ class Report_conversion_model extends CI_Model {
         return $this->db->get('report_conversion')->row_array();
     }
 
+    public function list_by_verification_id($verification_id, $source=FALSE, $status=NULL) {
+        $this->db->where('verification_id', $verification_id);
+        if($source) $this->db->where('source', $source);
+        if($status) $this->db->where('status', $status);
+        $this->db->limit(1);
+        return $this->db->get('report_conversion')->result_array();
+    }
+
     public function get_min_conversion_time($source=NULL, $a_status=[]) {
         $this->db->select_min('conversion_time')
                 ->from('report_conversion')
