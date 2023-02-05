@@ -28,7 +28,7 @@ class Payment extends MY_Controller {
 
         foreach($a_payment as $payment) {
             var_dump($payment);
-            if($payment['paidAmount'] > 0) break;
+            if($payment['paidAmount'] <= 0) continue;
 
             $fromDate = date('Y-m-01', strtotime($payment["paymentDate"]));
             $toDate = date('Y-m-t', strtotime($payment["paymentDate"]));
