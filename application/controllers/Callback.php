@@ -452,7 +452,7 @@ class Callback extends MY_Controller {
             'ref_code' => 'required|string',
             'courier_code' => 'required|string',
             'tracking' => 'required|string',
-            'status' => 'required|enum(1;2;3;6;9;10;12)',
+            'status' => 'required|enum(1;2;3;5;6;9;10;11;12)',
             'timestamp' => 'required|int',
             'price' => 'required|float',
             'reward' => 'required|float',

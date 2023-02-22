@@ -46,6 +46,7 @@ class Iship_api {
             6 => 'PENDING',
             9 => 'APPROVED',
             10 => 'APPROVED',
+            11 => 'APPROVED',
             12 => 'APPROVED',
             13 => 'PENDING',
             5 => 'REJECTED',
