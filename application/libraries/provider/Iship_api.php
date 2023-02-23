@@ -92,7 +92,7 @@ class Iship_api {
         $confirmation_time = ($status != 'PENDING') ? date('Y-m-d H:i:s') : NULL;
 
 
-        $transaction_amount = $conversion['price'];
+        $transaction_amount = empty($conversion['price']) ? 0 : $conversion['price'];
         $original_reward = NULL;
         $original_transaction_amount = NULL;
         $currency = 'THB';
