@@ -5,6 +5,8 @@ class Report extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->database();
+        $this->db->save_queries = FALSE;
     }
 
     public function import() {
