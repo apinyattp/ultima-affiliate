@@ -245,6 +245,13 @@ class Report extends MY_Controller {
         }
     }
 
+    public function involve_asia_conversion_date($start_date, $end_date=NULL) {
+        $this->load->library('provider/involve_asia_api');
+        $this->load->model('report_conversion_model');
+        if (empty($end_date)) $end_date = $start_date;
+        $this->_involve_asia_conversion($start_date, $end_date, []);
+    }
+
     private function _involve_asia_conversion($start_date, $end_date, $a_status) {
         $limit = 1000;
         $page = 1;
