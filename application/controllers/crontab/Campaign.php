@@ -34,19 +34,25 @@ class Campaign extends MY_Controller {
 
         $this->load->model('campaign_model');
         foreach($campaigns as $campaign) {
-            $campaign_id = $campaign['id'];
+            $_campaign_id = $campaign['id'];
+
+            $offer_id = sprintf("%05d", $_campaign_id);
+
+            $campaign_code = "ACT{$offer_id}";
+
+            $a_campaign = $this->campaign_model->get_by_code($campaign_code);
+            if(empty($a_campaign)) {
+                $campaign_id = $this->campaign_model->insert_by_code($campaign_code);
+            }else {
+                $campaign_id = $a_campaign['id'];
+                if($a_campaign['deleted']) continue;
+            }
 
             $updated_ids[] = $campaign_id;
 
             $quicklink = $this->accesstrade->quicklink($campaign_id);
 
-            $campaign_detail = $this->accesstrade->campaign($campaign_id);
-
-            // CHECK CAMPAIGN
-            $a_campaign = $this->campaign_model->get_by_id($campaign_id);
-            if(empty($a_campaign)) {
-                $this->campaign_model->insert($campaign_id);
-            }
+            $campaign_detail = $this->accesstrade->campaign($_campaign_id);
 
             // UPDATE REWARD DATA
             $this->campaign_model->update_data(
@@ -63,12 +69,8 @@ class Campaign extends MY_Controller {
                 $campaign['imageUrl'],
                 $campaign_detail['description'],
                 $campaign_detail['englishDescription'],
-                $campaign['customCreativesAvailable'],
-                $campaign['seoContentAvailable'],
-                $campaign['productFeedAvailable'],
-                $campaign['quickLinkAvailable'],
-                $quicklink, $campaign_detail['affiliationStatus'],
-                $campaign['affiliatedDate'],
+                $quicklink,
+                $campaign_detail['affiliationStatus'],
                 $campaign_detail['currency']
             );
 
@@ -80,14 +82,16 @@ class Campaign extends MY_Controller {
             }
 
             // UPDATE CATEGORY REWARD
-            foreach($campaign_detail['categoryRewards'] as $category_reward) {
-                $this->campaign_model->update_category_reward(
-                    $campaign_id,
-                    $category_reward['id'],
-                    $category_reward['type'],
-                    $category_reward['reward'],
-                    (isset($category_reward['name'])) ? $category_reward['name'] : NULL
-                );
+            if(!empty($campaign_detail['categoryRewards']['allCategoryRewards'])) {
+                foreach($campaign_detail['categoryRewards'] as $category_reward) {
+                    $this->campaign_model->update_category_reward(
+                        $campaign_id,
+                        $category_reward['id'],
+                        $category_reward['type'],
+                        $category_reward['reward'],
+                        (isset($category_reward['name'])) ? $category_reward['name'] : NULL
+                    );
+                }
             }
 
             $categories = [];
@@ -168,7 +172,6 @@ class Campaign extends MY_Controller {
                 $campaign['allow_deeplink'],
                 $campaign['gotolink'], // quicklink
                 $status[$campaign['connection_status']], // affiliateStatus
-                NULL, // affiliatedDate
                 $campaign['currency']
             );
 
@@ -292,11 +295,8 @@ class Campaign extends MY_Controller {
                 $startDate = $endDate = $selfConversion = $pointBack = NULL;
                 $imageUrl = $campaign['logo'];
                 $description = $englishDescription = $campaign['description'];
-                $customCreativesAvailable = $seoContentAvailable = $productFeedAvailable = NULL;
-                $quickLinkAvailable = TRUE;
                 $quicklink = $campaign['tracking_link'];
                 $affiliationStatus = 'APPROVED';
-                $affiliatedDate = NULL;
                 $currency = $campaign['currency'];
                 var_dump($name);
 
@@ -314,13 +314,8 @@ class Campaign extends MY_Controller {
                     $imageUrl,
                     $description,
                     $englishDescription,
-                    $customCreativesAvailable,
-                    $seoContentAvailable,
-                    $productFeedAvailable,
-                    $quickLinkAvailable,
                     $quicklink,
                     $affiliationStatus,
-                    $affiliatedDate,
                     $currency
                 );
 

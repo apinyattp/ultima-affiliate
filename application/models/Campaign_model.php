@@ -89,7 +89,7 @@ class campaign_model extends CI_Model {
         $this->db->update('campaign', $a_set);
     }
 
-    public function update_data($campaign_id, $merchant_id, $name, $source, $url, $type, $startDate=NULL, $endDate=NULL, $selfConversion, $pointBack, $imageUrl, $description, $englishDescription, $customCreativesAvailable, $seoContentAvailable, $productFeedAvailable, $quickLinkAvailable, $quicklink=NULL, $affiliationStatus, $affiliatedDate, $currency) {
+    public function update_data($campaign_id, $merchant_id, $name, $source, $url, $type, $startDate=NULL, $endDate=NULL, $selfConversion, $pointBack, $imageUrl, $description, $englishDescription, $quicklink=NULL, $affiliationStatus, $currency) {
         $a_set = [
             'campaign_id' => $campaign_id,
             'merchant_id' => $merchant_id,
@@ -104,13 +104,8 @@ class campaign_model extends CI_Model {
             'imageUrl' => $imageUrl,
             'description' => $description,
             'englishDescription' => $englishDescription,
-            'customCreativesAvailable' => $customCreativesAvailable,
-            'seoContentAvailable' => $seoContentAvailable,
-            'productFeedAvailable' => $productFeedAvailable,
-            'quickLinkAvailable' => $quickLinkAvailable,
             'quicklink' => $quicklink,
             'affiliationStatus' => $affiliationStatus,
-            'affiliatedDate' => $affiliatedDate,
             'currency' => $currency
         ];
         $campaign_data = $this->get_data_by_id($campaign_id);
