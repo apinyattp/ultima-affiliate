@@ -103,18 +103,24 @@ class Tqm_api {
 
         if (empty($reward) || $status === NULL) return;
 
-        $verification_id = $conversion['saleId'];
-        $uid = $conversion['checkSum'];
-        if (empty($uid)) $uid = $conversion['shopGenixId'];
-        if (empty($uid)) $uid = '';
-
         $this->_ci->load->model('report_conversion_model');
         $this->_ci->load->model('report_shipping_model');
         $this->_ci->load->model('logs_missing_model');
         $this->_ci->load->model('user_model');
 
-        $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($verification_id, $source);
-        if (!empty($a_conversion) && $a_conversion['status'] === 'REJECTED') return;
+        $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($conversion['saleId'], $source);
+        if (!empty($a_conversion)) {
+            if ($a_conversion['status'] === 'REJECTED') return;
+            $verification_id = $conversion['saleId'];
+        }else{
+            $verification_id = $conversion['saleId'] . '-' . $conversion['productType'];
+            $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($verification_id, $source);
+            if (!empty($a_conversion) && $a_conversion['status'] === 'REJECTED') return;
+        }
+
+        $uid = $conversion['checkSum'];
+        if (empty($uid)) $uid = $conversion['shopGenixId'];
+        if (empty($uid)) $uid = '';
 
         $site_id = $this->_main_id;
         $site_name = 'Jelala';
@@ -136,7 +142,7 @@ class Tqm_api {
 
         $transaction_amount = $conversion['amount'];
         $original_reward = NULL;
-        $original_transaction_amount = NULL;
+        $original_transaction_amount = $conversion['totalAmount'];
         $currency = 'THB';
 
 
@@ -145,7 +151,7 @@ class Tqm_api {
         $parameters =  NULL;
 
         $products = [];
-        $other_parameters = '';
+        $other_parameters = json_encode($conversion);
         $remark = '';
 
         if(empty($a_conversion)) {
@@ -204,7 +210,11 @@ class Tqm_api {
         if ($status === NULL) return;
 
         $verification_id = $conversion['saleId'];
-        $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($verification_id, $source);
+        $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($conversion['saleId'], $source);
+        if(empty($a_conversion)) {
+            $verification_id = $conversion['saleId'] . '-' . $conversion['productType'];
+            $a_conversion = $this->_ci->report_conversion_model->get_by_verification_id($verification_id, $source);
+        }
         if(empty($a_conversion)) return;
 
         if ($reward <= 0 && $status == 'APPROVED') {
@@ -222,7 +232,7 @@ class Tqm_api {
 
         if (empty($reward) || $status != 'APPROVED') return;
 
-        $verification_id = '-'.$conversion['saleId'];
+        $verification_id = '-'.$verification_id;
         $uid = $conversion['checkSum'];
         if (empty($uid)) $uid = $conversion['shopGenixId'];
         if (empty($uid)) $uid = '';
@@ -249,10 +259,10 @@ class Tqm_api {
         $confirmation_time = empty($a_conversion['confirmation_time']) ? date('Y-m-d H:i:s') : $a_conversion['confirmation_time'];
 
 
-        $transaction_amount = $conversion['amount'];
+        $transaction_amount = -$conversion['amount'];
         $reward = -$reward;
         $original_reward = NULL;
-        $original_transaction_amount = NULL;
+        $original_transaction_amount = -$conversion['totalAmount'];
         $currency = 'th';
 
 
