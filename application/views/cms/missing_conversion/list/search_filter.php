@@ -19,6 +19,10 @@
             <option value="" <?php if(empty($source)) echo 'selected' ?>>All</option>
             <option value="accesstrade" <?php if($source == 'accesstrade') echo 'selected' ?>>Accesstrade</option>
             <option value="involve_asia" <?php if($source == 'involve_asia') echo 'selected' ?>>Involve Asia</option>
+            <option value="goship" <?php if($source == 'goship') echo 'selected' ?>>GoShip</option>
+            <option value="tqm" <?php if($source == 'tqm') echo 'selected' ?>>TQM</option>
+            <option value="tiktok-seller" <?php if($source == 'tiktok-seller') echo 'selected' ?>>TikTok</option>
+            <option value="shopgenix" <?php if($source == 'shopgenix') echo 'selected' ?>>อื่นๆ</option>
         </select>
     </div>
     <div class="form-group col-md-3">
@@ -29,7 +33,6 @@
             <option value="send_to_affiliate" <?php if($status_filter == 'send_to_affiliate') echo 'selected' ?>>Send to Affiliate</option>
         </select>
     </div>
-    
   </div>
   <div class="row">
     <div class="form-group col-md-3">
@@ -84,7 +87,7 @@
         </select>
     </div>
     <div class="col-md-1 my-auto">
-      <button id="searchBtn" class="btn btn-primary">Search</button>        
+      <button id="searchBtn" class="btn btn-primary">Search</button>
     </div>
   </div>
 </form>
