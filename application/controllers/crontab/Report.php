@@ -266,6 +266,7 @@ class Report extends MY_Controller {
             if(empty($result)) {
                 $time = time() - $start;
                 echo "PAGE $page : $conversion_time : $time -- NULL\n";
+                sleep(3);
                 continue;
             }
 
