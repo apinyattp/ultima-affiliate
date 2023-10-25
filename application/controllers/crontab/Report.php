@@ -263,6 +263,11 @@ class Report extends MY_Controller {
         $conversion_time = '';
         for(;$page <= 10000;) {
             $result = $this->involve_asia_api->conversion($start_date, $end_date, NULL, $a_status, $page, $limit);
+            if(empty($result)) {
+                $time = time() - $start;
+                echo "PAGE $page : $conversion_time : $time -- NULL\n";
+                continue;
+            }
 
             if(!empty($result['status_code'])) {
                 switch($result['status_code']) {
@@ -271,6 +276,9 @@ class Report extends MY_Controller {
                         $time = time() - $start;
                         echo "PAGE $page : $conversion_time : $time -- 429 sleep 20\n";
                         continue 2;
+                    default:
+                        $time = time() - $start;
+                        echo "PAGE $page : $conversion_time : $time -- ".$result['status_code']."\n";
                 }
             }
 
