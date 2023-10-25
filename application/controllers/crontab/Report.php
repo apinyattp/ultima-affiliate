@@ -240,7 +240,8 @@ class Report extends MY_Controller {
 
         for ($i=$days; $i >= 0; $i--) {
             $date = date('Y-m-d', strtotime(date('Y-m-d')." -$i days"));
-            echo "$date\n";
+            $now = date('Y-m-d H:i:s');
+            echo "$date ($now) \n";
             // $this->_involve_asia_conversion($date, $date, ['pending', 'yet to consumed', 'approved']);
             $this->_involve_asia_conversion($date, $date, []);
             sleep(4);

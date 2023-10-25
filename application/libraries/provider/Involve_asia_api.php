@@ -37,19 +37,20 @@ class Involve_asia_api {
         ];
 
         $result = $this->_ci->gateway->curl_post($url, $params, $header);
-
         return json_decode($result, TRUE);
     }
 
     public function _auth() {
         if($this->_token && $this->_token_time < time() - (1.5 * 60 * 60)) {
-            echo '__11111__';
             return $this->_token;
         }
 
-        $result = $this->authenticate();
+        do {
+            $result = $this->authenticate();
+            $this->_token = $result['data']['token'];
+            if (empty($this->_token)) sleep(5);
+        }while(empty($this->_token));
 
-        $this->_token = $result['data']['token'];
         $this->_token_time = time();
 
         return $this->_token;

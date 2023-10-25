@@ -20,7 +20,7 @@ class Campaign extends MY_Controller {
     }
 
     public function update_campaign() {
-        $this->_accesstrade_campaign();
+        // $this->_accesstrade_campaign();
         // $this->admitad_campaign();
         $this->involve_asia_campaign();
         echo 'success date time: ' .  date('d/m/Y h:i:s a', time());
