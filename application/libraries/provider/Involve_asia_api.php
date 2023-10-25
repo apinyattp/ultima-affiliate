@@ -42,7 +42,6 @@ class Involve_asia_api {
 
     public function _auth() {
         if($this->_token && $this->_token_time > (time() - (1.5 * 60 * 60))) {
-            echo "1111";
             return $this->_token;
         }
 
