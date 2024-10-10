@@ -244,7 +244,7 @@ class Callback extends MY_Controller {
             && empty($conversion['adv_sub4'])
             && empty($conversion['adv_sub5'])) {
                 if(in_array($status, ['PENDING'])){
-                    $reward = 0;
+                    // $reward = 0;
                 }elseif(!empty($a_conversion) && in_array($status, ['REJECTED', 'INVALID'])){
                     $reward = $a_conversion['reward'];
                 }
