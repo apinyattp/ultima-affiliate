@@ -64,8 +64,8 @@ class Campaign extends MY_Controller {
                 $campaign_detail['type'],
                 !isset($campaign_detail['startDate']) ? NULL : $campaign_detail['startDate'],
                 !isset($campaign_detail['endDate']) ? NULL : $campaign_detail['endDate'],
-                $campaign_detail['selfConversion'],
-                $campaign_detail['pointBack'],
+                '', //$campaign_detail['selfConversion'],
+                '', //$campaign_detail['pointBack'],
                 $campaign['imageUrl'],
                 $campaign_detail['description'],
                 $campaign_detail['englishDescription'],
@@ -338,6 +338,100 @@ class Campaign extends MY_Controller {
 
         $this->_update_jelala($updated_ids);
 
+    }
+
+    public function optimise() {
+        $this->load->library('provider/optimise');
+        $this->load->model('campaign_model');
+
+        $perpage = 500;
+        $page = 1;
+        $total_page = 1;
+
+        $retry = 0;
+        $start = time();
+        $updated_ids = [];
+        for(; $page <= $total_page;){
+            $result_data = $this->optimise->campaigns(($page-1) * $perpage, $perpage);
+
+            $time = time() - $start;
+            echo "PAGE $page / $total_page : ${time}s ";
+
+            if(empty($result_data)) {
+                echo "============================================= NULL\n";
+                if($retry++ > 10) break;
+                sleep(10);
+                continue;
+            }elseif(!empty($result_data['message'])) {
+                echo "============================================= ERROR ${result_data['message']}\n";
+                switch($result_data['message']) {
+                    case 'API rate limit exceeded':
+                        sleep(60);
+                        continue 2;
+                    default:
+                        var_dump($result_data);
+                        if($retry++ > 10) break;
+                        sleep(20);
+                        continue 2;
+                }
+            }
+
+            echo "============================================= SUCCESS\n";
+            if(empty($result_data)) break;
+
+            $retry = 0;
+            foreach($result_data as $result) {
+                $offer_id = $result['productId'];
+                $merchant_id = $result['campaignId'];
+                $campaign = $result;
+
+                $campaign_code = $this->optimise->campaign_code($campaign['campaignId']);
+                $a_campaign = $this->campaign_model->get_by_code($campaign_code);
+
+                if(empty($a_campaign)) {
+                    $campaign_id = $this->campaign_model->insert_by_code($campaign_code);
+                }else {
+                    $campaign_id = $a_campaign['id'];
+                    if($a_campaign['deleted']) continue;
+                }
+
+                $updated_ids[] = $campaign_id;
+
+                $name = "{$campaign['advertiserName']} {$campaign['name']}";
+                $source = 'optimise';
+                $url = $campaign['landingPage']['websiteUrl'];
+                $type = '';
+                $startDate = $endDate = $selfConversion = $pointBack = NULL;
+                $imageUrl = $campaign['advertiserLogoLocation'];
+                $description = $englishDescription = $campaign['description'];
+                $quicklink = $campaign['baseTrackingUrl'];
+                $affiliationStatus = 'APPROVED';
+                $currency = $campaign['payout']['currency'];
+                var_dump($name);
+
+                $this->campaign_model->update_data(
+                    $campaign_id,
+                    $merchant_id,
+                    $name,
+                    $source,
+                    $url,
+                    $type,
+                    $startDate,
+                    $endDate,
+                    $selfConversion,
+                    $pointBack,
+                    $imageUrl,
+                    $description,
+                    $englishDescription,
+                    $quicklink,
+                    $affiliationStatus,
+                    $currency
+                );
+            }
+            $page += 1;
+        }
+
+        $this->_update_jelala($updated_ids);
     }
 
 }

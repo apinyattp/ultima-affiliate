@@ -355,7 +355,7 @@ class Report extends MY_Controller {
             && empty($conversion['adv_sub4'])
             && empty($conversion['adv_sub5'])) {
                 if(in_array($status, ['PENDING'])){
-                    $reward = 0;
+                    // $reward = 0;
                 }elseif(!empty($a_conversion) && in_array($status, ['REJECTED', 'INVALID'])){
                     $reward = $a_conversion['reward'];
                 }
@@ -525,4 +525,153 @@ class Report extends MY_Controller {
             }
         }
     }
+
+    public function optimise_conversion($fromDate=NULL, $toDate=NULL) {
+        if(!$fromDate) $fromDate = date('Y-m-d');
+        if(!$toDate) $toDate = date('Y-m-d', strtotime("+1 days"));
+
+        $a_status = ['pending' => 'PENDING', 'approved' => 'APPROVED', 'rejected' => 'REJECTED'];
+        $source = 'optimise';
+
+        $this->load->library('provider/optimise');
+        $this->load->model('campaign_model');
+        $this->load->model('report_conversion_model');
+
+        $page = 1;
+        $total_page = 1;
+        $perpage = 100;
+
+        $retry = 0;
+        $start = time();
+        $updated_ids = [];
+        for(; $page <= $total_page;){
+            $conversions = $this->optimise->conversion($fromDate, $toDate, ($page-1) * $perpage, $perpage);
+
+            $time = time() - $start;
+            echo "PAGE $page : ${time}s ";
+
+            if(is_array($conversions) && count($conversions) === 0) {
+                echo "============================================= EMPTY ARRAY\n";
+                break;
+            }elseif(empty($conversions)) {
+                echo "============================================= NULL\n";
+                if($retry++ > 10) break;
+                sleep(10);
+                continue;
+            }elseif(!empty($conversions['message'])) {
+                echo "============================================= ERROR {$conversions['message']}\n";
+                switch($conversions['message']) {
+                    case 'API rate limit exceeded':
+                        sleep(60);
+                        continue 2;
+                    default:
+                        var_dump($conversions);
+                        if($retry++ > 10) break;
+                        sleep(20);
+                        continue 2;
+                }
+            }
+
+            echo "============================================= SUCCESS\n";
+            $retry = 0;
+            $page += 1;
+            if (count($conversions) == $perpage) $total_page += 1;
+
+            foreach($conversions as $conversion) {
+                $click_user_agent = NULL;
+                $status = isset($a_status[$conversion['status']]) ? $a_status[$conversion['status']] : 'PENDING';
+                $conversion_id = $conversion['legacyId'];
+
+                $a_conversion = $this->report_conversion_model->get_by_conversion_id($conversion_id, $source);
+                if($status != 'PENDING' && !empty($a_conversion)) {
+                    if ($a_conversion['status'] === 'PAID') continue;
+
+                    $this->report_conversion_model->update_status(
+                        $a_conversion['id'],
+                        $status,
+                        $status == 'APPROVED' ? $conversion['impressionDate'] : $conversion['invoiceDate'],
+                        $conversion['commission']['amount'],
+                        $conversion['conversionValue']['amount']
+                    );
+
+                    continue;
+                }
+
+                $uid = $conversion['uniqueIds']['uid'];
+
+                $company = NULL;
+                $this->load->model('user_model');
+                $user = $this->user_model->get_by_jelala_id($uid);
+                if($user) {
+                    $company = $user['company'];
+                }
+
+                $campaign_code = $this->optimise->campaign_code($conversion['publisherCampaignId']);
+                $a_campaign = $this->campaign_model->get_by_code($campaign_code);
+                $campaign_id = isset($a_campaign['id']) ? $a_campaign['id'] : 0;
+                $campaign_name = $conversion['campaignName'];
+
+                $site_id = $conversion['publisherId'];
+                $site_name = $conversion['publisherName'];
+
+                $customerType = $conversion['custType'];
+                $creative_id = $creative_name = NULL;
+                $verification_id = $conversion['advertiserRef'];
+
+                $click_time = $conversion['clickDate'];
+                $conversion_time = $conversion['conversionDate'];
+                $confirmation_time = $conversion['impressionDate'];
+                $reward = $conversion['commission']['amount'];
+                $original_reward = $reward;
+                $transaction_amount = $conversion['conversionValue']['amount'];
+                $original_transaction_amount = $conversion['origConversionValue']['amount'];
+                $currency = $conversion['commission']['currency'];
+
+                $session_id = $conversion['UUserID'];
+                $user_agent = $conversion['deviceType'];
+
+                $parameters = $products = NULL;
+                $other_parameters = [];
+                foreach($conversion as $field => $value) {
+                    $default_field = ['conversionId','extendedData','commission','conversionValue','origConversionValue'];
+                    if(!in_array($field, $default_field)) continue;
+
+                    $other_parameters[$field] = $value;
+                }
+
+                $remark = $conversion['rejectionReason'];
+
+                $this->report_conversion_model->update_by_conversion_id2(
+                    $conversion_id,
+                    $source,
+                    $uid,
+                    $company,
+                    $site_id,
+                    $site_name,
+                    $campaign_id,
+                    $campaign_name,
+                    $customerType,
+                    $creative_id,
+                    $creative_name,
+                    $verification_id,
+                    $click_time,
+                    $conversion_time,
+                    $confirmation_time,
+                    $status,
+                    $reward,
+                    $original_reward,
+                    $transaction_amount,
+                    $original_transaction_amount,
+                    $currency,
+                    $session_id,
+                    $user_agent,
+                    $parameters,
+                    $products,
+                    json_encode($other_parameters),
+                    $remark
+                );
+            }
+
+        }
+        }
 }
